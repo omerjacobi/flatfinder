@@ -5,7 +5,9 @@ import android.location.Geocoder;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SnapHelper;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -15,13 +17,14 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    private RecyclerView mRecyclerView;
+    private RecyclerView mApartmentsRecyclerView;
+    private ArrayList<InMapApartment> mApartments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +38,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // Add a horizontal RecyclerView for apartments
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        // TODO: Each item in RecyclerView should contain: Price, Partners amount, address, picture
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_maps);
-        mRecyclerView.setLayoutManager(layoutManager);
+        mApartmentsRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_maps);
+        mApartments = InMapApartment.createApartmentsList(5);
+        InMapApartmentsAdapter adapter = new InMapApartmentsAdapter(mApartments, this);
+        mApartmentsRecyclerView.setAdapter(adapter);
+        mApartmentsRecyclerView.setLayoutManager(layoutManager);
+        SnapHelper snapHelper = new PagerSnapHelper();
+        snapHelper.attachToRecyclerView(mApartmentsRecyclerView);
     }
 
 
@@ -55,7 +62,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
         Geocoder geoCoder = new Geocoder(this);
         try {
-            List<Address> addressList = geoCoder.getFromLocationName("rehavia", 5);
+            List<Address> addressList = geoCoder.getFromLocationName(mApartments.get(0).getmAddress(), 5);
             if(addressList != null) {
                 Address location = addressList.get(0);
                 location.getLatitude();
