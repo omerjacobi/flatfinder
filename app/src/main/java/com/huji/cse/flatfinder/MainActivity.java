@@ -7,9 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 
@@ -28,10 +30,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
                         // App code
-                        TextView t= findViewById(R.id.text);
-
-                        String userID= loginResult.getAccessToken().getUserId();
-                        t.setText(userID);
+                        loggedIn(loginResult);
                     }
 
                     @Override
@@ -44,6 +43,12 @@ public class MainActivity extends AppCompatActivity {
                         // App code
                     }
                 });
+    }
+
+    private void loggedIn(LoginResult loginResult) {
+        AccessToken token=loginResult.getAccessToken();
+        String userID=token.getUserId();
+//        GraphRequest groups = new GraphRequest(userID)
     }
 
 
