@@ -13,6 +13,9 @@ import com.huji.cse.flatfinder.db.entity.FacebookPost;
 
 import java.util.List;
 
+/**
+ * data access object that insert, update and queries the post_databsee
+ */
 @Dao
 public interface PostDao {
 

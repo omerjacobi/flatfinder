@@ -10,7 +10,9 @@ import com.huji.cse.flatfinder.db.dao.PostDao;
 import com.huji.cse.flatfinder.db.entity.FacebookPost;
 
 import java.util.List;
-
+/**
+ * a viewmodel that provide data to the UI in a lifecycle-conscious way
+ */
 public class PostViewModel extends AndroidViewModel {
 
     private PostDao mPostDao;

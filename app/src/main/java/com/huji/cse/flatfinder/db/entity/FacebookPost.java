@@ -6,7 +6,9 @@ import android.arch.persistence.room.PrimaryKey;
 
 import java.util.Date;
 
-
+/***
+ * an entity for holding a single post from facebook
+ */
 @Entity(tableName = "post_database")
 public class FacebookPost {
 
@@ -56,7 +58,7 @@ public class FacebookPost {
         this.favorite = favorites;
         this.address = address;
     }
-
+/*************************GETTERS********************/
     public String getId() {
         return id;
     }
@@ -104,6 +106,8 @@ public class FacebookPost {
     public String getAddress() {
         return address;
     }
+
+    /*************************SETTERS********************/
 
     public void makeFavorite() {
         favorite = true;
