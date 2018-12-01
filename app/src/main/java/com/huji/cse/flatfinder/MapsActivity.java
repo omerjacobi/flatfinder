@@ -25,6 +25,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private RecyclerView mApartmentsRecyclerView;
     private ArrayList<InMapApartment> mApartments;
+    private InMapApartmentsAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +39,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // Add a horizontal RecyclerView for apartments
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+
+        // Create a list of InMapApartment data objects.
+        // Once we'd like to connect the DB, this initialization should be changed.
+        mApartments = InMapApartment.createApartmentsList(6);
+
+        // Initialize recycler view
         mApartmentsRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_maps);
-        mApartments = InMapApartment.createApartmentsList(5);
-        InMapApartmentsAdapter adapter = new InMapApartmentsAdapter(mApartments, this);
-        mApartmentsRecyclerView.setAdapter(adapter);
+        mAdapter = new InMapApartmentsAdapter(mApartments, this);
+        mApartmentsRecyclerView.setAdapter(mAdapter);
         mApartmentsRecyclerView.setLayoutManager(layoutManager);
         SnapHelper snapHelper = new PagerSnapHelper();
         snapHelper.attachToRecyclerView(mApartmentsRecyclerView);
@@ -60,18 +66,48 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        updateMap(mApartments.get(0).getmAddress());
+
+        // Set map to update each time the user scrolls to the next item
+        mApartmentsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    InMapApartment currentViewedApartment = mApartments.get(getCurrentItemPosition());
+                    updateMap(currentViewedApartment.getmAddress());
+                }
+            }
+        });
+    }
+
+    /**
+     * Indicates the currently viewed's item position
+     * @return an integer that indicates the currently viewed's item position
+     */
+    private int getCurrentItemPosition() {
+        return ((LinearLayoutManager)mApartmentsRecyclerView.getLayoutManager()).findFirstVisibleItemPosition();
+    }
+
+    /**
+     * Updates the map - clears current markers, adds a new marker at the new location, and zooms in
+     * to the new location
+     * @param newAddress A string the indicates the new location by address
+     */
+    public void updateMap(String newAddress) {
+        mMap.clear();
         Geocoder geoCoder = new Geocoder(this);
         try {
-            List<Address> addressList = geoCoder.getFromLocationName(mApartments.get(0).getmAddress(), 5);
+            List<Address> addressList = geoCoder.getFromLocationName(newAddress, 5);
             if(addressList != null) {
                 Address location = addressList.get(0);
                 location.getLatitude();
                 location.getLongitude();
 
-                LatLng p1 = new LatLng(location.getLatitude(), location.getLongitude());
+                LatLng coordinate = new LatLng(location.getLatitude(), location.getLongitude());
                 float zoomLevel = 17.0f;
-                mMap.addMarker(new MarkerOptions().position(p1).title("Marker in Guy's apartment"));
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(p1, zoomLevel));
+                mMap.addMarker(new MarkerOptions().position(coordinate).title(newAddress));
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(coordinate, zoomLevel));
             }
         } catch (IOException e) {
             e.printStackTrace();

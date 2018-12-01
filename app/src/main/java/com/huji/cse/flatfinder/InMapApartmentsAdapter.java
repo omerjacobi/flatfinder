@@ -26,18 +26,14 @@ public class InMapApartmentsAdapter extends RecyclerView.Adapter<InMapApartments
 
         View inMapApartmentView = inflater.inflate(R.layout.in_map_apartment_row, parent, false);
 
-        // Return a new holder instance
         ViewHolder viewHolder = new ViewHolder(inMapApartmentView);
         return viewHolder;
     }
 
-    // Involves populating data into the item through holder
     @Override
     public void onBindViewHolder(InMapApartmentsAdapter.ViewHolder viewHolder, int position) {
-        // Get the data model based on position
         InMapApartment apartment = mApartments.get(position);
 
-        // Set item views based on your views and data model
         TextView priceTextView = viewHolder.priceTextView,
                  roommatesTextView = viewHolder.roommatesTextView,
                  addressTextview = viewHolder.addressTextView;
@@ -46,7 +42,6 @@ public class InMapApartmentsAdapter extends RecyclerView.Adapter<InMapApartments
         addressTextview.setText(mContext.getString(R.string.inmap_address_view, apartment.getmAddress()));
     }
 
-    // Returns the total count of items in the list
     @Override
     public int getItemCount() {
         return mApartments.size();
