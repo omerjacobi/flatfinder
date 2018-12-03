@@ -32,17 +32,17 @@ public interface PostDao {
     LiveData<List<FacebookPost>> getAllPosts();
 
 
-    @Query("SELECT * FROM post_database WHERE favorite")
+    @Query("SELECT * FROM post_database WHERE favorite_post")
     LiveData<List<FacebookPost>> getAllFavoritesPosts();
 
-    @Query("SELECT * FROM post_database WHERE price < :maxPrice")
+    @Query("SELECT * FROM post_database WHERE flat_price < :maxPrice")
     LiveData<List<FacebookPost>>  getAllCheaperPosts(long maxPrice);
 
-    @Query("SELECT * FROM post_database WHERE GPSlat BETWEEN :minLat AND :maxLat AND  GPSlong BETWEEN :minLong AND :maxLong")
+    @Query("SELECT * FROM post_database WHERE gps_lat BETWEEN :minLat AND :maxLat AND  gps_long BETWEEN :minLong AND :maxLong")
     LiveData<List<FacebookPost>>  getAllPostInLocation(float minLat, float maxLat, float minLong, float maxLong);
 
 
-    @Query("SELECT * FROM post_database WHERE numOfRoommates < :maxRoommates")
+    @Query("SELECT * FROM post_database WHERE number_of_roommates < :maxRoommates")
     LiveData<List<FacebookPost>>  getAllPostWithLessRoommates(long maxRoommates);
 
 }
