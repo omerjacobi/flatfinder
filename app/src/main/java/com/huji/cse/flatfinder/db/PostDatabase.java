@@ -12,7 +12,7 @@ import com.huji.cse.flatfinder.db.entity.FacebookPost;
  * a singleton object of post_database using room database
  */
 
-@Database(entities = {FacebookPost.class}, version = 1)
+@Database(entities = {FacebookPost.class}, version = 1, exportSchema = false)
 public abstract class PostDatabase extends RoomDatabase {
 
     public abstract PostDao postDao();
