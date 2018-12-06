@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
                         grape_posts_object = object;
                     }
                 });
-        request.setGraphPath("337906013661346/feed?fields=name,full_picture,link,message");
+        request.setGraphPath("337906013661346/feed?fields=link,message,created_time,name,full_picture,id");
         request.executeAsync();
     }
 
