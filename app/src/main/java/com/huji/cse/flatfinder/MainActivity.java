@@ -20,7 +20,6 @@ import java.util.Arrays;
 public class MainActivity extends AppCompatActivity {
     CallbackManager callbackManager;
     JSONObject grape_posts_object;
-    GraphResponse grape_posts_GraphResponse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
                     public void onCompleted(
                             JSONObject object,
                             GraphResponse response) {
-                        grape_posts_GraphResponse = response;
                         grape_posts_object = object;
                     }
                 });
