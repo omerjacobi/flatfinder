@@ -1,8 +1,10 @@
 package com.huji.cse.flatfinder;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
+import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -12,14 +14,14 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-
 import org.json.JSONObject;
-
 import java.util.Arrays;
+
+
 
 public class MainActivity extends AppCompatActivity {
     CallbackManager callbackManager;
-    JSONObject grape_posts_object;
+    private JSONObject facebookPosts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,36 +35,42 @@ public class MainActivity extends AppCompatActivity {
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
-                        // App code
-                        get_posts_in_graph(loginResult);
+                        getPostsInGraph(loginResult);
                     }
 
                     @Override
                     public void onCancel() {
-                        // App code
+                        showToastWithInputMassage(getString(R.string.cancel_login_massage));
                     }
 
                     @Override
                     public void onError(FacebookException exception) {
-                        // App code
+                        showToastWithInputMassage(getString(R.string.error_login_massage));
                     }
                 });
     }
 
-    private void get_posts_in_graph(LoginResult loginResult) {
+    private void getPostsInGraph(LoginResult loginResult) {
         AccessToken token=loginResult.getAccessToken();
         GraphRequest request = GraphRequest.newMeRequest(
                 token,
                 new GraphRequest.GraphJSONObjectCallback() {
                     @Override
-                    public void onCompleted(
-                            JSONObject object,
-                            GraphResponse response) {
-                        grape_posts_object = object;
+                    public void onCompleted(JSONObject object, GraphResponse response) {
+                        facebookPosts = object;
                     }
                 });
-        request.setGraphPath("337906013661346/feed?fields=link,message,created_time,name,full_picture,id");
+        request.setGraphPath(getString(R.string.path_of_facebook_group_with_filters));
         request.executeAsync();
+    }
+
+    private void showToastWithInputMassage(String massage){
+        Context context = getApplicationContext();
+        CharSequence text = massage;
+        int duration = Toast.LENGTH_LONG;
+
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
     }
 
 
