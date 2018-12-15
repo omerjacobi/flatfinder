@@ -64,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
         request.executeAsync();
         Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
-
     }
 
     private void showToastWithInputMassage(String massage){
