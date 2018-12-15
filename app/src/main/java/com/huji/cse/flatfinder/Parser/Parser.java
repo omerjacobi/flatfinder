@@ -1,6 +1,8 @@
 package com.huji.cse.flatfinder.Parser;
 
 
+import com.huji.cse.flatfinder.db.entity.FacebookPost;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -17,17 +19,15 @@ public class Parser {
     private Pattern stringPattern;
 
     public Parser(){
-        pricePattern=Pattern.compile("(p|P)rice");
-        addressPattern=Pattern.compile("(a|A)ddress");
-        noRoommatesPattern =Pattern.compile("(of)* *(r|R)oom(m)?ates");
+        pricePattern=Pattern.compile("(?:p|P)rice");
+        addressPattern=Pattern.compile("(?:a|A)ddress");
+        noRoommatesPattern =Pattern.compile("(?:of)* *(?:r|R)oom(?:m)?ates");
         numberPattern=Pattern.compile("\\d+");
-        stringPattern=Pattern.compile("(?:\\w*\\s*)*");
+        stringPattern=Pattern.compile("((?:\\w+ *)+),*:*-*\\\\*(?:\\n)*");//todo add more delimiters?
 
     }
 
     public void parse(JSONObject allPosts) throws JSONException {
-        //todo change all to string?
-
         Iterator<String> postsIter = allPosts.keys();
         while (postsIter.hasNext()) {
             String key = postsIter.next();
@@ -35,14 +35,12 @@ public class Parser {
                 JSONObject post = (JSONObject) allPosts.get(key);
 
 
-                String postId, fullMessage, userName, userNameID, picture, address;
-                long price = -1, numOfRoomates = -1;
-                float GPSlat, GPSlong;
-                boolean favorites = false;
-                long created_time;
+                String postId, fullMessage, address,userName="", picture="" ;
+                long price, numOfRoommates;
+                long createdTime;
 
                 String linkToPost = post.getString("link");
-                created_time = post.getLong("created_time");
+                createdTime = post.getLong("created_time");
                 postId = post.getString("id");
 
                 fullMessage = post.getString("message");
@@ -51,21 +49,39 @@ public class Parser {
                 price = getLongField(fullMessage, matcher);
 
                 matcher = noRoommatesPattern.matcher(fullMessage);
-                numOfRoomates = getLongField(fullMessage, matcher);
+                numOfRoommates = getLongField(fullMessage, matcher);
 
                 address=getAddress(fullMessage);
 
-                String nameString = "";
                 if (post.has("name")) {
-                    nameString = post.getString("name");
+                   String nameString = post.getString("name");
+                    userName=getUserName(nameString);
                 }
 
                 if(post.has("full_picture")){
                     picture=post.getString("full_picture");
                 }
-            }
 
+            createFacebookObject(fullMessage,userName,picture,address,price,numOfRoommates,
+                    createdTime,postId);
+            }
         }
+    }
+
+    private void createFacebookObject(String fullMessage, String userName, String picture,
+                                      String address, long price, long numOfRommates,
+                                      long createdTime,String postId) {
+        //todo OMER - add postId to facebook post object??
+        FacebookPost newPost = new FacebookPost(0,"",createdTime,fullMessage,userName,
+                null,picture,0,0,price,numOfRommates,false,address);
+
+    }
+
+    private String getUserName(String nameString) {
+        Pattern namePattern=Pattern.compile("Photos from (.+)'s post");
+        Matcher nameMatcher=namePattern.matcher(nameString);
+        nameMatcher.find();
+        return nameMatcher.group(1);
     }
 
     private String getAddress(String fullMessage) {
@@ -75,7 +91,7 @@ public class Parser {
             address=fullMessage.substring(addressMatcher.end());
             Matcher stringMatcher=stringPattern.matcher(address);
             if(stringMatcher.find()) {
-                address.substring(stringMatcher.start(), stringMatcher.end());
+                address=stringMatcher.group(1);
             }
         }
         return address;
@@ -102,11 +118,12 @@ public class Parser {
         return output;
     }
 
-//    public static void main(String[] args){
-//        String text="looking for a new roommate!\\nprice:2143 nis\\naddress: rothschild 12 tel aviv\\nnumber of roommates: 3\\ncome join our amazing apartment :)";
-//        Parser parser=new Parser();
+    public static void main(String[] args){
+        String text="looking for a new roommate!\\nprice:2143 nis\\naddress: rothschild 12 tel aviv\\nnumber of roommates: 3\\ncome join our amazing apartment :)";
+        Parser parser=new Parser();
 //        Matcher m=parser.noRoommatesPattern.matcher(text);
 //        long price=parser.getLongField(text,m);
 //        System.out.println(price);
-//    }
+        System.out.println(parser.getAddress(text));
+    }
 }
