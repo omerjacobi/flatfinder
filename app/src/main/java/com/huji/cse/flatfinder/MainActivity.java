@@ -62,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
                 });
         request.setGraphPath(getString(R.string.path_of_facebook_group_with_filters));
         request.executeAsync();
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);
+
     }
 
     private void showToastWithInputMassage(String massage){
