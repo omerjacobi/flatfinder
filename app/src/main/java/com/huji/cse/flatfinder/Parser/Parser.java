@@ -62,15 +62,15 @@ public class Parser {
                     picture=post.getString("full_picture");
                 }
 
-            createFacebookObject(fullMessage,userName,picture,address,price,numOfRoommates,
+            createFacebookPostObject(fullMessage,userName,picture,address,price,numOfRoommates,
                     createdTime,postId);
             }
         }
     }
 
-    private void createFacebookObject(String fullMessage, String userName, String picture,
-                                      String address, long price, long numOfRommates,
-                                      long createdTime,String postId) {
+    private void createFacebookPostObject(String fullMessage, String userName, String picture,
+                                          String address, long price, long numOfRommates,
+                                          long createdTime, String postId) {
         //todo OMER - add postId to facebook post object??
         FacebookPost newPost = new FacebookPost(0,"",createdTime,fullMessage,userName,
                 null,picture,0,0,price,numOfRommates,false,address);
@@ -118,12 +118,12 @@ public class Parser {
         return output;
     }
 
-    public static void main(String[] args){
-        String text="looking for a new roommate!\\nprice:2143 nis\\naddress: rothschild 12 tel aviv\\nnumber of roommates: 3\\ncome join our amazing apartment :)";
-        Parser parser=new Parser();
-//        Matcher m=parser.noRoommatesPattern.matcher(text);
-//        long price=parser.getLongField(text,m);
-//        System.out.println(price);
-        System.out.println(parser.getAddress(text));
-    }
+//    public static void main(String[] args){
+//        String text="looking for a new roommate!\\nprice:2143 nis\\naddress: rothschild 12 tel aviv\\nnumber of roommates: 3\\ncome join our amazing apartment :)";
+//        Parser parser=new Parser();
+////        Matcher m=parser.noRoommatesPattern.matcher(text);
+////        long price=parser.getLongField(text,m);
+////        System.out.println(price);
+//        System.out.println(parser.getAddress(text));
+//    }
 }
