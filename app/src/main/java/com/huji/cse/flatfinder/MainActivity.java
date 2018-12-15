@@ -14,6 +14,9 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.huji.cse.flatfinder.Parser.Parser;
+
+import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.Arrays;
 
@@ -58,6 +61,12 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
                         facebookPosts = object;
+                        Parser parser= new Parser();
+                        try {
+                            parser.parse(facebookPosts);
+                        } catch (JSONException e) {
+                            //do nothing
+                        }
                     }
                 });
         request.setGraphPath(getString(R.string.path_of_facebook_group_with_filters));
