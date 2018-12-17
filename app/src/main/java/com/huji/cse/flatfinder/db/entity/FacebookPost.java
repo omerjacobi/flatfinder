@@ -5,8 +5,7 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import java.util.Date;
+import android.support.annotation.NonNull;
 
 /***
  * an entity for holding a single post from facebook
@@ -14,19 +13,17 @@ import java.util.Date;
 @Entity(tableName = "post_database")
 public class FacebookPost implements Parcelable {
 
-    @PrimaryKey(autoGenerate = true)
-    private int keyId;
-
+    @NonNull
+    @PrimaryKey
     @ColumnInfo(name = "post_id")
     private String id;
 
     @ColumnInfo(name = "post_time_created")
     private String created_time;
 
-    public FacebookPost(int keyId, String id, String created_time, String message, String name,
+    public FacebookPost(String id, String created_time, String message, String name,
                         String nameID, String picture, float GPSlat, float GPSlong, long price,
                         long numOfRoommates, boolean favorite, String address) {
-        this.keyId = keyId;
         this.id = id;
         this.created_time = created_time;
         this.message = message;
@@ -71,9 +68,6 @@ public class FacebookPost implements Parcelable {
     @ColumnInfo(name = "flat_address")
     private String address;
 
-    public int getKeyId() {
-        return keyId;
-    }
 
     public String getId() {
         return id;
@@ -135,7 +129,6 @@ public class FacebookPost implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.keyId);
         dest.writeString(this.id);
         dest.writeString(this.created_time);
         dest.writeString(this.message);
@@ -151,7 +144,6 @@ public class FacebookPost implements Parcelable {
     }
 
     protected FacebookPost(Parcel in) {
-        this.keyId = in.readInt();
         this.id = in.readString();
         this.created_time = in.readString();
         this.message = in.readString();

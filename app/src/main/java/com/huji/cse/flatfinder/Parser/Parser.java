@@ -1,15 +1,7 @@
 package com.huji.cse.flatfinder.Parser;
 
 
-import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import com.huji.cse.flatfinder.db.entity.FacebookPost;
 import com.huji.cse.flatfinder.viewmodel.PostViewModel;
@@ -21,10 +13,6 @@ import org.json.JSONObject;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import io.reactivex.Scheduler;
-import io.reactivex.Single;
-import io.reactivex.schedulers.Schedulers;
 
 public class Parser extends AppCompatActivity {
 
@@ -51,12 +39,6 @@ public class Parser extends AppCompatActivity {
         for (int i = 0; i < postsArray.length() - 1; i++) {
             JSONObject post = (JSONObject) postsArray.get(i);
             String postId = post.getString("id");
-            mViewModel.isPostExiset(postId).observe(this, new Observer<List<FacebookPost>>() {
-                @Override
-                public void onChanged(@Nullable List<FacebookPost> facebookPosts) {
-
-                }
-            });
 
             String fullMessage, address, userName = "", picture = "";
             long price, numOfRoommates;
@@ -95,7 +77,7 @@ public class Parser extends AppCompatActivity {
     private void createFacebookPostObject(String fullMessage, String userName, String picture,
                                           String address, long price, long numOfRommates,
                                           String createdTime, String postId) {
-        FacebookPost newPost = new FacebookPost(0, postId, createdTime, fullMessage, userName,
+        FacebookPost newPost = new FacebookPost(postId, createdTime, fullMessage, userName,
                 null, picture, 0, 0, price, numOfRommates, false, address);
         mViewModel.insert(newPost);
     }
