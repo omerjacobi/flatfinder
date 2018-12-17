@@ -1,7 +1,11 @@
 package com.huji.cse.flatfinder;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.location.Address;
 import android.location.Geocoder;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +19,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.huji.cse.flatfinder.db.entity.FacebookPost;
+import com.huji.cse.flatfinder.viewmodel.PostViewModel;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,29 +30,39 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private RecyclerView mApartmentsRecyclerView;
-    private ArrayList<InMapApartment> mApartments;
     private InMapApartmentsAdapter mAdapter;
+    private PostViewModel mPostViewModel;
+    private List<FacebookPost> mfacebookPosts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        mPostViewModel = ViewModelProviders.of(this).get(PostViewModel.class);
+        mPostViewModel.getAllPosts().observe(this, new Observer<List<FacebookPost>>() {
+            @Override
+            public void onChanged(@Nullable List<FacebookPost> facebookPosts) {
+                mAdapter.setmApartments(facebookPosts);
+
+                mfacebookPosts = facebookPosts;
+                updateMap(mfacebookPosts.get(0).getAddress());
+
+            }
+        });
 
         // Add a horizontal RecyclerView for apartments
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
 
-        // Create a list of InMapApartment data objects.
-        // Once we'd like to connect the DB, this initialization should be changed.
-        mApartments = InMapApartment.createApartmentsList(6);
 
         // Initialize recycler view
         mApartmentsRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_maps);
-        mAdapter = new InMapApartmentsAdapter(mApartments, this);
+        mAdapter = new InMapApartmentsAdapter(this);
         mApartmentsRecyclerView.setAdapter(mAdapter);
         mApartmentsRecyclerView.setLayoutManager(layoutManager);
         SnapHelper snapHelper = new PagerSnapHelper();
@@ -66,7 +82,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        updateMap(mApartments.get(0).getmAddress());
 
         // Set map to update each time the user scrolls to the next item
         mApartmentsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -74,8 +89,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    InMapApartment currentViewedApartment = mApartments.get(getCurrentItemPosition());
-                    updateMap(currentViewedApartment.getmAddress());
+                    FacebookPost currentViewedApartment = mfacebookPosts.get(getCurrentItemPosition());
+                    updateMap(currentViewedApartment.getAddress());
                 }
             }
         });

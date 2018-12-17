@@ -1,7 +1,9 @@
 package com.huji.cse.flatfinder;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
@@ -16,12 +18,13 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.huji.cse.flatfinder.Parser.Parser;
+import com.huji.cse.flatfinder.db.entity.FacebookPost;
 import com.huji.cse.flatfinder.viewmodel.PostViewModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.Arrays;
-
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -76,6 +79,12 @@ public class MainActivity extends AppCompatActivity {
                 });
         request.setGraphPath(getString(R.string.path_of_facebook_group_with_filters));
         request.executeAsync();
+        mViewModel.getAllPosts().observe(this, new Observer<List<FacebookPost>>() {
+            @Override
+            public void onChanged(@Nullable List<FacebookPost> facebookPosts) {
+
+            }
+        });
         Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
     }

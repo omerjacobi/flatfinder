@@ -13,6 +13,9 @@ import com.huji.cse.flatfinder.db.entity.FacebookPost;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
+import io.reactivex.Single;
+
 /**
  * data access object that insert, update and queries the post_databsee
  */
@@ -30,6 +33,9 @@ public interface PostDao {
 
     @Query("SELECT * FROM post_database")
     LiveData<List<FacebookPost>> getAllPosts();
+
+    @Query("SELECT * FROM post_database WHERE post_id = :post_id")
+    LiveData<List<FacebookPost>> isPostExiset(String post_id);
 
 
     @Query("SELECT * FROM post_database WHERE favorite_post")

@@ -1,7 +1,15 @@
 package com.huji.cse.flatfinder.Parser;
 
 
+import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.LifecycleOwner;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.huji.cse.flatfinder.db.entity.FacebookPost;
 import com.huji.cse.flatfinder.viewmodel.PostViewModel;
@@ -10,10 +18,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Parser {
+import io.reactivex.Scheduler;
+import io.reactivex.Single;
+import io.reactivex.schedulers.Schedulers;
+
+public class Parser extends AppCompatActivity {
 
     private Pattern pricePattern;
     private Pattern addressPattern;
@@ -21,6 +34,7 @@ public class Parser {
     private Pattern numberPattern;
     private Pattern stringPattern;
     private PostViewModel mViewModel;
+    private List<FacebookPost> mPosts = null;
 
     public Parser() {
         pricePattern = Pattern.compile("(?:p|P)rice");
@@ -37,7 +51,12 @@ public class Parser {
         for (int i = 0; i < postsArray.length() - 1; i++) {
             JSONObject post = (JSONObject) postsArray.get(i);
             String postId = post.getString("id");
+            mViewModel.isPostExiset(postId).observe(this, new Observer<List<FacebookPost>>() {
+                @Override
+                public void onChanged(@Nullable List<FacebookPost> facebookPosts) {
 
+                }
+            });
 
             String fullMessage, address, userName = "", picture = "";
             long price, numOfRoommates;
@@ -122,4 +141,6 @@ public class Parser {
         }
         return output;
     }
+
+
 }
