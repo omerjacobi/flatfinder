@@ -21,9 +21,9 @@ public class FacebookPost implements Parcelable {
     private String id;
 
     @ColumnInfo(name = "post_time_created")
-    private long created_time;
+    private String created_time;
 
-    public FacebookPost(int keyId, String id, long created_time, String message, String name,
+    public FacebookPost(int keyId, String id, String created_time, String message, String name,
                         String nameID, String picture, float GPSlat, float GPSlong, long price,
                         long numOfRoommates, boolean favorite, String address) {
         this.keyId = keyId;
@@ -79,7 +79,7 @@ public class FacebookPost implements Parcelable {
         return id;
     }
 
-    public long getCreated_time() {
+    public String getCreated_time() {
         return created_time;
     }
 
@@ -137,7 +137,7 @@ public class FacebookPost implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.keyId);
         dest.writeString(this.id);
-        dest.writeLong(this.created_time);
+        dest.writeString(this.created_time);
         dest.writeString(this.message);
         dest.writeString(this.name);
         dest.writeString(this.nameID);
@@ -153,7 +153,7 @@ public class FacebookPost implements Parcelable {
     protected FacebookPost(Parcel in) {
         this.keyId = in.readInt();
         this.id = in.readString();
-        this.created_time = in.readLong();
+        this.created_time = in.readString();
         this.message = in.readString();
         this.name = in.readString();
         this.nameID = in.readString();

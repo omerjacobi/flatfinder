@@ -1,13 +1,15 @@
 package com.huji.cse.flatfinder.Parser;
 
 
+import android.arch.lifecycle.ViewModelProviders;
+
 import com.huji.cse.flatfinder.db.entity.FacebookPost;
+import com.huji.cse.flatfinder.viewmodel.PostViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,6 +20,7 @@ public class Parser {
     private Pattern noRoommatesPattern;
     private Pattern numberPattern;
     private Pattern stringPattern;
+    private PostViewModel mViewModel;
 
     public Parser() {
         pricePattern = Pattern.compile("(?:p|P)rice");
@@ -28,20 +31,23 @@ public class Parser {
 
     }
 
-    public void parse(JSONObject allPosts) throws JSONException {
+    public void parse(JSONObject allPosts, PostViewModel mViewModel) throws JSONException {
+        this.mViewModel = mViewModel;
         JSONArray postsArray = allPosts.getJSONArray("data");
         for (int i = 0; i < postsArray.length() - 1; i++) {
             JSONObject post = (JSONObject) postsArray.get(i);
+            String postId = post.getString("id");
+            mViewModel.
 
-            String postId, fullMessage, address, userName = "", picture = "";
+            String fullMessage, address, userName = "", picture = "";
             long price, numOfRoommates;
-            String createdTime;//todo changed to String
+
+            String createdTime;
             String linkToPost = "";
             if (post.has("link"))
                 linkToPost = post.getString("link");
 
             createdTime = post.getString("created_time");
-            postId = post.getString("id");
 
             fullMessage = post.getString("message");
 
@@ -70,10 +76,9 @@ public class Parser {
     private void createFacebookPostObject(String fullMessage, String userName, String picture,
                                           String address, long price, long numOfRommates,
                                           String createdTime, String postId) {
-        //todo OMER - add link to facebook post object, changed time to String
-        FacebookPost newPost = new FacebookPost(0, postId, 0, fullMessage, userName,
+        FacebookPost newPost = new FacebookPost(0, postId, createdTime, fullMessage, userName,
                 null, picture, 0, 0, price, numOfRommates, false, address);
-
+        mViewModel.insert(newPost);
     }
 
     private String getUserName(String nameString) {

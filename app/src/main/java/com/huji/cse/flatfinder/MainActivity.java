@@ -1,5 +1,6 @@
 package com.huji.cse.flatfinder;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.huji.cse.flatfinder.Parser.Parser;
+import com.huji.cse.flatfinder.viewmodel.PostViewModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,12 +27,14 @@ import java.util.Arrays;
 public class MainActivity extends AppCompatActivity {
     CallbackManager callbackManager;
     private JSONObject facebookPosts;
+    private PostViewModel mViewModel;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        mViewModel = ViewModelProviders.of(this).get(PostViewModel.class);
         callbackManager = CallbackManager.Factory.create();
 
         LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("groups_access_member_info"));
@@ -64,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                         System.out.println(facebookPosts);
                         Parser parser= new Parser();
                         try {
-                            parser.parse(object);
+                            parser.parse(object, mViewModel);
                         } catch (JSONException e) {
 
                         }
