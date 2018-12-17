@@ -117,13 +117,4 @@ public class Parser {
         }
         return output;
     }
-
-//    public static void main(String[] args){
-//        String text="looking for a new roommate!\\nprice:2143 nis\\naddress: rothschild 12 tel aviv\\nnumber of roommates: 3\\ncome join our amazing apartment :)";
-//        Parser parser=new Parser();
-////        Matcher m=parser.noRoommatesPattern.matcher(text);
-////        long price=parser.getLongField(text,m);
-////        System.out.println(price);
-//        System.out.println(parser.getAddress(text));
-//    }
 }
