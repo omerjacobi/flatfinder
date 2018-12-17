@@ -37,7 +37,7 @@ public class Parser {
         for (int i = 0; i < postsArray.length() - 1; i++) {
             JSONObject post = (JSONObject) postsArray.get(i);
             String postId = post.getString("id");
-            mViewModel.
+
 
             String fullMessage, address, userName = "", picture = "";
             long price, numOfRoommates;
