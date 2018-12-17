@@ -61,11 +61,12 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
                         facebookPosts = object;
+                        System.out.println(facebookPosts);
                         Parser parser= new Parser();
                         try {
-                            parser.parse(facebookPosts);
+                            parser.parse(object);
                         } catch (JSONException e) {
-                            //do nothing
+
                         }
                     }
                 });
