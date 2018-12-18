@@ -34,8 +34,8 @@ public interface PostDao {
     @Query("SELECT * FROM post_database")
     LiveData<List<FacebookPost>> getAllPosts();
 
-    @Query("SELECT * FROM post_database WHERE post_id = :post_id")
-    LiveData<List<FacebookPost>> isPostExiset(String post_id);
+    @Query("SELECT COUNT(*) FROM post_database WHERE post_id = :post_id")
+    int isPostExiset(String post_id);
 
 
     @Query("SELECT * FROM post_database WHERE favorite_post")

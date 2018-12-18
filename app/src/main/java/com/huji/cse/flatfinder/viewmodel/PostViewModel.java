@@ -48,7 +48,7 @@ public class PostViewModel extends AndroidViewModel {
         return mPostDao.getAllPosts();
     }
 
-    public LiveData<List<FacebookPost>> isPostExiset(String postId)
+    public int isPostExiset(String postId)
     {
          return mPostDao.isPostExiset(postId);
     }

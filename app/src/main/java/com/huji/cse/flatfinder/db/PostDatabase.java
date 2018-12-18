@@ -23,7 +23,7 @@ public abstract class PostDatabase extends RoomDatabase {
         if (INSTANCE == null){
             synchronized (PostDatabase.class){
                 if (INSTANCE == null){
-                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(), PostDatabase.class, "posts_database").build();
+                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(), PostDatabase.class, "posts_database").allowMainThreadQueries().build();
                 }
             }
         }

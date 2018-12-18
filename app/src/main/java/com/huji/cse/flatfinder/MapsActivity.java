@@ -48,10 +48,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mPostViewModel.getAllPosts().observe(this, new Observer<List<FacebookPost>>() {
             @Override
             public void onChanged(@Nullable List<FacebookPost> facebookPosts) {
-                mAdapter.setmApartments(facebookPosts);
+                if (facebookPosts!= null && facebookPosts.size() > 0) {
+                    mAdapter.setmApartments(facebookPosts);
 
-                mfacebookPosts = facebookPosts;
-                updateMap(mfacebookPosts.get(0).getAddress());
+                    mfacebookPosts = facebookPosts;
+                    updateMap(mfacebookPosts.get(0).getAddress());
+                }
 
             }
         });
@@ -89,8 +91,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    FacebookPost currentViewedApartment = mfacebookPosts.get(getCurrentItemPosition());
-                    updateMap(currentViewedApartment.getAddress());
+                    if (mfacebookPosts != null) {
+                        FacebookPost currentViewedApartment = mfacebookPosts.get(getCurrentItemPosition());
+                        updateMap(currentViewedApartment.getAddress());
+                    }
                 }
             }
         });
