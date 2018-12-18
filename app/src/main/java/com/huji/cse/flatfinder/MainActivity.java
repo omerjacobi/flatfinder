@@ -14,6 +14,9 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.huji.cse.flatfinder.Parser.Parser;
+
+import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.Arrays;
 
@@ -51,13 +54,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getPostsInGraph(LoginResult loginResult) {
-        AccessToken token=loginResult.getAccessToken();
+        AccessToken token = loginResult.getAccessToken();
         GraphRequest request = GraphRequest.newMeRequest(
                 token,
                 new GraphRequest.GraphJSONObjectCallback() {
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
                         facebookPosts = object;
+                        System.out.println(facebookPosts);
+                        Parser parser= new Parser();
+                        try {
+                            parser.parse(object);
+                        } catch (JSONException e) {
+
+                        }
                     }
                 });
         request.setGraphPath(getString(R.string.path_of_facebook_group_with_filters));
@@ -66,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void showToastWithInputMassage(String massage){
+    private void showToastWithInputMassage(String massage) {
         Context context = getApplicationContext();
         CharSequence text = massage;
         int duration = Toast.LENGTH_LONG;
