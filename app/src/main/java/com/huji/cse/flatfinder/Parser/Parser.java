@@ -1,9 +1,6 @@
 package com.huji.cse.flatfinder.Parser;
 
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.huji.cse.flatfinder.db.entity.FacebookPost;
@@ -13,9 +10,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -49,7 +43,8 @@ public class Parser extends AppCompatActivity {
 
             String createdTime;
             String linkToPost = "";
-            if( mViewModel.isPostExiset(postId) != 0)
+            /*checks if the post exists in the database*/
+            if( mViewModel.isPostExists(postId) != 0)
                 continue;
 
             if (post.has("link"))

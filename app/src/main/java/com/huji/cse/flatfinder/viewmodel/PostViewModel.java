@@ -48,7 +48,7 @@ public class PostViewModel extends AndroidViewModel {
         return mPostDao.getAllPosts();
     }
 
-    public int isPostExiset(String postId)
+    public int isPostExists(String postId)
     {
          return mPostDao.isPostExiset(postId);
     }
