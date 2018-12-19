@@ -3,8 +3,8 @@
     <string name="fb_login_protocol_scheme">fb2140680242915577</string>
     <string name="path_of_facebook_group_with_filters">337906013661346/feed?fields=link,message,
         created_time,name,full_picture,id</string>
-    <string name="cancel_login_massage">You must give Facebook these privileges in order to connect to this app</string>
-    <string name="error_login_massage">Facebook can not login, try again!</string>
+    <string name="cancel_login_message">You must give Facebook these privileges in order to connect to this app</string>
+    <string name="error_login_message">Facebook can not login, try again!</string>
     <string name="app_name" translatable="false">flatfinder</string>
     <string name="title_activity_maps">Map</string>
     <string name="inmap_price_view">Price: %1$s</string>
