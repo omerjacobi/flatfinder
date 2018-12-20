@@ -4,7 +4,9 @@ import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -84,9 +86,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showPrivacyMessage(View view) {
+        ImageView lockImage=findViewById(R.id.privacyButton);
+        float y=lockImage.getY();
         Toast toast = Toast.makeText(getApplicationContext(),
-                "This is a message displayed in a Toast",
-                Toast.LENGTH_SHORT);
+                R.string.privacy_message,
+                (4*(Toast.LENGTH_LONG)));
+        toast.setGravity(Gravity.TOP,0,(int)(3*y));
 
         toast.show();
     }

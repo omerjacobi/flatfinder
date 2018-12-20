@@ -10,4 +10,5 @@
     <string name="inmap_price_view">Price: %1$s</string>
     <string name="inmap_roommates_view">Roommates amount: %1$s</string>
     <string name="inmap_address_view">Address: %1$s</string>
+    <string name="privacy_message">Facebook Privacy - We only access rental listings, nothing else</string>
 </resources>
