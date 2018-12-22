@@ -5,11 +5,9 @@
         created_time,name,full_picture,id</string>
     <string name="cancel_login_massage">You must give Facebook these privileges in order to connect to this app</string>
     <string name="error_login_massage">Facebook can not login, try again!</string>
-    <!--<string name="app_name" translatable="false">flatfinder</string>-->
+    <string name="app_name" translatable="false">flatfinder</string>
     <string name="title_activity_maps">Map</string>
     <string name="inmap_price_view">Price: %1$s</string>
     <string name="inmap_roommates_view">Roommates amount: %1$s</string>
     <string name="inmap_address_view">Address: %1$s</string>
-    <!--<string name="facebook_app_id">2140680242915577</string>-->
-    <!--<string name="fb_login_protocol_scheme">fb2140680242915577</string>-->
 </resources>
