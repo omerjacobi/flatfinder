@@ -19,14 +19,14 @@ public class Parser {
     private static final String nameKey="name";
     private static final String pictureKey="full_picture";
 
-    public Parser() {}
+//    public Parser() {}
 
     /**
      * parsers through all of the groups' listing and creates a facebook post object for the database
      * @param allPosts - all of the posts in the group
      * @throws JSONException
      */
-    public void parse(JSONObject allPosts) throws JSONException {
+    public static void parse(JSONObject allPosts) throws JSONException {
         JSONArray postsArray = allPosts.getJSONArray("data");
         for (int i = 0; i < postsArray.length() - 1; i++) {
             JSONObject post = (JSONObject) postsArray.get(i);
@@ -56,7 +56,7 @@ public class Parser {
         }
     }
 
-    private void createFacebookPostObject(String fullMessage, String userName, String picture,
+    private static void createFacebookPostObject(String fullMessage, String userName, String picture,
                                           String address, long price, long numOfRommates,
                                           String createdTime, String postId) {
         FacebookPost newPost = new FacebookPost(0, postId, 0, fullMessage, userName,
@@ -64,13 +64,13 @@ public class Parser {
 
     }
 
-    private String getUserName(String nameString) {
+    private static String getUserName(String nameString) {
         Matcher nameMatcher = ParserPatterns.namePattern.matcher(nameString);
         nameMatcher.find();
         return nameMatcher.group(1);
     }
 
-    private String getAddress(String fullMessage) {
+    private static String getAddress(String fullMessage) {
         Matcher addressMatcher = ParserPatterns.addressPattern.matcher(fullMessage);
         String address = "";
         if (addressMatcher.find()) {
@@ -90,7 +90,7 @@ public class Parser {
      * @param fieldMatcher the matcher corresponding to the desired field
      * @return the value of the numerical field.
      */
-    private long getLongField(String text, Matcher fieldMatcher) {
+    private static long getLongField(String text, Matcher fieldMatcher) {
         long output = -1;
 
         if (fieldMatcher.find()) {
