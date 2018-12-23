@@ -5,7 +5,7 @@
         created_time,name,full_picture,id</string>
     <string name="cancel_login_message">You must give Facebook these privileges in order to connect to this app</string>
     <string name="error_login_message">Facebook can not login, try again!</string>
-    <string name="app_name" translatable="false">flatfinder</string>
+    <string name="app_name" translatable="false">apartmate</string>
     <string name="title_activity_maps">Map</string>
     <string name="inmap_price_view">Price: %1$s</string>
     <string name="inmap_roommates_view">Roommates amount: %1$s</string>

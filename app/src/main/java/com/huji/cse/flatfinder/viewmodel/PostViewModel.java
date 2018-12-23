@@ -11,8 +11,6 @@ import com.huji.cse.flatfinder.db.entity.FacebookPost;
 
 import java.util.List;
 
-import io.reactivex.Flowable;
-import io.reactivex.Single;
 
 /**
  * a viewmodel that provide data to the UI in a lifecycle-conscious way

@@ -1,10 +1,9 @@
 package com.huji.cse.flatfinder;
 
-import android.arch.lifecycle.Observer;
+
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Handler;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
@@ -23,17 +22,12 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.huji.cse.flatfinder.Parser.Parser;
-import com.huji.cse.flatfinder.db.entity.FacebookPost;
 import com.huji.cse.flatfinder.viewmodel.PostViewModel;
+
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -72,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onCompleted(JSONObject object, GraphResponse response) {
                         JSONObject facebookPosts = object;
                         try {
-                            parser.parse(object, mViewModel);
+                            Parser.parse(object, mViewModel);
                         } catch (JSONException e) {
 
                         }

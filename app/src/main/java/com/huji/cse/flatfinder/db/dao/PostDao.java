@@ -13,8 +13,6 @@ import com.huji.cse.flatfinder.db.entity.FacebookPost;
 
 import java.util.List;
 
-import io.reactivex.Flowable;
-import io.reactivex.Single;
 
 /**
  * data access object that insert, update and queries the post_database
