@@ -19,11 +19,13 @@ public abstract class PostDatabase extends RoomDatabase {
 
     private static volatile PostDatabase INSTANCE;
 
+    /*build a database if its the first time the app created*/
     public static PostDatabase getDatabase(final Context context) {
         if (INSTANCE == null){
             synchronized (PostDatabase.class){
                 if (INSTANCE == null){
-                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(), PostDatabase.class, "posts_database").build();
+                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
+                            PostDatabase.class, "posts_database").allowMainThreadQueries().build();
                 }
             }
         }
