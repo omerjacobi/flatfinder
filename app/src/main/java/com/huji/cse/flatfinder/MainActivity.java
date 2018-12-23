@@ -1,11 +1,13 @@
 package com.huji.cse.flatfinder;
 
 import android.content.Context;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -24,34 +26,28 @@ import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
     CallbackManager callbackManager;
-//    private JSONObject facebookPosts;
 
-    @Override
+    Handler timerHandler = new Handler();
+    Runnable timerRunnable = new Runnable() {
+        @Override
+        public void run() {
+            Button continueButton=findViewById(R.id.continueButton);
+            if(isLoggedIn())
+                continueButton.setVisibility(View.VISIBLE);
+            else
+                continueButton.setVisibility(View.INVISIBLE);
+          timerHandler.postDelayed(this, 500);
+     }
+  };
+
+
+        @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-//        callbackManager = CallbackManager.Factory.create();
-//
-//        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("groups_access_member_info"));
-//        LoginManager.getInstance().registerCallback(callbackManager,
-//                new FacebookCallback<LoginResult>() {
-//                    @Override
-//                    public void onSuccess(LoginResult loginResult) {
-//                        getPostsInGraph(loginResult);
-//                    }
-//
-//                    @Override
-//                    public void onCancel() {
-//                        showToastWithInputMessage(getString(R.string.cancel_login_message));
-//                    }
-//
-//                    @Override
-//                    public void onError(FacebookException exception) {
-//                        showToastWithInputMessage(getString(R.string.error_login_message));
-//                    }
-//                });
+        timerHandler.postDelayed(timerRunnable, 0);
     }
+
 
     private void getPostsInGraph(LoginResult loginResult) {
         AccessToken token=loginResult.getAccessToken();
@@ -71,10 +67,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void showToastWithInputMessage(String message){
         Context context = getApplicationContext();
-        CharSequence text = message;
         int duration = Toast.LENGTH_LONG;
 
-        Toast toast = Toast.makeText(context, text, duration);
+        Toast toast = Toast.makeText(context, message, duration);
         toast.show();
     }
 
@@ -96,9 +91,15 @@ public class MainActivity extends AppCompatActivity {
         toast.show();
     }
 
-    public void logInClicked(View view) {
-//        setContentView(R.layout.activity_main);
+    private boolean isLoggedIn() {
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        return accessToken != null;
+    }
 
+    public void logInClicked(View view) {
+        if(isLoggedIn()){
+            return;
+        }
         callbackManager = CallbackManager.Factory.create();
 
         LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("groups_access_member_info"));
@@ -119,5 +120,10 @@ public class MainActivity extends AppCompatActivity {
                         showToastWithInputMessage(getString(R.string.error_login_message));
                     }
                 });
+    }
+
+    public void continueClick(View view) {
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);
     }
 }

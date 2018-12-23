@@ -63,4 +63,23 @@
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/undertext" />
 
+    <Button
+        android:id="@+id/continueButton"
+        android:layout_width="176dp"
+        android:layout_height="23dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@color/colorAccent"
+        android:onClick="continueClick"
+        android:text="continue"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="#FFFF"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/login_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/undertext"
+        app:layout_constraintVertical_bias="0.983" />
+
 </android.support.constraint.ConstraintLayout>
