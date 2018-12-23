@@ -83,6 +83,9 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
+        <activity android:name=".flat_info"
+            android:theme="@style/AppTheme.popMe">
+        </activity>
 
     </application>
 

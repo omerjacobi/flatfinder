@@ -73,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
                     public void onCompleted(JSONObject object, GraphResponse response) {
                         facebookPosts = object;
                         System.out.println(facebookPosts);
-                        Parser parser= new Parser();
                         try {
                             parser.parse(object, mViewModel);
                         } catch (JSONException e) {
