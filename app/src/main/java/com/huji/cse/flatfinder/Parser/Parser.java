@@ -14,8 +14,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Parser extends AppCompatActivity {
-
-
+    private static PostViewModel mViewModel;
     private static final String idKey="id";
     private static final String createdTimeKey="created_time";
     private static final String messageKey="message";
@@ -27,8 +26,7 @@ public class Parser extends AppCompatActivity {
      * @param allPosts - all of the posts in the group
      * @throws JSONException
      */
-    public void parse(JSONObject allPosts, PostViewModel mViewModel) throws JSONException {
-        this.mViewModel = mViewModel;
+    public static void parse(JSONObject allPosts, PostViewModel mViewModel) throws JSONException {
         JSONArray postsArray = allPosts.getJSONArray("data");
         for (int i = 0; i < postsArray.length() - 1; i++) {
             JSONObject post = (JSONObject) postsArray.get(i);
