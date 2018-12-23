@@ -1,6 +1,9 @@
 package com.huji.cse.flatfinder;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
@@ -15,22 +18,30 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.huji.cse.flatfinder.Parser.Parser;
+import com.huji.cse.flatfinder.db.entity.FacebookPost;
+import com.huji.cse.flatfinder.viewmodel.PostViewModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.Arrays;
-
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 
 
 public class MainActivity extends AppCompatActivity {
     CallbackManager callbackManager;
     private JSONObject facebookPosts;
+    private PostViewModel mViewModel;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        mViewModel = ViewModelProviders.of(this).get(PostViewModel.class);
         callbackManager = CallbackManager.Factory.create();
 
         LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("groups_access_member_info"));
@@ -63,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                         facebookPosts = object;
                         System.out.println(facebookPosts);
                         try {
-                            Parser.parse(object);
+                            parser.parse(object, mViewModel);
                         } catch (JSONException e) {
 
                         }
@@ -71,11 +82,19 @@ public class MainActivity extends AppCompatActivity {
                 });
         request.setGraphPath(getString(R.string.path_of_facebook_group_with_filters));
         request.executeAsync();
+        mViewModel.getAllPosts().observe(this, new Observer<List<FacebookPost>>() {
+            @Override
+            public void onChanged(@Nullable List<FacebookPost> facebookPosts) {
+
+            }
+        });
         Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
     }
 
-    private void showToastWithInputMassage(String massage) {
+
+
+private void showToastWithInputMassage(String massage) {
         Context context = getApplicationContext();
         CharSequence text = massage;
         int duration = Toast.LENGTH_LONG;

@@ -5,28 +5,17 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import java.util.Date;
+import android.support.annotation.NonNull;
 
 /***
- * an entity for holding a single post from facebook
+ * an entity for holding a single post from facebook in post_database
  */
 @Entity(tableName = "post_database")
 public class FacebookPost implements Parcelable {
 
-    @PrimaryKey(autoGenerate = true)
-    private int keyId;
-
-    @ColumnInfo(name = "post_id")
-    private String id;
-
-    @ColumnInfo(name = "post_time_created")
-    private long created_time;
-
-    public FacebookPost(int keyId, String id, long created_time, String message, String name,
+    public FacebookPost(String id, String created_time, String message, String name,
                         String nameID, String picture, float GPSlat, float GPSlong, long price,
                         long numOfRoommates, boolean favorite, String address) {
-        this.keyId = keyId;
         this.id = id;
         this.created_time = created_time;
         this.message = message;
@@ -41,45 +30,51 @@ public class FacebookPost implements Parcelable {
         this.address = address;
     }
 
+    /*the primary key of the database, containg the groups id and the post_id*/
+    @NonNull
+    @PrimaryKey
+    @ColumnInfo(name = "post_id")
+    private String id;
+    /*the time the post created*/
+    @ColumnInfo(name = "post_time_created")
+    private String created_time;
+    /*the content of the post*/
     @ColumnInfo(name = "post_message")
     private String message;
-
+    /*the username (full name) of the account created the post*/
     @ColumnInfo(name = "post_username")
     private String name;
-
+    /*the username (id number) of the account created the post*/
     @ColumnInfo(name = "post_username_id")
     private String nameID;
-
+    /*a link to a picture in the post*/
     @ColumnInfo(name = "post_pictures")
     private String picture;
-
+    /*the gps lat coordination of the post*/
     @ColumnInfo(name = "gps_lat")
     private float GPSlat;
-
+    /*the gps long coordination of the post*/
     @ColumnInfo(name = "gps_long")
     private float GPSlong;
-
+    /*the price of the appartment*/
     @ColumnInfo(name = "flat_price")
     private long price;
-
+    /*number of roomates in the apartments*/
     @ColumnInfo(name = "number_of_roommates")
     private long numOfRoommates;
-
+    /*is the flat marked as favorite by the user*/
     @ColumnInfo(name = "favorite_post")
     private boolean favorite;
-
+    /*the full flat address*/
     @ColumnInfo(name = "flat_address")
     private String address;
 
-    public int getKeyId() {
-        return keyId;
-    }
-
+    /*** object getters ***/
     public String getId() {
         return id;
     }
 
-    public long getCreated_time() {
+    public String getCreated_time() {
         return created_time;
     }
 
@@ -111,9 +106,6 @@ public class FacebookPost implements Parcelable {
         return price;
     }
 
-    public void setFavorite(boolean favorite) {
-        this.favorite = favorite;
-    }
 
     public long getNumOfRoommates() {
         return numOfRoommates;
@@ -126,18 +118,21 @@ public class FacebookPost implements Parcelable {
     public String getAddress() {
         return address;
     }
+/*** object setters ***/
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
+    }
 
     @Override
     public int describeContents() {
 
         return 0;
     }
-
+/*** function that make the object  parcelable ***/
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.keyId);
         dest.writeString(this.id);
-        dest.writeLong(this.created_time);
+        dest.writeString(this.created_time);
         dest.writeString(this.message);
         dest.writeString(this.name);
         dest.writeString(this.nameID);
@@ -151,9 +146,8 @@ public class FacebookPost implements Parcelable {
     }
 
     protected FacebookPost(Parcel in) {
-        this.keyId = in.readInt();
         this.id = in.readString();
-        this.created_time = in.readLong();
+        this.created_time = in.readString();
         this.message = in.readString();
         this.name = in.readString();
         this.nameID = in.readString();

@@ -1,17 +1,20 @@
 package com.huji.cse.flatfinder.Parser;
 
 
+import android.support.v7.app.AppCompatActivity;
+
 import com.huji.cse.flatfinder.db.entity.FacebookPost;
+import com.huji.cse.flatfinder.viewmodel.PostViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Parser {
+public class Parser extends AppCompatActivity {
+
 
     private static final String idKey="id";
     private static final String createdTimeKey="created_time";
@@ -24,16 +27,18 @@ public class Parser {
      * @param allPosts - all of the posts in the group
      * @throws JSONException
      */
-    public static void parse(JSONObject allPosts) throws JSONException {
+    public void parse(JSONObject allPosts, PostViewModel mViewModel) throws JSONException {
+        this.mViewModel = mViewModel;
         JSONArray postsArray = allPosts.getJSONArray("data");
         for (int i = 0; i < postsArray.length() - 1; i++) {
             JSONObject post = (JSONObject) postsArray.get(i);
-
+            String postId = post.getString(idKey);
+            /*checks if the post exists in the database*/
+            if( mViewModel.isPostExists(postId) != 0)
+                continue;
             String fullMessage = post.getString(messageKey);
             String createdTime = post.getString(createdTimeKey);
-            String postId = post.getString(idKey);
             String address = getAddress(fullMessage);
-
             String userName="",picture="";
             if (post.has(nameKey)) {
                 String nameString = post.getString(nameKey);
@@ -57,9 +62,9 @@ public class Parser {
     private static void createFacebookPostObject(String fullMessage, String userName, String picture,
                                           String address, long price, long numOfRommates,
                                           String createdTime, String postId) {
-        FacebookPost newPost = new FacebookPost(0, postId, 0, fullMessage, userName,
+        FacebookPost newPost = new FacebookPost(postId, createdTime, fullMessage, userName,
                 null, picture, 0, 0, price, numOfRommates, false, address);
-
+        mViewModel.insert(newPost);
     }
 
     private static String getUserName(String nameString) {
@@ -101,4 +106,6 @@ public class Parser {
         }
         return output;
     }
+
+
 }
