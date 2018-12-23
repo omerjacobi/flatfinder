@@ -19,8 +19,6 @@ public class Parser {
     private static final String nameKey="name";
     private static final String pictureKey="full_picture";
 
-//    public Parser() {}
-
     /**
      * parsers through all of the groups' listing and creates a facebook post object for the database
      * @param allPosts - all of the posts in the group
