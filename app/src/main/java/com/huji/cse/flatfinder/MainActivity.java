@@ -3,6 +3,8 @@ package com.huji.cse.flatfinder;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,33 +29,45 @@ import com.huji.cse.flatfinder.viewmodel.PostViewModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.Arrays;
 
 
 public class MainActivity extends AppCompatActivity {
     CallbackManager callbackManager;
-    private JSONObject facebookPosts;
     private PostViewModel mViewModel;
     Handler timerHandler = new Handler();
     Runnable timerRunnable = new Runnable() {
         @Override
         public void run() {
-            Button continueButton=findViewById(R.id.continueButton);
-            if(isLoggedIn())
+            Button continueButton = findViewById(R.id.continueButton);
+            if (isLoggedIn())
                 continueButton.setVisibility(View.VISIBLE);
             else
                 continueButton.setVisibility(View.INVISIBLE);
-          timerHandler.postDelayed(this, 500);
-     }
-  };
+            timerHandler.postDelayed(this, 500);
+        }
+    };
 
 
-        @Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mViewModel = ViewModelProviders.of(this).get(PostViewModel.class);
         timerHandler.postDelayed(timerRunnable, 0);
+        loadImage(R.id.privacyButton, R.drawable.lock);
+        loadImage(R.id.logo,R.drawable.logo);
+        loadImage(R.id.undertext,R.drawable.undertext);
+    }
+
+    private void loadImage(int viewID, int imageID) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 3;
+        options.inJustDecodeBounds = false;
+        Bitmap smallBitmap = BitmapFactory.decodeResource(getResources(), imageID);
+        ImageView lock = findViewById(viewID);
+        lock.setImageBitmap(smallBitmap);
     }
 
 
@@ -78,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void showToastWithInputMessage(String message){
+    private void showToastWithInputMessage(String message) {
         Context context = getApplicationContext();
         int duration = Toast.LENGTH_LONG;
 
@@ -92,13 +106,14 @@ public class MainActivity extends AppCompatActivity {
         callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
     }
+
     public void showPrivacyMessage(View view) {
-        ImageView lockImage=findViewById(R.id.privacyButton);
-        float y=lockImage.getY();
+        ImageView lockImage = findViewById(R.id.privacyButton);
+        float y = lockImage.getY();
         Toast toast = Toast.makeText(getApplicationContext(),
                 R.string.privacy_message,
-                (4*(Toast.LENGTH_LONG)));
-        toast.setGravity(Gravity.TOP,0,(int)(3*y));
+                (4 * (Toast.LENGTH_LONG)));
+        toast.setGravity(Gravity.TOP, 0, (int) (3 * y));
 
         toast.show();
     }
@@ -109,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void logInClicked(View view) {
-        if(isLoggedIn()){
+        if (isLoggedIn()) {
             return;
         }
         callbackManager = CallbackManager.Factory.create();

@@ -34,7 +34,7 @@
         android:onClick="showPrivacyMessage"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/lock" />
+         />
 
     <ImageView
         android:id="@+id/logo"
@@ -47,7 +47,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
+         />
 
     <ImageView
         android:id="@+id/undertext"
@@ -61,7 +61,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logo"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/undertext" />
+         />
 
     <Button
         android:id="@+id/continueButton"
