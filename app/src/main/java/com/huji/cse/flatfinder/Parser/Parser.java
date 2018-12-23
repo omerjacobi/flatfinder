@@ -11,7 +11,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Parser extends AppCompatActivity {
     private static PostViewModel mViewModel;
@@ -53,16 +52,16 @@ public class Parser extends AppCompatActivity {
             numOfRoommates = getLongField(fullMessage, matcher);
 
             createFacebookPostObject(fullMessage, userName, picture, address, price, numOfRoommates,
-                    createdTime, postId);
+                    createdTime, postId, mViewModel);
         }
     }
 
     private static void createFacebookPostObject(String fullMessage, String userName, String picture,
-                                          String address, long price, long numOfRommates,
-                                          String createdTime, String postId) {
+                                                 String address, long price, long numOfRommates,
+                                                 String createdTime, String postId, PostViewModel viewModel) {
         FacebookPost newPost = new FacebookPost(postId, createdTime, fullMessage, userName,
                 null, picture, 0, 0, price, numOfRommates, false, address);
-        mViewModel.insert(newPost);
+        viewModel.insert(newPost);
     }
 
     private static String getUserName(String nameString) {
