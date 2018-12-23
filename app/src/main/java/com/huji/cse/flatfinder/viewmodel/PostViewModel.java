@@ -10,6 +10,10 @@ import com.huji.cse.flatfinder.db.dao.PostDao;
 import com.huji.cse.flatfinder.db.entity.FacebookPost;
 
 import java.util.List;
+
+import io.reactivex.Flowable;
+import io.reactivex.Single;
+
 /**
  * a viewmodel that provide data to the UI in a lifecycle-conscious way
  */
@@ -39,9 +43,14 @@ public class PostViewModel extends AndroidViewModel {
         return mPostDao.getAllPostInLocation(minLat, maxLat,minLong,maxLong);
     }
 
-    LiveData<List<FacebookPost>> getAllPosts()
+    public LiveData<List<FacebookPost>> getAllPosts()
     {
         return mPostDao.getAllPosts();
+    }
+
+    public int isPostExists(String postId)
+    {
+         return mPostDao.isPostExiset(postId);
     }
 
     LiveData<List<FacebookPost>> getAllPostWithLessRoommates(long maxRoommates)

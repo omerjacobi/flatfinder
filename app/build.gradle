@@ -34,6 +34,12 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'com.facebook.android:facebook-login:[4,5)'
     implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
+// RxJava support for Room
+    implementation 'android.arch.persistence.room:rxjava2:1.0.0-alpha5'
+// Testing support
+    androidTestImplementation 'android.arch.core:core-testing:1.0.0-alpha5'
+
+
 
 
 
