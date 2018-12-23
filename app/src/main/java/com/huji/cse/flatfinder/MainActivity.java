@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                 });
         request.setGraphPath(getString(R.string.path_of_facebook_group_with_filters));
         request.executeAsync();
-        Intent intent = new Intent(this, MapsActivity.class);
+        Intent intent = new Intent(this, flat_info.class);
         startActivity(intent);
     }
 
@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void continueClick(View view) {
-        Intent intent = new Intent(this, MapsActivity.class);
+        Intent intent = new Intent(this, flat_info.class);
         startActivity(intent);
     }
 }

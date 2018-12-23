@@ -7,61 +7,65 @@
     android:background="@drawable/pop_up"
     tools:context=".flat_info">
 
+    <ScrollView
+        android:id="@+id/apartment_picture"
+        android:layout_width="368dp"
+        android:layout_height="179dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/pic1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+    </ScrollView>
+
     <TextView
         android:id="@+id/apartment_price"
-        android:layout_width="368dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="8dp"
-        android:text="price"
-        android:textColor="@color/darkGreenFromTamplate"
+        android:layout_width="246dp"
+        android:layout_height="38dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.405"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/apartment_address" />
 
     <TextView
         android:id="@+id/apartment_post"
-        android:layout_width="368dp"
-        android:layout_height="48dp"
+        android:layout_width="240dp"
+        android:layout_height="37dp"
         android:layout_marginTop="8dp"
-        android:text="post"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.388"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/apartment_price"
-        tools:textColor="@color/darkGreenFromTamplate" />
+        app:layout_constraintTop_toBottomOf="@+id/apartment_price" />
 
-    <ScrollView
-        android:id="@+id/apartment_picture"
-        android:layout_width="368dp"
-        android:layout_height="179dp"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
-    </ScrollView>
 
     <TextView
         android:id="@+id/apartment_address"
-        android:layout_width="368dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="8dp"
-        android:text="address"
+        android:layout_width="152dp"
+        android:layout_height="39dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/apartment_picture"
-        tools:textColor="@color/darkGreenFromTamplate" />
+        app:layout_constraintTop_toBottomOf="@+id/apartment_picture" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="20dp" />
+        app:layout_constraintGuide_percent="0.052083332" />
 
     <android.support.constraint.Barrier
         android:id="@+id/barrier"
@@ -73,24 +77,69 @@
         android:id="@+id/backToMainMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:clickable="true"
         android:src="?attr/homeAsUpIndicator"
-        app:backgroundTint="@color/lightGreenFromTamplate"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="0dp" />
 
     <TextView
         android:id="@+id/ContactFacebook"
-        android:layout_width="347dp"
-        android:layout_height="72dp"
+        android:layout_width="108dp"
+        android:layout_height="37dp"
+        android:layout_marginBottom="16dp"
+        android:background="@color/colorPrimaryDark"
         android:gravity="center"
-        android:text="Contact the apartment"
+        android:text="Contact"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.922"
         app:layout_constraintStart_toStartOf="parent"
-        tools:background="@color/lightGreenFromTamplate"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="432dp" />
+        tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/plant"
+        android:layout_width="104dp"
+        android:layout_height="118dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="5dp"
+        android:src="@drawable/ic_plant"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/barrier"
+        app:layout_constraintHorizontal_bias="0.716"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/favoriteUnselected"
+        android:layout_width="44dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:onClick="selectFavorite"
+        app:layout_constraintBottom_toTopOf="@+id/apartment_address"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.973"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/favoriteSelected"
+        android:layout_width="46dp"
+        android:layout_height="86dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:visibility="invisible"
+        android:onClick="unselectFavorite"
+        app:layout_constraintBottom_toTopOf="@+id/apartment_address"
+        app:layout_constraintEnd_toEndOf="@+id/barrier"
+        app:layout_constraintHorizontal_bias="0.97"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
 </android.support.constraint.ConstraintLayout>
