@@ -7,25 +7,10 @@
     android:background="@color/colorPrimary"
     tools:context=".flat_info">
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/backToMainMenu"
-        android:layout_width="53dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="16dp"
-        android:clickable="true"
-        android:src="?attr/homeAsUpIndicator"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="0dp" />
-
     <ScrollView
         android:id="@+id/apartment_picture"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
         android:background="@color/colorAccent"
         app:layout_constraintBottom_toTopOf="@+id/screen_split"
         app:layout_constraintEnd_toEndOf="parent"
@@ -79,8 +64,7 @@
             android:layout_marginEnd="8dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Button"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.51"
-            app:layout_constraintStart_toStartOf="@+id/text_split"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -88,22 +72,23 @@
             android:layout_width="0dp"
             android:layout_height="27dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="12dp"
             android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.428"
-            app:layout_constraintStart_toStartOf="@+id/text_split"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/priceTag"
             app:layout_constraintTop_toBottomOf="@+id/apartment_address" />
 
         <TextView
             android:id="@+id/apartment_roommates"
             android:layout_width="0dp"
-            android:layout_height="38dp"
-            android:layout_marginStart="8dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="14dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/text_split"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/roommateTag"
             app:layout_constraintTop_toBottomOf="@+id/apartment_price" />
         <!--app:layout_constraintStart_toEndOf="@+id/guideline2"-->
         app:layout_constraintTop_toBottomOf="@+id/apartment_price" />
@@ -111,20 +96,21 @@
         <ScrollView
             android:id="@+id/apartment_info"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="149dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.148"
-            app:layout_constraintStart_toStartOf="@+id/text_split"
-            app:layout_constraintTop_toBottomOf="@+id/apartment_roommates">
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/messageTag"
+            app:layout_constraintTop_toBottomOf="@+id/apartment_roommates"
+            app:layout_constraintVertical_bias="0.0">
 
             <TextView
                 android:id="@+id/apartment_post"
-                android:layout_width="245dp"
-                android:layout_height="93dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="28dp"
@@ -142,12 +128,13 @@
             android:layout_width="0dp"
             android:layout_height="29dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="60dp"
             android:layout_marginEnd="8dp"
             android:fontFamily="@font/benchnine"
             android:text="PRICE"
             android:textSize="14sp"
             app:layout_constraintEnd_toStartOf="@+id/text_split"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -156,7 +143,7 @@
             android:layout_width="0dp"
             android:layout_height="28dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:fontFamily="@font/benchnine"
             android:text="ROOMATES"
@@ -170,7 +157,6 @@
             android:layout_width="0dp"
             android:layout_height="33dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:fontFamily="@font/benchnine"
@@ -214,7 +200,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.2" />
+            app:layout_constraintGuide_percent="0.25" />
     </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.Guideline
