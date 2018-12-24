@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
-import android.support.design.widget.FloatingActionButton;
+//import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -24,10 +24,6 @@ public class flat_info extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flat_info);
-
-        loadImage(R.id.favoriteSelected,R.drawable.glowfillheart);
-        loadImage(R.id.favoriteUnselected,R.drawable.noglowheart);
-//        loadImage(R.id.pic1,R.drawable.room);
         fillContent();
 
 //        FloatingActionButton  backToMainMenu = findViewById(R.id.backToMainMenu);
@@ -57,6 +53,10 @@ public class flat_info extends Activity {
     }
 
     private void fillContent() {
+        loadImage(R.id.pic1,R.drawable.room);
+        loadImage(R.id.favoriteSelected,R.drawable.glowfillheart);
+        loadImage(R.id.favoriteUnselected,R.drawable.noglowheart);
+
         //image
         ImageView apartmentPic = findViewById(R.id.pic1);
 //        Drawable pic = getDrawable(R.drawable.room);
@@ -70,7 +70,11 @@ public class flat_info extends Activity {
         TextView apartment_price = findViewById(R.id.apartment_price);
         apartment_price.setText("2100 nis");
 
-        //post messge
+        //number of roomates
+        TextView rommates=findViewById(R.id.apartment_roommates);
+        rommates.setText("3");
+
+        //post message
         TextView apartment_post = findViewById(R.id.apartment_post);
         apartment_post.setText("hey looking for a new roommate for my awesome apartemnt." +
                 " \n price:250 nis\n address: azza 30 Jerusalem\n number of roommates: 2");
