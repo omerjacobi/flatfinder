@@ -55,7 +55,7 @@ public class flat_info extends Activity {
     private void fillContent() {
         loadImage(R.id.pic1,R.drawable.room);
         loadImage(R.id.favoriteSelected,R.drawable.glowfillheart);
-        loadImage(R.id.favoriteUnselected,R.drawable.noglowheart);
+//        loadImage(R.id.favoriteUnselected,R.drawable.noglowheart);
 
         //image
         ImageView apartmentPic = findViewById(R.id.pic1);
@@ -87,8 +87,8 @@ public class flat_info extends Activity {
     public void selectFavorite(View view) {
         ImageView selectFavorite=findViewById(R.id.favoriteSelected);
         selectFavorite.setVisibility(View.VISIBLE);
-        ImageView unselectFavorite=findViewById(R.id.favoriteUnselected);
-        unselectFavorite.setVisibility(View.INVISIBLE);
+//        ImageView unselectFavorite=findViewById(R.id.favoriteUnselected);
+//        unselectFavorite.setVisibility(View.INVISIBLE);
 
         //todo select favorite
     }
@@ -96,8 +96,8 @@ public class flat_info extends Activity {
     public void unselectFavorite(View view) {
         ImageView selectFavorite=findViewById(R.id.favoriteSelected);
         selectFavorite.setVisibility(View.INVISIBLE);
-        ImageView unselectFavorite=findViewById(R.id.favoriteUnselected);
-        unselectFavorite.setVisibility(View.VISIBLE);
+//        ImageView unselectFavorite=findViewById(R.id.favoriteUnselected);
+//        unselectFavorite.setVisibility(View.VISIBLE);
 
         //todo un-select favorite
     }
