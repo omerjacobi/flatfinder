@@ -84,8 +84,8 @@
 
         <TextView
             android:id="@+id/apartment_roommates"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
+            android:layout_width="273dp"
+            android:layout_height="26dp"
             android:layout_marginStart="14dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
