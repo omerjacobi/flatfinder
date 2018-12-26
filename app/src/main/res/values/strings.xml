@@ -11,4 +11,14 @@
     <string name="inmap_roommates_view">Roommates amount: %1$s</string>
     <string name="inmap_address_view">Address: %1$s</string>
     <string name="privacy_message">Facebook Privacy - We only access rental listings, nothing else</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Filter_button">Filter</string>
+    <string name="TextViewPriceSlider">Max price</string>
+    <string name="TextViewRoommateSlider">Max roommate number</string>
+    <string name="TextViewDistance">Max Kilomaters from selected location</string>
+
+    <string name="DoneButtonText">Done</string>
+
 </resources>

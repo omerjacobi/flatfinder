@@ -3,6 +3,7 @@ package com.huji.cse.flatfinder;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.location.Geocoder;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     CallbackManager callbackManager;
     private JSONObject facebookPosts;
     private PostViewModel mViewModel;
+    private Geocoder geocoder;
     Handler timerHandler = new Handler();
     Runnable timerRunnable = new Runnable() {
         @Override
@@ -53,12 +55,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mViewModel = ViewModelProviders.of(this).get(PostViewModel.class);
+        geocoder = new Geocoder(this);
         timerHandler.postDelayed(timerRunnable, 0);
     }
 
 
-    private void getPostsInGraph(LoginResult loginResult) {
-        AccessToken token = loginResult.getAccessToken();
+    private void getPostsInGraph(AccessToken token) {
         GraphRequest request = GraphRequest.newMeRequest(
                 token,
                 new GraphRequest.GraphJSONObjectCallback() {
@@ -66,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onCompleted(JSONObject object, GraphResponse response) {
                         JSONObject facebookPosts = object;
                         try {
-                            Parser.parse(object, mViewModel);
+                            Parser.parse(object, mViewModel,geocoder);
                         } catch (JSONException e) {
 
                         }
@@ -119,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
-                        getPostsInGraph(loginResult);
+                        getPostsInGraph(loginResult.getAccessToken());
                     }
 
                     @Override
@@ -135,7 +137,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void continueClick(View view) {
-        Intent intent = new Intent(this, MapsActivity.class);
-        startActivity(intent);
+            getPostsInGraph(AccessToken.getCurrentAccessToken());
     }
 }

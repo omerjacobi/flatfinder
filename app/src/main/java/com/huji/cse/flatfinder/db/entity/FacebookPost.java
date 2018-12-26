@@ -14,7 +14,7 @@ import android.support.annotation.NonNull;
 public class FacebookPost implements Parcelable {
 
     public FacebookPost(String id, String created_time, String message, String name,
-                        String nameID, String picture, float GPSlat, float GPSlong, long price,
+                        String nameID, String picture, double GPSlat, double GPSlong, long price,
                         long numOfRoommates, boolean favorite, String address) {
         this.id = id;
         this.created_time = created_time;
@@ -29,6 +29,8 @@ public class FacebookPost implements Parcelable {
         this.favorite = favorite;
         this.address = address;
     }
+
+
 
     /*the primary key of the database, containg the groups id and the post_id*/
     @NonNull
@@ -52,10 +54,10 @@ public class FacebookPost implements Parcelable {
     private String picture;
     /*the gps lat coordination of the post*/
     @ColumnInfo(name = "gps_lat")
-    private float GPSlat;
+    private double GPSlat;
     /*the gps long coordination of the post*/
     @ColumnInfo(name = "gps_long")
-    private float GPSlong;
+    private double GPSlong;
     /*the price of the appartment*/
     @ColumnInfo(name = "flat_price")
     private long price;
@@ -94,11 +96,11 @@ public class FacebookPost implements Parcelable {
         return picture;
     }
 
-    public float getGPSlat() {
+    public double getGPSlat() {
         return GPSlat;
     }
 
-    public float getGPSlong() {
+    public double getGPSlong() {
         return GPSlong;
     }
 
@@ -137,8 +139,8 @@ public class FacebookPost implements Parcelable {
         dest.writeString(this.name);
         dest.writeString(this.nameID);
         dest.writeString(this.picture);
-        dest.writeFloat(this.GPSlat);
-        dest.writeFloat(this.GPSlong);
+        dest.writeDouble(this.GPSlat);
+        dest.writeDouble(this.GPSlong);
         dest.writeLong(this.price);
         dest.writeLong(this.numOfRoommates);
         dest.writeByte(this.favorite ? (byte) 1 : (byte) 0);

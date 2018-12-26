@@ -46,6 +46,12 @@ public class PostViewModel extends AndroidViewModel {
         return mPostDao.getAllPosts();
     }
 
+    public LiveData<List<FacebookPost>> getPostsFiltered(double minLat, double maxLat, double minLong,
+                                                         double maxLong, long maxPrice, long maxRoommates)
+    {
+        return mPostDao.getPostAfterFilter( minLat,  maxLat,  minLong,  maxLong,  maxPrice,  maxRoommates);
+    }
+
     public int isPostExists(String postId)
     {
          return mPostDao.isPostExiset(postId);
