@@ -8,6 +8,8 @@
     tools:context=".FilterActivity">
 
 
+
+
     <SeekBar
         android:id="@+id/seekBarPrice"
         android:layout_width="0dp"
@@ -154,5 +156,24 @@
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/place_autocomplete_fragment" />
+
+    <Switch
+        android:id="@+id/OnlyFavorites"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toEndOf="@+id/OnlyFavoritesTextView"
+        app:layout_constraintTop_toBottomOf="@+id/seekBarDistance" />
+
+    <TextView
+        android:id="@+id/OnlyFavoritesTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="Show only Favorites"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/DistnaceTextView" />
 
 </android.support.constraint.ConstraintLayout>

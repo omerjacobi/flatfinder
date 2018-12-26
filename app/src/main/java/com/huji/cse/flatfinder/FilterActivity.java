@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.google.android.gms.common.api.Status;
@@ -179,6 +180,8 @@ public class FilterActivity extends AppCompatActivity {
 
         int priceValue = priceSeekBar.getProgress();
         int rooommateValue = roommateSeekBar.getProgress();
+        Switch favoriteSwitch = findViewById(R.id.OnlyFavorites);
+        b.putBoolean("onlyFavorites",favoriteSwitch.isChecked());
         b.putInt("priceValue", priceValue);
         b.putInt("roommateValue", rooommateValue);
         i.putExtra("filterValues",b);
@@ -196,20 +199,15 @@ public class FilterActivity extends AppCompatActivity {
      */
     private void CalculateFilterSearchAreaBoundary(Bundle b) {
         int distanceValue = distanceSeekBar.getProgress();
-        double minLong = -180;
-        double maxLong = 180;
-        double minLat = -90;
-        double maxLat = 90;
         if (selectedPlace!= null) {
             LatLng centerCoordination = selectedPlace.getLatLng();
-            minLong = SphericalUtil.computeOffset(centerCoordination, distanceValue, 270).longitude;
-            maxLong = SphericalUtil.computeOffset(centerCoordination, distanceValue, 90).longitude;
-            minLat = SphericalUtil.computeOffset(centerCoordination, distanceValue, 180).latitude;
-            maxLat = SphericalUtil.computeOffset(centerCoordination, distanceValue, 0).latitude;
+            b.putBoolean("filterDistance", true);
+            b.putDouble("minLong", SphericalUtil.computeOffset(centerCoordination, distanceValue, 270).longitude);
+            b.putDouble("maxLong", SphericalUtil.computeOffset(centerCoordination, distanceValue, 90).longitude);
+            b.putDouble("minLat", SphericalUtil.computeOffset(centerCoordination, distanceValue, 180).latitude);
+            b.putDouble("maxLat", SphericalUtil.computeOffset(centerCoordination, distanceValue, 0).latitude);
         }
-        b.putDouble("minLong",minLong);
-        b.putDouble("maxLong",maxLong);
-        b.putDouble("minLat",minLat);
-        b.putDouble("maxLat",maxLat);
+        else
+            b.putBoolean("filterDistance", false);
     }
 }

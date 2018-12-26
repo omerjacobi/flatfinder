@@ -60,12 +60,17 @@ public class MapsActivity
         if (extrasBundle!= null && !extrasBundle.isEmpty()){
             int MaxPriceValue = extrasBundle.getInt("priceValue");
             int MaxRoommateValue = extrasBundle.getInt("roommateValue");
-            double minLat = extrasBundle.getDouble("minLat");
-            double maxLat = extrasBundle.getDouble("maxLat");
-            double minLong = extrasBundle.getDouble("minLong");
-            double maxLong = extrasBundle.getDouble("maxLong");
+            boolean onlyFavorites = extrasBundle.getBoolean("onlyFavorites");
+            double minLat = 0, maxLat = 0, minLong = 0, maxLong = 0 ;
+            boolean filterDistance = extrasBundle.getBoolean("filterDistance");
+            if (filterDistance) {
+                minLat = extrasBundle.getDouble("minLat");
+                maxLat = extrasBundle.getDouble("maxLat");
+                minLong = extrasBundle.getDouble("minLong");
+                maxLong = extrasBundle.getDouble("maxLong");
+            }
             mPostViewModel.getPostsFiltered(minLat,maxLat,minLong,maxLong,
-                    MaxPriceValue,MaxRoommateValue).observe(this, new Observer<List<FacebookPost>>() {
+                    MaxPriceValue,MaxRoommateValue,filterDistance,onlyFavorites).observe(this, new Observer<List<FacebookPost>>() {
                 @Override
                 public void onChanged(@Nullable List<FacebookPost> facebookPosts) {
                     if (facebookPosts!= null && facebookPosts.size() > 0) {
