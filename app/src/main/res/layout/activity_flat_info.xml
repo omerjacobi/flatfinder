@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    tools:context=".flat_info">
+    tools:context=".FlatInfoActivity">
 
     <ScrollView
         android:id="@+id/apartment_picture"
@@ -94,18 +94,7 @@
         android:layout_height="wrap_content"
         app:barrierDirection="left" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/backToMainMenu"
-        android:layout_width="53dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="16dp"
-        android:clickable="true"
-        android:src="?attr/homeAsUpIndicator"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="0dp" />
-
-    <TextView
+    <Button
         android:id="@+id/ContactFacebook"
         android:layout_width="108dp"
         android:layout_height="37dp"
@@ -131,36 +120,52 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView
-        android:id="@+id/favoriteUnselected"
+    <ImageButton
+        android:id="@+id/favorite_button"
         android:layout_width="44dp"
         android:layout_height="75dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:onClick="selectFavorite"
+        android:onClick="changeFavoriteStatus"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toTopOf="@+id/apartment_address"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintHorizontal_bias="0.973"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        />
+    <!--<ImageView-->
+        <!--android:id="@+id/favoriteUnselected"-->
+        <!--android:layout_width="44dp"-->
+        <!--android:layout_height="75dp"-->
+        <!--android:layout_marginStart="8dp"-->
+        <!--android:layout_marginEnd="8dp"-->
+        <!--android:layout_marginBottom="8dp"-->
+        <!--android:visibility="invisible"-->
+        <!--app:layout_constraintBottom_toTopOf="@+id/apartment_address"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintHorizontal_bias="0.973"-->
+        <!--app:layout_constraintStart_toStartOf="@+id/guideline"-->
+        <!--app:layout_constraintTop_toTopOf="parent"-->
+        <!--app:layout_constraintVertical_bias="0.0" />-->
 
-    <ImageView
-        android:id="@+id/favoriteSelected"
-        android:layout_width="40dp"
-        android:layout_height="66dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:onClick="unselectFavorite"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/apartment_address"
-        app:layout_constraintEnd_toEndOf="@+id/barrier"
-        app:layout_constraintHorizontal_bias="0.957"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.056" />
+    <!--<ImageView-->
+        <!--android:id="@+id/favoriteSelected"-->
+        <!--android:layout_width="40dp"-->
+        <!--android:layout_height="66dp"-->
+        <!--android:layout_marginStart="8dp"-->
+        <!--android:layout_marginEnd="8dp"-->
+        <!--android:layout_marginBottom="8dp"-->
+        <!--android:visibility="invisible"-->
+        <!--app:layout_constraintBottom_toTopOf="@+id/apartment_address"-->
+        <!--app:layout_constraintEnd_toEndOf="@+id/barrier"-->
+        <!--app:layout_constraintHorizontal_bias="0.957"-->
+        <!--app:layout_constraintStart_toStartOf="@+id/guideline"-->
+        <!--app:layout_constraintTop_toTopOf="parent"-->
+        <!--app:layout_constraintVertical_bias="0.056" />-->
 
     <TextView
         android:id="@+id/priceTag"
@@ -185,7 +190,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginEnd="8dp"
         android:fontFamily="@font/benchnine"
-        android:text="ROOMATES"
+        android:text="ROOMMATES"
         android:textSize="14sp"
         app:layout_constraintEnd_toStartOf="@+id/apartment_roommates"
         app:layout_constraintHorizontal_bias="0.0"

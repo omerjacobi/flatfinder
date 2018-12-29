@@ -1,29 +1,33 @@
 package com.huji.cse.flatfinder;
 
-import android.app.Activity;
+import android.arch.lifecycle.ViewModelProviders;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 //import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.view.Gravity;
-import android.view.TextureView;
 import android.view.View;
-import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import com.huji.cse.flatfinder.db.entity.FacebookPost;
+import com.huji.cse.flatfinder.viewmodel.PostViewModel;
 
-public class flat_info extends Activity {
+public class FlatInfoActivity extends FragmentActivity {
+
+    private FacebookPost mFacebookPost;
+    private PostViewModel mPostViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flat_info);
+
+        mPostViewModel = ViewModelProviders.of(this).get(PostViewModel.class);
+        Bundle bundle = getIntent().getBundleExtra(Constants.BUNDLE_KEY);
+        mFacebookPost = bundle.getParcelable(Constants.FACEBOOK_KEY);
+
         fillContent();
 
 //        FloatingActionButton  backToMainMenu = findViewById(R.id.backToMainMenu);
@@ -54,8 +58,6 @@ public class flat_info extends Activity {
 
     private void fillContent() {
         loadImage(R.id.pic1,R.drawable.room);
-        loadImage(R.id.favoriteSelected,R.drawable.glowfillheart);
-        loadImage(R.id.favoriteUnselected,R.drawable.noglowheart);
 
         //image
         ImageView apartmentPic = findViewById(R.id.pic1);
@@ -64,41 +66,51 @@ public class flat_info extends Activity {
 
         //address
         TextView apartment_address = findViewById(R.id.apartment_address);
-        apartment_address.setText("Azza 23, Jerusalem");
+        apartment_address.setText(mFacebookPost.getAddress());
 
         //price
         TextView apartment_price = findViewById(R.id.apartment_price);
-        apartment_price.setText("2100 nis");
+        apartment_price.setText(String.valueOf(mFacebookPost.getPrice()));
 
         //number of roomates
         TextView rommates=findViewById(R.id.apartment_roommates);
-        rommates.setText("3");
+        rommates.setText(String.valueOf(mFacebookPost.getNumOfRoommates()));
 
         //post message
         TextView apartment_post = findViewById(R.id.apartment_post);
-        apartment_post.setText("hey looking for a new roommate for my awesome apartemnt." +
-                " \n price:250 nis\n address: azza 30 Jerusalem\n number of roommates: 2");
+        apartment_post.setText(mFacebookPost.getMessage());
 
         //contact button
         TextView ContactFacebook = findViewById(R.id.ContactFacebook);
 
+        viewFavoriteStatus();
+
     }
 
-    public void selectFavorite(View view) {
-        ImageView selectFavorite=findViewById(R.id.favoriteSelected);
-        selectFavorite.setVisibility(View.VISIBLE);
-        ImageView unselectFavorite=findViewById(R.id.favoriteUnselected);
-        unselectFavorite.setVisibility(View.INVISIBLE);
-
-        //todo select favorite
+    public void changeFavoriteStatus(View view) {
+        mFacebookPost.setFavorite(!mFacebookPost.isFavorite());
+        viewFavoriteStatus();
+        updatePostInDB();
     }
 
-    public void unselectFavorite(View view) {
-        ImageView selectFavorite=findViewById(R.id.favoriteSelected);
-        selectFavorite.setVisibility(View.INVISIBLE);
-        ImageView unselectFavorite=findViewById(R.id.favoriteUnselected);
-        unselectFavorite.setVisibility(View.VISIBLE);
+    private void viewFavoriteStatus() {
+        ImageButton imageButton = findViewById(R.id.favorite_button);
+        if (mFacebookPost.isFavorite()) {
+            imageButton.setBackgroundResource(R.drawable.glowfillheart);
+            android.view.ViewGroup.LayoutParams params = imageButton.getLayoutParams();
+            params.height = 66;
+            params.width = 40;
+            imageButton.setLayoutParams(params);
+        } else {
+            imageButton.setBackgroundResource(R.drawable.noglowheart);
+            android.view.ViewGroup.LayoutParams params = imageButton.getLayoutParams();
+            params.height = 75;
+            params.width = 44;
+            imageButton.setLayoutParams(params);
+        }
+    }
 
-        //todo un-select favorite
+    private void updatePostInDB() {
+        mPostViewModel.insert(mFacebookPost);
     }
 }

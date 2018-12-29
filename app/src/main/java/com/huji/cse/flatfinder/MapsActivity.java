@@ -37,12 +37,14 @@ public class MapsActivity
     private InMapApartmentsAdapter mAdapter;
     private ArrayList<Marker> mMarkers;
     private Marker mCurrentlyViewedMarker;
+    private PostViewModel mPostViewModel;
+    private List<FacebookPost> mFacebookPosts;
+
+    private static boolean activityVisible;
 
     private static final float BACKGROUND_MARKER_OPACITY = (float) 0.7;
     private static final float MAIN_MARKER_OPACITY = 1;
     private static final float ZOOM_LEVEL = 14.5f;
-    private PostViewModel mPostViewModel;
-    private List<FacebookPost> mFacebookPosts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +64,9 @@ public class MapsActivity
                     mAdapter.setmApartments(facebookPosts);
                     mAdapter.notifyDataSetChanged();
                     mFacebookPosts = facebookPosts;
-                    refreshMap();
+                    if (activityVisible) {
+                        refreshMap();
+                    }
                 }
 
             }
@@ -78,6 +82,18 @@ public class MapsActivity
         mApartmentsRecyclerView.setLayoutManager(layoutManager);
         SnapHelper snapHelper = new PagerSnapHelper();
         snapHelper.attachToRecyclerView(mApartmentsRecyclerView);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        activityVisible = true;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        activityVisible = false;
     }
 
 
