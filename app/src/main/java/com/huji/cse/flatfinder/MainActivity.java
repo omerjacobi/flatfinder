@@ -3,16 +3,14 @@ package com.huji.cse.flatfinder;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -40,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     Runnable timerRunnable = new Runnable() {
         @Override
         public void run() {
-            Button continueButton = findViewById(R.id.continueButton);
+            TextView continueButton = findViewById(R.id.facebook_contact);
             if (isLoggedIn())
                 continueButton.setVisibility(View.VISIBLE);
             else
@@ -56,18 +54,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mViewModel = ViewModelProviders.of(this).get(PostViewModel.class);
         timerHandler.postDelayed(timerRunnable, 0);
-        loadImage(R.id.privacyButton, R.drawable.lock);
-        loadImage(R.id.logo,R.drawable.logo);
-        loadImage(R.id.undertext,R.drawable.undertext);
-    }
-
-    private void loadImage(int viewID, int imageID) {
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize = 3;
-        options.inJustDecodeBounds = false;
-        Bitmap smallBitmap = BitmapFactory.decodeResource(getResources(), imageID);
-        ImageView lock = findViewById(viewID);
-        lock.setImageBitmap(smallBitmap);
     }
 
 
@@ -150,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void continueClick(View view) {
-        Intent intent = new Intent(this, flat_info.class);
+        Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
     }
 }
