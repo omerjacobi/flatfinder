@@ -90,13 +90,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/text_split"
             app:layout_constraintTop_toBottomOf="@+id/apartment_price" />
-        <!--android:layout_width="235dp"-->
-        <!--android:layout_height="26dp"-->
-        <!--android:layout_marginStart="14dp"-->
-        <!--android:layout_marginTop="12dp"-->
-        <!--android:layout_marginEnd="8dp"-->
-        <!--app:layout_constraintEnd_toEndOf="parent"-->
-        <!--app:layout_constraintHorizontal_bias="1.0"-->
+
 
 
         <ScrollView
@@ -134,41 +128,49 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="75dp" />
+            app:layout_constraintGuide_begin="77dp" />
 
-        <ImageView
+        <TextView
             android:id="@+id/price_tag"
-            android:layout_width="23dp"
+            android:layout_width="42dp"
             android:layout_height="17dp"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="6dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="8dp"
-            android:src="@drawable/ic_pricetag"
+            android:text="price"
+            android:textAppearance="@style/TextAppearance.AppCompat.Button"
+            android:textSize="12sp"
             app:layout_constraintEnd_toStartOf="@+id/text_split"
             app:layout_constraintHorizontal_bias="0.055"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/apartment_price" />
 
-        <ImageView
+        <TextView
             android:id="@+id/roommate_tag"
-            android:layout_width="52dp"
-            android:layout_height="26dp"
+            android:layout_width="65dp"
+            android:layout_height="20dp"
             android:layout_marginStart="6dp"
-            android:layout_marginEnd="8dp"
-            android:src="@drawable/ic_roommatetag"
+            android:layout_marginTop="8dp"
+            android:text="roomates"
+            android:textAlignment="textStart"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Button"
+            android:textSize="12sp"
             app:layout_constraintEnd_toStartOf="@+id/text_split"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/price_tag" />
 
-        <ImageView
+        <TextView
             android:id="@+id/message_tag"
-            android:layout_width="40dp"
+            android:layout_width="56dp"
             android:layout_height="21dp"
             android:layout_marginStart="6dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="6dp"
             android:layout_marginEnd="8dp"
-            android:src="@drawable/ic_messagetag"
+            android:text="message"
+            android:textAppearance="@style/TextAppearance.AppCompat.Button"
+            android:textSize="12sp"
             app:layout_constraintEnd_toStartOf="@+id/text_split"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"

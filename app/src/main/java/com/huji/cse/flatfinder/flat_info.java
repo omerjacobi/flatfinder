@@ -77,10 +77,12 @@ public class flat_info extends Activity {
         //post message
         TextView apartment_post = findViewById(R.id.apartment_post);
         apartment_post.setText("hey looking for a new roommate for my awesome apartemnt." +
-                " \n price:250 nis\n address: azza 30 Jerusalem\n number of roommates: 2");
+                "\n price:250 nis\n address: azza 30 Jerusalem\n number of roommates: 2\ncome see the" +
+                "apartment tomorrow night at 1700\nno pets please!\nalso great locaion very " +
+                "close to supermarkets,bus stations etc...");
 
         //contact button
-        TextView ContactFacebook = findViewById(R.id.ContactFacebook);
+        TextView ContactFacebook = findViewById(R.id.facebook_contact);
 
     }
 
