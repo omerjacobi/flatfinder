@@ -125,12 +125,12 @@ public class FacebookPost implements Parcelable {
         this.favorite = favorite;
     }
 
+
     @Override
     public int describeContents() {
-
         return 0;
     }
-/*** function that make the object  parcelable ***/
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.id);
@@ -154,15 +154,15 @@ public class FacebookPost implements Parcelable {
         this.name = in.readString();
         this.nameID = in.readString();
         this.picture = in.readString();
-        this.GPSlat = in.readFloat();
-        this.GPSlong = in.readFloat();
+        this.GPSlat = in.readDouble();
+        this.GPSlong = in.readDouble();
         this.price = in.readLong();
         this.numOfRoommates = in.readLong();
         this.favorite = in.readByte() != 0;
         this.address = in.readString();
     }
 
-    public static final Creator<FacebookPost> CREATOR = new Creator<FacebookPost>() {
+    public static final Parcelable.Creator<FacebookPost> CREATOR = new Parcelable.Creator<FacebookPost>() {
         @Override
         public FacebookPost createFromParcel(Parcel source) {
             return new FacebookPost(source);

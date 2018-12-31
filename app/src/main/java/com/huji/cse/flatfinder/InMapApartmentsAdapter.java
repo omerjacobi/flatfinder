@@ -16,7 +16,9 @@ import java.util.List;
 
 public class InMapApartmentsAdapter extends RecyclerView.Adapter<InMapApartmentsAdapter.ViewHolder> {
 
+    // A list of the current apartments held
     private List<FacebookPost> mApartments;
+
     private final LayoutInflater mInflater;
 
     InMapApartmentsAdapter(Context context) {
@@ -39,6 +41,8 @@ public class InMapApartmentsAdapter extends RecyclerView.Adapter<InMapApartments
             viewHolder.roommatesTextView.setText(String.valueOf(apartment.getNumOfRoommates()));
             viewHolder.addressTextView.setText(apartment.getAddress());
 
+            // In case the user clicks on the container, he is transferred to the Apartment's info
+            // Activity, which contains further details about the currently viewed apartment
             viewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -51,13 +55,18 @@ public class InMapApartmentsAdapter extends RecyclerView.Adapter<InMapApartments
             });
         }
     }
-    void setmApartments(List<FacebookPost> posts){
-        mApartments = posts;
+
+    /**
+     * Sets the currently held apartments list by given value
+     */
+    void setmApartments(List<FacebookPost> apartments){
+        mApartments = apartments;
         notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
+        // In case the mApartments data member isn't defined, returns 0
         if (mApartments != null) {
             return mApartments.size();
         }
@@ -80,5 +89,4 @@ public class InMapApartmentsAdapter extends RecyclerView.Adapter<InMapApartments
             context = itemView.getContext();
         }
     }
-
 }

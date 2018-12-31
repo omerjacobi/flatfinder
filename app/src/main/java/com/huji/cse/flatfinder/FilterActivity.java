@@ -20,11 +20,8 @@ import com.google.maps.android.SphericalUtil;
 public class FilterActivity extends AppCompatActivity {
 
     public static final int MAX_ROOMMATE = 5;
-    public static final int MIN_ROOMMATE = 1;
     public static final int MAX_PRICE = 10000;
-    public static final int MIN_PRICE = 0;
     public static final int MAX_DISTANCE = 10000;
-    public static final int MIN_DISTNACE = 100;
     public static final int PRICE_STEP_SIZE = 100;
     private SeekBar priceSeekBar;
     private SeekBar roommateSeekBar;
@@ -57,14 +54,11 @@ public class FilterActivity extends AppCompatActivity {
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
-                // TODO: Get info about the selected place.
-                Log.i("Place", "Place: " + place.getName());
                 selectedPlace = place;
             }
 
             @Override
             public void onError(Status status) {
-                // TODO: Handle the error.
                 Log.i("Place", "An error occurred: " + status);
             }
         });
@@ -74,23 +68,17 @@ public class FilterActivity extends AppCompatActivity {
 
     /**
      * seek bar initiation values
-     * @param distanceSeekBarValue
-     * @param priceSeekBarValue
-     * @param roommatesSeekBarValue
      */
     private void initialSeekbarValues(TextView distanceSeekBarValue, TextView priceSeekBarValue,
                                       TextView roommatesSeekBarValue) {
         priceSeekBar = findViewById(R.id.seekBarPrice);
         priceSeekBar.setMax(MAX_PRICE);
         priceSeekBar.setProgress(MAX_PRICE);
-        priceSeekBar.setMin(MIN_PRICE);
         roommateSeekBar = findViewById(R.id.seekBarRoommates);
         roommateSeekBar.setMax(MAX_ROOMMATE);
-        roommateSeekBar.setMin(MIN_ROOMMATE);
         roommateSeekBar.setProgress(MAX_ROOMMATE);
         distanceSeekBar = findViewById(R.id.seekBarDistance);
         distanceSeekBar.setMax(MAX_DISTANCE);
-        distanceSeekBar.setMin(MIN_DISTNACE);
         distanceSeekBar.setProgress(MAX_DISTANCE);
 
         priceSeekBarValue.setText(String.valueOf(MAX_PRICE));
@@ -131,6 +119,7 @@ public class FilterActivity extends AppCompatActivity {
         priceSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
+                //To show only price jump in size of PRICE_STEP_SIZE
                 progress = progress / PRICE_STEP_SIZE;
                 progress = progress * PRICE_STEP_SIZE;
                 priceSeekBarValue.setText(String.valueOf(progress));
@@ -181,10 +170,10 @@ public class FilterActivity extends AppCompatActivity {
         int priceValue = priceSeekBar.getProgress();
         int rooommateValue = roommateSeekBar.getProgress();
         Switch favoriteSwitch = findViewById(R.id.OnlyFavorites);
-        b.putBoolean("onlyFavorites",favoriteSwitch.isChecked());
-        b.putInt("priceValue", priceValue);
-        b.putInt("roommateValue", rooommateValue);
-        i.putExtra("filterValues",b);
+        b.putBoolean(Constants.FAVORITES_ONLY_KEY,favoriteSwitch.isChecked());
+        b.putInt(Constants.PRICE_VALUE_KEY, priceValue);
+        b.putInt(Constants.ROOMMATES_VALUE_KEY, rooommateValue);
+        i.putExtra(Constants.FILTER_VALUES_KEY,b);
         startActivity(i);
         /* and animation for the transition between map and filter activity*/
         overridePendingTransition(R.anim.slide_in,R.anim.slide_static);
@@ -201,13 +190,13 @@ public class FilterActivity extends AppCompatActivity {
         int distanceValue = distanceSeekBar.getProgress();
         if (selectedPlace!= null) {
             LatLng centerCoordination = selectedPlace.getLatLng();
-            b.putBoolean("filterDistance", true);
-            b.putDouble("minLong", SphericalUtil.computeOffset(centerCoordination, distanceValue, 270).longitude);
-            b.putDouble("maxLong", SphericalUtil.computeOffset(centerCoordination, distanceValue, 90).longitude);
-            b.putDouble("minLat", SphericalUtil.computeOffset(centerCoordination, distanceValue, 180).latitude);
-            b.putDouble("maxLat", SphericalUtil.computeOffset(centerCoordination, distanceValue, 0).latitude);
+            b.putBoolean(Constants.FILTER_DISTANCE_KEY, true);
+            b.putDouble(Constants.MIN_LONG_KEY, SphericalUtil.computeOffset(centerCoordination, distanceValue, 270).longitude);
+            b.putDouble(Constants.MAX_LONG_KEY, SphericalUtil.computeOffset(centerCoordination, distanceValue, 90).longitude);
+            b.putDouble(Constants.MIN_LAT_KEY, SphericalUtil.computeOffset(centerCoordination, distanceValue, 180).latitude);
+            b.putDouble(Constants.MAX_LAT_KEY, SphericalUtil.computeOffset(centerCoordination, distanceValue, 0).latitude);
         }
         else
-            b.putBoolean("filterDistance", false);
+            b.putBoolean(Constants.FILTER_DISTANCE_KEY, false);
     }
 }

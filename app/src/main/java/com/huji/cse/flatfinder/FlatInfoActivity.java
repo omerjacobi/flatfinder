@@ -1,9 +1,11 @@
 package com.huji.cse.flatfinder;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 //import android.support.design.widget.FloatingActionButton;
+import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -29,24 +31,13 @@ public class FlatInfoActivity extends FragmentActivity {
         mFacebookPost = bundle.getParcelable(Constants.FACEBOOK_KEY);
 
         fillContent();
-
-//        FloatingActionButton  backToMainMenu = findViewById(R.id.backToMainMenu);
-//
-//        //make pop up
-//        DisplayMetrics dm = new DisplayMetrics();
-//        getWindowManager().getDefaultDisplay().getMetrics(dm);
-//
-//        int width = dm.widthPixels;
-//        int height = dm.heightPixels;
-//
-//        getWindow().setLayout((int)(width*.8),(int)(height*.5));
-//        WindowManager.LayoutParams params = getWindow().getAttributes();
-//        params.gravity = Gravity.TOP;
-//        params.x =0;
-//        params.y =-20;
-//        getWindow().setAttributes(params);
-
     }
+
+    /**
+     * reduce the size of the bitmap image before displaying it
+     * @param viewID image view address
+     * @param imageID drawable image id
+     */
     private void loadImage(int viewID, int imageID) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = 3;
@@ -56,13 +47,14 @@ public class FlatInfoActivity extends FragmentActivity {
         lock.setImageBitmap(smallBitmap);
     }
 
+    /**
+     * set the content value of the apartment information fields
+     */
     private void fillContent() {
         loadImage(R.id.pic1,R.drawable.room);
 
         //image
         ImageView apartmentPic = findViewById(R.id.pic1);
-//        Drawable pic = getDrawable(R.drawable.room);
-//        apartmentPic.setImageDrawable(pic);
 
         //address
         TextView apartment_address = findViewById(R.id.apartment_address);
@@ -72,27 +64,31 @@ public class FlatInfoActivity extends FragmentActivity {
         TextView apartment_price = findViewById(R.id.apartment_price);
         apartment_price.setText(String.valueOf(mFacebookPost.getPrice()));
 
-        //number of roomates
-        TextView rommates=findViewById(R.id.apartment_roommates);
-        rommates.setText(String.valueOf(mFacebookPost.getNumOfRoommates()));
+        //number of roommates
+        TextView roommates=findViewById(R.id.apartment_roommates);
+        roommates.setText(String.valueOf(mFacebookPost.getNumOfRoommates()));
 
         //post message
         TextView apartment_post = findViewById(R.id.apartment_post);
         apartment_post.setText(mFacebookPost.getMessage());
 
-        //contact button
-        TextView ContactFacebook = findViewById(R.id.ContactFacebook);
 
         viewFavoriteStatus();
 
     }
 
+    /**
+     * change the status of the object favorite boolean
+     */
     public void changeFavoriteStatus(View view) {
         mFacebookPost.setFavorite(!mFacebookPost.isFavorite());
         viewFavoriteStatus();
         updatePostInDB();
     }
 
+    /**
+     * a helper function to change the favorite icon on screen
+     */
     private void viewFavoriteStatus() {
         ImageButton imageButton = findViewById(R.id.favorite_button);
         if (mFacebookPost.isFavorite()) {
@@ -108,6 +104,19 @@ public class FlatInfoActivity extends FragmentActivity {
             params.width = 44;
             imageButton.setLayoutParams(params);
         }
+    }
+
+    /**
+     * go to the post in the facebook site
+     */
+    public void goToPostInFacebook(View view){
+        String s = mFacebookPost.getId();
+        int underscore=s.indexOf('_');
+        String groupID=s.substring(0,underscore);
+        String messageID=s.substring(underscore+1);
+        String address = "https://www.facebook.com/groups/" + groupID + "/permalink/" + messageID;
+        Intent facebookBrowser = new Intent(Intent.ACTION_VIEW,Uri.parse(address));
+        startActivity(facebookBrowser);
     }
 
     private void updatePostInDB() {

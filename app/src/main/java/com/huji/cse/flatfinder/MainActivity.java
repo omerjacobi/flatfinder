@@ -33,11 +33,12 @@ import java.util.Arrays;
 
 
 public class MainActivity extends AppCompatActivity {
-    CallbackManager callbackManager;
+
+    private CallbackManager mCallbackManager;
     private PostViewModel mViewModel;
-    private Geocoder geocoder;
-    Handler timerHandler = new Handler();
-    Runnable timerRunnable = new Runnable() {
+    private Geocoder mGeocoder;
+    private Handler mTimerHandler = new Handler();
+    private Runnable mTimerRunnable = new Runnable() {
         @Override
         public void run() {
             TextView continueButton = findViewById(R.id.facebook_contact);
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                 continueButton.setVisibility(View.VISIBLE);
             else
                 continueButton.setVisibility(View.INVISIBLE);
-            timerHandler.postDelayed(this, 500);
+            mTimerHandler.postDelayed(this, 500);
         }
     };
 
@@ -55,22 +56,25 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mViewModel = ViewModelProviders.of(this).get(PostViewModel.class);
-        geocoder = new Geocoder(this);
-        timerHandler.postDelayed(timerRunnable, 0);
+        mGeocoder = new Geocoder(this);
+        mTimerHandler.postDelayed(mTimerRunnable, 0);
     }
 
 
+    /**
+     * Interacts with Facebook Graph in order to get facebook post
+     * @param token Access token
+     */
     private void getPostsInGraph(AccessToken token) {
         GraphRequest request = GraphRequest.newMeRequest(
                 token,
                 new GraphRequest.GraphJSONObjectCallback() {
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
-                        JSONObject facebookPosts = object;
                         try {
-                            Parser.parse(object, mViewModel,geocoder);
+                            Parser.parse(object, mViewModel, mGeocoder);
                         } catch (JSONException e) {
-
+                            e.printStackTrace();
                         }
                     }
                 });
@@ -80,6 +84,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * In case of login error, Updates the user at the current status by Toast message
+     * @param message
+     */
     private void showToastWithInputMessage(String message) {
         Context context = getApplicationContext();
         int duration = Toast.LENGTH_LONG;
@@ -88,10 +96,9 @@ public class MainActivity extends AppCompatActivity {
         toast.show();
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        callbackManager.onActivityResult(requestCode, resultCode, data);
+        mCallbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -100,25 +107,32 @@ public class MainActivity extends AppCompatActivity {
         float y = lockImage.getY();
         Toast toast = Toast.makeText(getApplicationContext(),
                 R.string.privacy_message,
-                (4 * (Toast.LENGTH_LONG)));
+                (5 * (Toast.LENGTH_LONG)));
         toast.setGravity(Gravity.TOP, 0, (int) (3 * y));
 
         toast.show();
     }
 
+    /**
+     * Indicates whether the user is logged in to his facebook account
+     */
     private boolean isLoggedIn() {
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         return accessToken != null;
     }
 
+    /**
+     * Handles the case when the user clicks on the "log in" button
+     */
     public void logInClicked(View view) {
         if (isLoggedIn()) {
             return;
         }
-        callbackManager = CallbackManager.Factory.create();
+        mCallbackManager = CallbackManager.Factory.create();
 
         LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("groups_access_member_info"));
-        LoginManager.getInstance().registerCallback(callbackManager,
+        LoginManager.getInstance().registerCallback(
+                mCallbackManager,
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
@@ -137,6 +151,9 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Handles the case when the user clicks on the "continue" button
+     */
     public void continueClick(View view) {
             getPostsInGraph(AccessToken.getCurrentAccessToken());
     }
