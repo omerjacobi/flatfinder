@@ -24,7 +24,7 @@ public class FlatInfoActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_listing_info);
+        setContentView(R.layout.activity_flat_info);
 
         mPostViewModel = ViewModelProviders.of(this).get(PostViewModel.class);
         Bundle bundle = getIntent().getBundleExtra(Constants.BUNDLE_KEY);
@@ -35,7 +35,7 @@ public class FlatInfoActivity extends FragmentActivity {
 
     /**
      * reduce the size of the bitmap image before displaying it
-     * @param viewID imge view address
+     * @param viewID image view address
      * @param imageID drawable image id
      */
     private void loadImage(int viewID, int imageID) {

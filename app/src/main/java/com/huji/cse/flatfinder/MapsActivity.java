@@ -3,8 +3,6 @@ package com.huji.cse.flatfinder;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
@@ -92,29 +90,22 @@ public class MapsActivity
         snapHelper.attachToRecyclerView(mApartmentsRecyclerView);
     }
 
-    private void refreshView(@NonNull List<FacebookPost> facebookPosts) {
-        mAdapter.setmApartments(facebookPosts);
-        mAdapter.notifyDataSetChanged();
-        mFacebookPosts = facebookPosts;
-        refreshMap();
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
-        Bundle extrasBundle = getIntent().getBundleExtra("filterValues");
-        /** check if resived values from filter activity and used them to filter the results*/
+        Bundle extrasBundle = getIntent().getBundleExtra(Constants.FILTER_VALUES_KEY);
+        // check if resived values from filter activity and used them to filter the results
         if (extrasBundle!= null && !extrasBundle.isEmpty()){
-            int MaxPriceValue = extrasBundle.getInt("priceValue");
-            int MaxRoommateValue = extrasBundle.getInt("roommateValue");
-            boolean onlyFavorites = extrasBundle.getBoolean("onlyFavorites");
+            int MaxPriceValue = extrasBundle.getInt(Constants.PRICE_VALUE_KEY);
+            int MaxRoommateValue = extrasBundle.getInt(Constants.ROOMMATES_VALUE_KEY);
+            boolean onlyFavorites = extrasBundle.getBoolean(Constants.FAVORITES_ONLY_KEY);
             double minLat = 0, maxLat = 0, minLong = 0, maxLong = 0 ;
-            boolean filterDistance = extrasBundle.getBoolean("filterDistance");
+            boolean filterDistance = extrasBundle.getBoolean(Constants.FILTER_DISTANCE_KEY);
             if (filterDistance) {
-                minLat = extrasBundle.getDouble("minLat");
-                maxLat = extrasBundle.getDouble("maxLat");
-                minLong = extrasBundle.getDouble("minLong");
-                maxLong = extrasBundle.getDouble("maxLong");
+                minLat = extrasBundle.getDouble(Constants.MIN_LAT_KEY);
+                maxLat = extrasBundle.getDouble(Constants.MAX_LAT_KEY);
+                minLong = extrasBundle.getDouble(Constants.MIN_LONG_KEY);
+                maxLong = extrasBundle.getDouble(Constants.MAX_LONG_KEY);
             }
             mPostViewModel.getPostsFiltered(minLat,maxLat,minLong,maxLong,
                     MaxPriceValue,MaxRoommateValue,filterDistance,onlyFavorites).observe(this, new Observer<List<FacebookPost>>() {
@@ -164,8 +155,6 @@ public class MapsActivity
         refreshMap();
         mapView = mMapFragment.getView();
 
-
-
         // Set map to update each time the user scrolls to the next item
         mApartmentsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -181,6 +170,17 @@ public class MapsActivity
             }
         });
         mMap.setOnMarkerClickListener(this);
+    }
+
+    /**
+     * Refresh activity's current view (viewed apartments etc)
+     * @param facebookPosts Current apartments to show
+     */
+    private void refreshView(@NonNull List<FacebookPost> facebookPosts) {
+        mAdapter.setmApartments(facebookPosts);
+        mAdapter.notifyDataSetChanged();
+        mFacebookPosts = facebookPosts;
+        refreshMap();
     }
 
     /**
@@ -262,14 +262,14 @@ public class MapsActivity
         return true;
     }
 
+    /**
+     * Go to FilterActivity
+     */
     public void filterClick(View view) {
-
         Intent intent = new Intent(this, FilterActivity.class);
         startActivity(intent);
-        /* transition animation*/
+        // Transition animation
         overridePendingTransition(R.anim.slide_out,R.anim.slide_static);
-
-
     }
 
 

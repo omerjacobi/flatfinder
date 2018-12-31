@@ -170,10 +170,10 @@ public class FilterActivity extends AppCompatActivity {
         int priceValue = priceSeekBar.getProgress();
         int rooommateValue = roommateSeekBar.getProgress();
         Switch favoriteSwitch = findViewById(R.id.OnlyFavorites);
-        b.putBoolean("onlyFavorites",favoriteSwitch.isChecked());
-        b.putInt("priceValue", priceValue);
-        b.putInt("roommateValue", rooommateValue);
-        i.putExtra("filterValues",b);
+        b.putBoolean(Constants.FAVORITES_ONLY_KEY,favoriteSwitch.isChecked());
+        b.putInt(Constants.PRICE_VALUE_KEY, priceValue);
+        b.putInt(Constants.ROOMMATES_VALUE_KEY, rooommateValue);
+        i.putExtra(Constants.FILTER_VALUES_KEY,b);
         startActivity(i);
         /* and animation for the transition between map and filter activity*/
         overridePendingTransition(R.anim.slide_in,R.anim.slide_static);
@@ -190,13 +190,13 @@ public class FilterActivity extends AppCompatActivity {
         int distanceValue = distanceSeekBar.getProgress();
         if (selectedPlace!= null) {
             LatLng centerCoordination = selectedPlace.getLatLng();
-            b.putBoolean("filterDistance", true);
-            b.putDouble("minLong", SphericalUtil.computeOffset(centerCoordination, distanceValue, 270).longitude);
-            b.putDouble("maxLong", SphericalUtil.computeOffset(centerCoordination, distanceValue, 90).longitude);
-            b.putDouble("minLat", SphericalUtil.computeOffset(centerCoordination, distanceValue, 180).latitude);
-            b.putDouble("maxLat", SphericalUtil.computeOffset(centerCoordination, distanceValue, 0).latitude);
+            b.putBoolean(Constants.FILTER_DISTANCE_KEY, true);
+            b.putDouble(Constants.MIN_LONG_KEY, SphericalUtil.computeOffset(centerCoordination, distanceValue, 270).longitude);
+            b.putDouble(Constants.MAX_LONG_KEY, SphericalUtil.computeOffset(centerCoordination, distanceValue, 90).longitude);
+            b.putDouble(Constants.MIN_LAT_KEY, SphericalUtil.computeOffset(centerCoordination, distanceValue, 180).latitude);
+            b.putDouble(Constants.MAX_LAT_KEY, SphericalUtil.computeOffset(centerCoordination, distanceValue, 0).latitude);
         }
         else
-            b.putBoolean("filterDistance", false);
+            b.putBoolean(Constants.FILTER_DISTANCE_KEY, false);
     }
 }
