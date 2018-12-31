@@ -20,5 +20,8 @@
     <string name="TextViewDistance">Select your designated search area</string>
 
     <string name="DoneButtonText">Done</string>
+    <string name="address">Address:</string>
+    <string name="roommates">Roommates:</string>
+    <string name="price">Price:</string>
 
 </resources>

@@ -12,6 +12,7 @@ import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -250,7 +251,9 @@ public class MapsActivity
      * @return an integer that indicates the currently viewed's item position
      */
     private int getCurrentItemPosition() {
-        return ((LinearLayoutManager)mApartmentsRecyclerView.getLayoutManager()).findFirstVisibleItemPosition();
+        LinearLayoutManager layoutManager = (LinearLayoutManager)mApartmentsRecyclerView.getLayoutManager();
+        int firstIndex = layoutManager.findFirstCompletelyVisibleItemPosition();
+        return firstIndex;
     }
 
     @Override
