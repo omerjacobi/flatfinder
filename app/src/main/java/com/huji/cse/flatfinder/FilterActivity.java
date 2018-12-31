@@ -83,14 +83,14 @@ public class FilterActivity extends AppCompatActivity {
         priceSeekBar = findViewById(R.id.seekBarPrice);
         priceSeekBar.setMax(MAX_PRICE);
         priceSeekBar.setProgress(MAX_PRICE);
-        priceSeekBar.setMin(MIN_PRICE);
+//        priceSeekBar.setMin(MIN_PRICE);
         roommateSeekBar = findViewById(R.id.seekBarRoommates);
         roommateSeekBar.setMax(MAX_ROOMMATE);
-        roommateSeekBar.setMin(MIN_ROOMMATE);
+//        roommateSeekBar.setMin(MIN_ROOMMATE);
         roommateSeekBar.setProgress(MAX_ROOMMATE);
         distanceSeekBar = findViewById(R.id.seekBarDistance);
         distanceSeekBar.setMax(MAX_DISTANCE);
-        distanceSeekBar.setMin(MIN_DISTNACE);
+//        distanceSeekBar.setMin(MIN_DISTNACE);
         distanceSeekBar.setProgress(MAX_DISTANCE);
 
         priceSeekBarValue.setText(String.valueOf(MAX_PRICE));
