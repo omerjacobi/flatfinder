@@ -19,7 +19,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 
 public class Parser extends AppCompatActivity {
-    private static PostViewModel mViewModel;
     private static final String idKey="id";
     private static final String createdTimeKey="created_time";
     private static final String messageKey="message";
@@ -42,13 +41,7 @@ public class Parser extends AppCompatActivity {
             String fullMessage = post.getString(messageKey);
             String createdTime = post.getString(createdTimeKey);
             String address = getAddress(fullMessage);
-            Address location = getAddressFromString(address,geocoder);
-            double GPSlong = 0;
-            double GPSlat = 0;
-            if (location != null) {
-                GPSlong = location.getLongitude();
-                GPSlat = location.getLatitude();
-            }
+            double[] gpsCoord = getCoordinate(geocoder, address);
 
             String userName="",picture="";
             if (post.has(nameKey)) {
@@ -65,8 +58,24 @@ public class Parser extends AppCompatActivity {
             numOfRoommates = getLongField(fullMessage, matcher);
 
             createFacebookPostObject(fullMessage, userName, picture, address, price, numOfRoommates,
-                    createdTime, postId, mViewModel,GPSlong,GPSlat);
+                    createdTime, postId, mViewModel,gpsCoord[0],gpsCoord[1]);
         }
+    }
+
+    /**
+     * create a gps coordinate from a string address using google geocoder
+     * @param geocoder google object for maps
+     * @param address the address we want to get the coordinate
+     * @return an array of 2 double for gps coordinate (lat,long)
+     */
+    private static double[] getCoordinate(Geocoder geocoder, String address) {
+        Address location = getAddressFromString(address,geocoder);
+        double[] GPSCordination = {0,0};
+        if (location != null) {
+            GPSCordination[0] = location.getLongitude();
+            GPSCordination[1] = location.getLatitude();
+        }
+        return GPSCordination;
     }
 
     /**

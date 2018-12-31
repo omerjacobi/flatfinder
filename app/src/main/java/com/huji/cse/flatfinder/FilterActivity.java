@@ -20,11 +20,8 @@ import com.google.maps.android.SphericalUtil;
 public class FilterActivity extends AppCompatActivity {
 
     public static final int MAX_ROOMMATE = 5;
-    public static final int MIN_ROOMMATE = 1;
     public static final int MAX_PRICE = 10000;
-    public static final int MIN_PRICE = 0;
     public static final int MAX_DISTANCE = 10000;
-    public static final int MIN_DISTNACE = 100;
     public static final int PRICE_STEP_SIZE = 100;
     private SeekBar priceSeekBar;
     private SeekBar roommateSeekBar;
@@ -57,14 +54,11 @@ public class FilterActivity extends AppCompatActivity {
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
-                // TODO: Get info about the selected place.
-                Log.i("Place", "Place: " + place.getName());
                 selectedPlace = place;
             }
 
             @Override
             public void onError(Status status) {
-                // TODO: Handle the error.
                 Log.i("Place", "An error occurred: " + status);
             }
         });
@@ -74,23 +68,17 @@ public class FilterActivity extends AppCompatActivity {
 
     /**
      * seek bar initiation values
-     * @param distanceSeekBarValue
-     * @param priceSeekBarValue
-     * @param roommatesSeekBarValue
      */
     private void initialSeekbarValues(TextView distanceSeekBarValue, TextView priceSeekBarValue,
                                       TextView roommatesSeekBarValue) {
         priceSeekBar = findViewById(R.id.seekBarPrice);
         priceSeekBar.setMax(MAX_PRICE);
         priceSeekBar.setProgress(MAX_PRICE);
-//        priceSeekBar.setMin(MIN_PRICE);
         roommateSeekBar = findViewById(R.id.seekBarRoommates);
         roommateSeekBar.setMax(MAX_ROOMMATE);
-//        roommateSeekBar.setMin(MIN_ROOMMATE);
         roommateSeekBar.setProgress(MAX_ROOMMATE);
         distanceSeekBar = findViewById(R.id.seekBarDistance);
         distanceSeekBar.setMax(MAX_DISTANCE);
-//        distanceSeekBar.setMin(MIN_DISTNACE);
         distanceSeekBar.setProgress(MAX_DISTANCE);
 
         priceSeekBarValue.setText(String.valueOf(MAX_PRICE));
@@ -131,6 +119,7 @@ public class FilterActivity extends AppCompatActivity {
         priceSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
+                //To show only price jump in size of PRICE_STEP_SIZE
                 progress = progress / PRICE_STEP_SIZE;
                 progress = progress * PRICE_STEP_SIZE;
                 priceSeekBarValue.setText(String.valueOf(progress));

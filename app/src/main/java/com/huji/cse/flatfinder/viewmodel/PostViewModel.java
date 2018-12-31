@@ -25,31 +25,33 @@ public class PostViewModel extends AndroidViewModel {
         mPostDao = db.postDao();
     }
 
-    LiveData<List<FacebookPost>> getAllCheaperPosts(long maxPrice)
-    {
-        return mPostDao.getAllCheaperPosts(maxPrice);
-    }
-
-    LiveData<List<FacebookPost>> getAllFavoritesPosts()
-    {
-        return mPostDao.getAllFavoritesPosts();
-    }
-
-    LiveData<List<FacebookPost>> getAllPostInLocation(float minLat, float maxLat, float minLong, float maxLong)
-
-    {
-        return mPostDao.getAllPostInLocation(minLat, maxLat,minLong,maxLong);
-    }
-
+    /**
+     * get all the object in the database
+     * @return a livedata that it a list of all the facebook post
+     */
     public LiveData<List<FacebookPost>> getAllPosts()
     {
         return mPostDao.getAllPosts();
     }
 
+    /**
+     * recevied a filter list of the posts in the database
+     * @param minLat minimum latitude
+     * @param maxLat maximum latitude
+     * @param minLong minimum longitude
+     * @param maxLong maximum longitude
+     * @param maxPrice maximum price
+     * @param maxRoommates maximum roomates
+     * @param filterDistance a boolean to activate filter of distance
+     * @param onlyFavorites to show only favorites
+     * @return a livedata that it a list of  the facebook post after we filter them
+     */
     public LiveData<List<FacebookPost>> getPostsFiltered(double minLat, double maxLat, double minLong,
-                                                         double maxLong, long maxPrice, long maxRoommates, boolean filterDistance, boolean onlyFavorites)
+                                                         double maxLong, long maxPrice, long maxRoommates,
+                                                         boolean filterDistance, boolean onlyFavorites)
     {
-        return mPostDao.getPostAfterFilter( minLat,  maxLat,  minLong,  maxLong,  maxPrice,  maxRoommates,  filterDistance,  onlyFavorites);
+        return mPostDao.getPostAfterFilter( minLat,  maxLat,  minLong,  maxLong,
+                maxPrice,  maxRoommates,  filterDistance,  onlyFavorites);
     }
 
     public int isPostExists(String postId)
@@ -57,10 +59,6 @@ public class PostViewModel extends AndroidViewModel {
          return mPostDao.isPostExiset(postId);
     }
 
-    LiveData<List<FacebookPost>> getAllPostWithLessRoommates(long maxRoommates)
-    {
-        return mPostDao.getAllPostWithLessRoommates(maxRoommates);
-    }
 
     public void insert (FacebookPost post){
         new insertAsyncTask(mPostDao).execute(post);
