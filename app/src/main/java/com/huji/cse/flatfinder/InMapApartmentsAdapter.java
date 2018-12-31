@@ -1,10 +1,13 @@
 package com.huji.cse.flatfinder;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.huji.cse.flatfinder.db.entity.FacebookPost;
@@ -12,20 +15,6 @@ import com.huji.cse.flatfinder.db.entity.FacebookPost;
 import java.util.List;
 
 public class InMapApartmentsAdapter extends RecyclerView.Adapter<InMapApartmentsAdapter.ViewHolder> {
-
-    class ApartmentViewHolder extends RecyclerView.ViewHolder{
-        private final TextView priceTextView ;
-        private final TextView roommatesTextView ;
-        private final TextView addressTextview ;
-
-        private ApartmentViewHolder(View itemView){
-            super(itemView);
-            priceTextView = itemView.findViewById(R.id.inmap_apartment_price);
-            roommatesTextView = itemView.findViewById(R.id.inmap_apartment_roommates);
-            addressTextview = itemView.findViewById(R.id.inmap_apartment_address);
-        }
-
-    }
 
     private List<FacebookPost> mApartments;
     private final LayoutInflater mInflater;
@@ -41,16 +30,25 @@ public class InMapApartmentsAdapter extends RecyclerView.Adapter<InMapApartments
     }
 
     @Override
-    public void onBindViewHolder(InMapApartmentsAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(final InMapApartmentsAdapter.ViewHolder viewHolder, final int position) {
         if (mApartments != null) {
-            FacebookPost apartment = mApartments.get(position);
+            final FacebookPost apartment = mApartments.get(position);
+            final Context context = viewHolder.context;
 
             viewHolder.priceTextView.setText(String.valueOf(apartment.getPrice()));
             viewHolder.roommatesTextView.setText(String.valueOf(apartment.getNumOfRoommates()));
             viewHolder.addressTextView.setText(apartment.getAddress());
-        }
-        else {
-            //TODO else
+
+            viewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, FlatInfoActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable(Constants.FACEBOOK_KEY, apartment);
+                    intent.putExtra(Constants.BUNDLE_KEY, bundle);
+                    context.startActivity(intent);
+                }
+            });
         }
     }
     void setmApartments(List<FacebookPost> posts){
@@ -70,12 +68,16 @@ public class InMapApartmentsAdapter extends RecyclerView.Adapter<InMapApartments
         public TextView addressTextView,
                         priceTextView,
                         roommatesTextView;
+        LinearLayout linearLayout;
+        Context context;
 
         public ViewHolder(View itemView) {
             super(itemView);
             addressTextView = (TextView) itemView.findViewById(R.id.inmap_apartment_address);
             priceTextView = (TextView) itemView.findViewById(R.id.inmap_apartment_price);
             roommatesTextView = (TextView) itemView.findViewById(R.id.inmap_apartment_roommates);
+            linearLayout = (LinearLayout) itemView.findViewById(R.id.inmap_apartment_container);
+            context = itemView.getContext();
         }
     }
 

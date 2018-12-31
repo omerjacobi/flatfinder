@@ -3,14 +3,15 @@ package com.huji.cse.flatfinder;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.location.Geocoder;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -27,38 +28,39 @@ import com.huji.cse.flatfinder.viewmodel.PostViewModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.Arrays;
 
 
 public class MainActivity extends AppCompatActivity {
     CallbackManager callbackManager;
-    private JSONObject facebookPosts;
     private PostViewModel mViewModel;
+    private Geocoder geocoder;
     Handler timerHandler = new Handler();
     Runnable timerRunnable = new Runnable() {
         @Override
         public void run() {
-            Button continueButton=findViewById(R.id.continueButton);
-            if(isLoggedIn())
+            TextView continueButton = findViewById(R.id.facebook_contact);
+            if (isLoggedIn())
                 continueButton.setVisibility(View.VISIBLE);
             else
                 continueButton.setVisibility(View.INVISIBLE);
-          timerHandler.postDelayed(this, 500);
-     }
-  };
+            timerHandler.postDelayed(this, 500);
+        }
+    };
 
 
-        @Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mViewModel = ViewModelProviders.of(this).get(PostViewModel.class);
+        geocoder = new Geocoder(this);
         timerHandler.postDelayed(timerRunnable, 0);
     }
 
 
-    private void getPostsInGraph(LoginResult loginResult) {
-        AccessToken token = loginResult.getAccessToken();
+    private void getPostsInGraph(AccessToken token) {
         GraphRequest request = GraphRequest.newMeRequest(
                 token,
                 new GraphRequest.GraphJSONObjectCallback() {
@@ -66,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onCompleted(JSONObject object, GraphResponse response) {
                         JSONObject facebookPosts = object;
                         try {
-                            Parser.parse(object, mViewModel);
+                            Parser.parse(object, mViewModel,geocoder);
                         } catch (JSONException e) {
 
                         }
@@ -78,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void showToastWithInputMessage(String message){
+    private void showToastWithInputMessage(String message) {
         Context context = getApplicationContext();
         int duration = Toast.LENGTH_LONG;
 
@@ -92,13 +94,14 @@ public class MainActivity extends AppCompatActivity {
         callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
     }
+
     public void showPrivacyMessage(View view) {
-        ImageView lockImage=findViewById(R.id.privacyButton);
-        float y=lockImage.getY();
+        ImageView lockImage = findViewById(R.id.privacyButton);
+        float y = lockImage.getY();
         Toast toast = Toast.makeText(getApplicationContext(),
                 R.string.privacy_message,
-                (4*(Toast.LENGTH_LONG)));
-        toast.setGravity(Gravity.TOP,0,(int)(3*y));
+                (4 * (Toast.LENGTH_LONG)));
+        toast.setGravity(Gravity.TOP, 0, (int) (3 * y));
 
         toast.show();
     }
@@ -109,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void logInClicked(View view) {
-        if(isLoggedIn()){
+        if (isLoggedIn()) {
             return;
         }
         callbackManager = CallbackManager.Factory.create();
@@ -119,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
-                        getPostsInGraph(loginResult);
+                        getPostsInGraph(loginResult.getAccessToken());
                     }
 
                     @Override
@@ -135,7 +138,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void continueClick(View view) {
-        Intent intent = new Intent(this, MapsActivity.class);
-        startActivity(intent);
+            getPostsInGraph(AccessToken.getCurrentAccessToken());
     }
 }

@@ -2,8 +2,10 @@ package com.huji.cse.flatfinder;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
+import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -24,7 +27,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.huji.cse.flatfinder.db.entity.FacebookPost;
 import com.huji.cse.flatfinder.viewmodel.PostViewModel;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,12 +39,17 @@ public class MapsActivity
     private InMapApartmentsAdapter mAdapter;
     private ArrayList<Marker> mMarkers;
     private Marker mCurrentlyViewedMarker;
+    private PostViewModel mPostViewModel;
+    private List<FacebookPost> mFacebookPosts;
+    private SupportMapFragment mMapFragment;
+    private LinearLayoutManager layoutManager;
+    View mapView;
+
+    private static boolean activityVisible;
 
     private static final float BACKGROUND_MARKER_OPACITY = (float) 0.7;
     private static final float MAIN_MARKER_OPACITY = 1;
     private static final float ZOOM_LEVEL = 14.5f;
-    private PostViewModel mPostViewModel;
-    private List<FacebookPost> mFacebookPosts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +58,11 @@ public class MapsActivity
 
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        mMapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        mMapFragment.getMapAsync(this);
         mPostViewModel = ViewModelProviders.of(this).get(PostViewModel.class);
+
         mPostViewModel.getAllPosts().observe(this, new Observer<List<FacebookPost>>() {
             @Override
             public void onChanged(@Nullable List<FacebookPost> facebookPosts) {
@@ -62,22 +70,81 @@ public class MapsActivity
                     mAdapter.setmApartments(facebookPosts);
                     mAdapter.notifyDataSetChanged();
                     mFacebookPosts = facebookPosts;
-                    refreshMap();
+                    if (activityVisible) {
+                        refreshMap();
+                    }
                 }
 
             }
         });
 
         // Add a horizontal RecyclerView for apartments
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
 
         // Initialize recycler view
         mApartmentsRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_maps);
         mAdapter = new InMapApartmentsAdapter(this);
         mApartmentsRecyclerView.setAdapter(mAdapter);
         mApartmentsRecyclerView.setLayoutManager(layoutManager);
+
         SnapHelper snapHelper = new PagerSnapHelper();
         snapHelper.attachToRecyclerView(mApartmentsRecyclerView);
+    }
+
+    private void refreshView(@NonNull List<FacebookPost> facebookPosts) {
+        mAdapter.setmApartments(facebookPosts);
+        mAdapter.notifyDataSetChanged();
+        mFacebookPosts = facebookPosts;
+        refreshMap();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Bundle extrasBundle = getIntent().getBundleExtra("filterValues");
+        /** check if resived values from filter activity and used them to filter the results*/
+        if (extrasBundle!= null && !extrasBundle.isEmpty()){
+            int MaxPriceValue = extrasBundle.getInt("priceValue");
+            int MaxRoommateValue = extrasBundle.getInt("roommateValue");
+            boolean onlyFavorites = extrasBundle.getBoolean("onlyFavorites");
+            double minLat = 0, maxLat = 0, minLong = 0, maxLong = 0 ;
+            boolean filterDistance = extrasBundle.getBoolean("filterDistance");
+            if (filterDistance) {
+                minLat = extrasBundle.getDouble("minLat");
+                maxLat = extrasBundle.getDouble("maxLat");
+                minLong = extrasBundle.getDouble("minLong");
+                maxLong = extrasBundle.getDouble("maxLong");
+            }
+            mPostViewModel.getPostsFiltered(minLat,maxLat,minLong,maxLong,
+                    MaxPriceValue,MaxRoommateValue,filterDistance,onlyFavorites).observe(this, new Observer<List<FacebookPost>>() {
+                @Override
+                public void onChanged(@Nullable List<FacebookPost> facebookPosts) {
+                    if (facebookPosts!= null && facebookPosts.size() > 0) {
+                        refreshView(facebookPosts);
+                    }
+
+                }
+            });
+
+        }
+        else {
+            mPostViewModel.getAllPosts().observe(this, new Observer<List<FacebookPost>>() {
+                @Override
+                public void onChanged(@Nullable List<FacebookPost> facebookPosts) {
+                    if (facebookPosts != null && facebookPosts.size() > 0) {
+                        refreshView(facebookPosts);
+                    }
+
+                }
+            });
+        }
+        activityVisible = true;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        activityVisible = false;
     }
 
 
@@ -94,6 +161,9 @@ public class MapsActivity
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         refreshMap();
+        mapView = mMapFragment.getView();
+
+
 
         // Set map to update each time the user scrolls to the next item
         mApartmentsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -134,16 +204,11 @@ public class MapsActivity
     private ArrayList<Marker> generateMarkersFromPosts() {
         ArrayList<Marker> markers = new ArrayList<>();
         if (mFacebookPosts != null) {
-            Address currentAddress;
             LatLng currentCoordinate;
             Marker currentMarker;
 
             for (FacebookPost apartment : mFacebookPosts) {
-                currentAddress = getAddressFromString(apartment.getAddress());
-                if (currentAddress == null) {
-                    // TODO: Think about how we deal with this case (no lat-lng for the address)
-                }
-                currentCoordinate = new LatLng(currentAddress.getLatitude(), currentAddress.getLongitude());
+                currentCoordinate = new LatLng(apartment.getGPSlat(), apartment.getGPSlong());
                 currentMarker = mMap.addMarker(
                         new MarkerOptions()
                                 .position(currentCoordinate)
@@ -178,28 +243,6 @@ public class MapsActivity
     }
 
     /**
-     * Generates an Address object from a string that represents an address
-     * @param addressStr string representation of an address
-     * @return Address object that represents addressStr
-     */
-    private Address getAddressFromString(String addressStr) {
-        Geocoder geocoder = new Geocoder(this);
-        Address address;
-        try {
-            List<Address> addressList = geocoder.getFromLocationName(addressStr, 5);
-            if (addressList != null) {
-                address = addressList.get(0);
-                address.getLatitude();
-                address.getLongitude();
-                return address;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /**
      * Indicates the currently viewed's item position
      * @return an integer that indicates the currently viewed's item position
      */
@@ -215,5 +258,16 @@ public class MapsActivity
         focusOnMarker(marker);
         return true;
     }
+
+    public void filterClick(View view) {
+
+        Intent intent = new Intent(this, FilterActivity.class);
+        startActivity(intent);
+        /* transition animation*/
+        overridePendingTransition(R.anim.slide_out,R.anim.slide_static);
+
+
+    }
+
 
 }
