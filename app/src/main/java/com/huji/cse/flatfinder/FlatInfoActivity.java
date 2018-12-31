@@ -1,9 +1,11 @@
 package com.huji.cse.flatfinder;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 //import android.support.design.widget.FloatingActionButton;
+import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -22,7 +24,7 @@ public class FlatInfoActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_flat_info);
+        setContentView(R.layout.activity_listing_info);
 
         mPostViewModel = ViewModelProviders.of(this).get(PostViewModel.class);
         Bundle bundle = getIntent().getBundleExtra(Constants.BUNDLE_KEY);
@@ -108,6 +110,12 @@ public class FlatInfoActivity extends FragmentActivity {
             params.width = 44;
             imageButton.setLayoutParams(params);
         }
+    }
+
+    public void ContactToFacebook(View view){
+        Intent facebookBrowser = new Intent(Intent.ACTION_VIEW,Uri.parse("https://www.facebook.com/groups/"+mFacebookPost.getId())
+        );
+        startActivity(facebookBrowser);
     }
 
     private void updatePostInDB() {

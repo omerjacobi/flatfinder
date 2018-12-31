@@ -75,6 +75,9 @@
             android:theme="@style/AppTheme.popMe">
         </activity>
 
+        <activity android:name=".FilterActivity">
+        </activity>
+
     </application>
 
     <uses-permission android:name="android.permission.INTERNET"/>
