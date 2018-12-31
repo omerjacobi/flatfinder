@@ -100,7 +100,7 @@ public class MapsActivity
 
     @Override
     protected void onResume() {
-        super.onResume();\
+        super.onResume();
         Bundle extrasBundle = getIntent().getBundleExtra("filterValues");
         /** check if resived values from filter activity and used them to filter the results*/
         if (extrasBundle!= null && !extrasBundle.isEmpty()){
