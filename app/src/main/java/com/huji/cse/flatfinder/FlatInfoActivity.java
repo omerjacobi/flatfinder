@@ -24,7 +24,7 @@ public class FlatInfoActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_listing_info);
+        setContentView(R.layout.activity_flat_info);
 
         mPostViewModel = ViewModelProviders.of(this).get(PostViewModel.class);
         Bundle bundle = getIntent().getBundleExtra(Constants.BUNDLE_KEY);
@@ -32,6 +32,7 @@ public class FlatInfoActivity extends FragmentActivity {
 
         fillContent();
     }
+
     private void loadImage(int viewID, int imageID) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = 3;
@@ -66,7 +67,7 @@ public class FlatInfoActivity extends FragmentActivity {
         apartment_post.setText(mFacebookPost.getMessage());
 
         //contact button
-        TextView ContactFacebook = findViewById(R.id.ContactFacebook);
+        TextView ContactFacebook = findViewById(R.id.facebook_contact);
 
         viewFavoriteStatus();
 
