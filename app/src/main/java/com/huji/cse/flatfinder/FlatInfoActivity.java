@@ -31,23 +31,6 @@ public class FlatInfoActivity extends FragmentActivity {
         mFacebookPost = bundle.getParcelable(Constants.FACEBOOK_KEY);
 
         fillContent();
-
-//        FloatingActionButton  backToMainMenu = findViewById(R.id.backToMainMenu);
-//
-//        //make pop up
-//        DisplayMetrics dm = new DisplayMetrics();
-//        getWindowManager().getDefaultDisplay().getMetrics(dm);
-//
-//        int width = dm.widthPixels;
-//        int height = dm.heightPixels;
-//
-//        getWindow().setLayout((int)(width*.8),(int)(height*.5));
-//        WindowManager.LayoutParams params = getWindow().getAttributes();
-//        params.gravity = Gravity.TOP;
-//        params.x =0;
-//        params.y =-20;
-//        getWindow().setAttributes(params);
-
     }
     private void loadImage(int viewID, int imageID) {
         BitmapFactory.Options options = new BitmapFactory.Options();
@@ -113,8 +96,7 @@ public class FlatInfoActivity extends FragmentActivity {
     }
 
     public void ContactToFacebook(View view){
-        Intent facebookBrowser = new Intent(Intent.ACTION_VIEW,Uri.parse("https://www.facebook.com/groups/"+mFacebookPost.getId())
-        );
+        Intent facebookBrowser = new Intent(Intent.ACTION_VIEW,Uri.parse("https://www.facebook.com/groups/"+mFacebookPost.getId()));
         startActivity(facebookBrowser);
     }
 

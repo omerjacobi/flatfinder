@@ -86,6 +86,7 @@ public class MapsActivity
         mAdapter = new InMapApartmentsAdapter(this);
         mApartmentsRecyclerView.setAdapter(mAdapter);
         mApartmentsRecyclerView.setLayoutManager(layoutManager);
+        mApartmentsRecyclerView.setClipToPadding(false);
 
         SnapHelper snapHelper = new PagerSnapHelper();
         snapHelper.attachToRecyclerView(mApartmentsRecyclerView);
