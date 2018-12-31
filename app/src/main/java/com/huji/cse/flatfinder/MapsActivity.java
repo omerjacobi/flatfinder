@@ -39,22 +39,68 @@ public class MapsActivity
     private InMapApartmentsAdapter mAdapter;
     private ArrayList<Marker> mMarkers;
     private Marker mCurrentlyViewedMarker;
-
-    private static final float BACKGROUND_MARKER_OPACITY = (float) 0.7;
-    private static final float MAIN_MARKER_OPACITY = 1;
-    private static final float ZOOM_LEVEL = 14.5f;
     private PostViewModel mPostViewModel;
     private List<FacebookPost> mFacebookPosts;
     private SupportMapFragment mMapFragment;
     private LinearLayoutManager layoutManager;
     View mapView;
 
+    private static boolean activityVisible;
+
+    private static final float BACKGROUND_MARKER_OPACITY = (float) 0.7;
+    private static final float MAIN_MARKER_OPACITY = 1;
+    private static final float ZOOM_LEVEL = 14.5f;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_maps);
 
 
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        mMapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mMapFragment.getMapAsync(this);
+        mPostViewModel = ViewModelProviders.of(this).get(PostViewModel.class);
+
+        mPostViewModel.getAllPosts().observe(this, new Observer<List<FacebookPost>>() {
+            @Override
+            public void onChanged(@Nullable List<FacebookPost> facebookPosts) {
+                if (facebookPosts!= null && facebookPosts.size() > 0) {
+                    mAdapter.setmApartments(facebookPosts);
+                    mAdapter.notifyDataSetChanged();
+                    mFacebookPosts = facebookPosts;
+                    if (activityVisible) {
+                        refreshMap();
+                    }
+                }
+
+            }
+        });
+
+        // Add a horizontal RecyclerView for apartments
+        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+
+        // Initialize recycler view
+        mApartmentsRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_maps);
+        mAdapter = new InMapApartmentsAdapter(this);
+        mApartmentsRecyclerView.setAdapter(mAdapter);
+        mApartmentsRecyclerView.setLayoutManager(layoutManager);
+
+        SnapHelper snapHelper = new PagerSnapHelper();
+        snapHelper.attachToRecyclerView(mApartmentsRecyclerView);
+    }
+
+    private void refreshView(@NonNull List<FacebookPost> facebookPosts) {
+        mAdapter.setmApartments(facebookPosts);
+        mAdapter.notifyDataSetChanged();
+        mFacebookPosts = facebookPosts;
+        refreshMap();
+    }
 
     @Override
     protected void onResume() {
-        super.onResume();
+        super.onResume();\
         Bundle extrasBundle = getIntent().getBundleExtra("filterValues");
         /** check if resived values from filter activity and used them to filter the results*/
         if (extrasBundle!= null && !extrasBundle.isEmpty()){
@@ -92,40 +138,13 @@ public class MapsActivity
                 }
             });
         }
-
-    }
-
-    private void refreshView(@NonNull List<FacebookPost> facebookPosts) {
-        mAdapter.setmApartments(facebookPosts);
-        mAdapter.notifyDataSetChanged();
-        mFacebookPosts = facebookPosts;
-        refreshMap();
+        activityVisible = true;
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
-
-
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        mMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        mMapFragment.getMapAsync(this);
-
-        mPostViewModel = ViewModelProviders.of(this).get(PostViewModel.class);
-
-
-        // Add a horizontal RecyclerView for apartments
-        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-
-        // Initialize recycler view
-        mApartmentsRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_maps);
-        mAdapter = new InMapApartmentsAdapter(this);
-        mApartmentsRecyclerView.setAdapter(mAdapter);
-        mApartmentsRecyclerView.setLayoutManager(layoutManager);
-
-        SnapHelper snapHelper = new PagerSnapHelper();
-        snapHelper.attachToRecyclerView(mApartmentsRecyclerView);
+    protected void onPause() {
+        super.onPause();
+        activityVisible = false;
     }
 
 
@@ -185,7 +204,6 @@ public class MapsActivity
     private ArrayList<Marker> generateMarkersFromPosts() {
         ArrayList<Marker> markers = new ArrayList<>();
         if (mFacebookPosts != null) {
-            Address currentAddress;
             LatLng currentCoordinate;
             Marker currentMarker;
 
@@ -223,8 +241,6 @@ public class MapsActivity
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), zoomLevel));
         mCurrentlyViewedMarker = marker;
     }
-
-
 
     /**
      * Indicates the currently viewed's item position
