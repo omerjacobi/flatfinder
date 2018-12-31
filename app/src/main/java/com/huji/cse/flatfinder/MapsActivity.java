@@ -188,6 +188,8 @@ public class MapsActivity
     private void refreshMap() {
         if (mMap != null) {
             mMap.clear();
+            mCurrentlyViewedMarker = null;
+            mMarkers = null;
             mMarkers = generateMarkersFromPosts();
             // Make sure that we have at least one marker, and if so, focus on the first item in the list
             Marker focusMarker = (mMarkers != null && mMarkers.size() > 0) ? mMarkers.get(0) : null;
