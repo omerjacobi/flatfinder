@@ -71,7 +71,7 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <activity android:name=".flat_info"
+        <activity android:name=".ListingInfoActivity"
             android:theme="@style/AppTheme.popMe">
         </activity>
 

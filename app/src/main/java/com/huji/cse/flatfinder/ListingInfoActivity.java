@@ -3,46 +3,20 @@ package com.huji.cse.flatfinder;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
-//import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.view.Gravity;
-import android.view.TextureView;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
-public class flat_info extends Activity {
+public class ListingInfoActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_flat_info);
+        setContentView(R.layout.activity_listing_info);
         fillContent();
-
-//        FloatingActionButton  backToMainMenu = findViewById(R.id.backToMainMenu);
-//
-//        //make pop up
-//        DisplayMetrics dm = new DisplayMetrics();
-//        getWindowManager().getDefaultDisplay().getMetrics(dm);
-//
-//        int width = dm.widthPixels;
-//        int height = dm.heightPixels;
-//
-//        getWindow().setLayout((int)(width*.8),(int)(height*.5));
-//        WindowManager.LayoutParams params = getWindow().getAttributes();
-//        params.gravity = Gravity.TOP;
-//        params.x =0;
-//        params.y =-20;
-//        getWindow().setAttributes(params);
-
     }
+
     private void loadImage(int viewID, int imageID) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = 3;
