@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#e9e9d1</color>
+    <!--<color name="colorPrimary">#e9e9d1</color>-->
+    <color name="colorPrimary">#e6e3cd</color>
     <color name="colorPrimaryDark">#e68c68</color>
     <color name="colorAccent">#6e8177</color>
-    <!--<color name="lightPinkFromTamplate">#fef2ccc2</color>-->
-    <!--<color name="darkPinkFromTamplate">#fef5b8a7</color>-->
-    <!--<color name="darkGreenFromTamplate">#fe2a6130</color>-->
-    <!--<color name="lightGreenFromTamplate">#fe83ae88</color>-->
-    <!--<color name="grayFromTamplate">#fec5c7c5</color>-->
 
 </resources>

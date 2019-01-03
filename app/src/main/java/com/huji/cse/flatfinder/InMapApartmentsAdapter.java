@@ -2,12 +2,14 @@ package com.huji.cse.flatfinder;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -41,6 +43,7 @@ public class InMapApartmentsAdapter extends RecyclerView.Adapter<InMapApartments
             viewHolder.priceTextView.setText(String.valueOf(apartment.getPrice()));
             viewHolder.roommatesTextView.setText(String.valueOf(apartment.getNumOfRoommates()));
             viewHolder.addressTextView.setText(apartment.getAddress());
+//            viewHolder.image.setImageResource(R.drawable.room);
 
             // In case the user clicks on the container, he is transferred to the Apartment's info
             // Activity, which contains further details about the currently viewed apartment
@@ -80,12 +83,14 @@ public class InMapApartmentsAdapter extends RecyclerView.Adapter<InMapApartments
                         roommatesTextView;
         CardView linearLayout;
         Context context;
+        ImageView image;
 
         public ViewHolder(View itemView) {
             super(itemView);
             addressTextView = (TextView) itemView.findViewById(R.id.inmap_apartment_address);
             priceTextView = (TextView) itemView.findViewById(R.id.inmap_apartment_price);
             roommatesTextView = (TextView) itemView.findViewById(R.id.inmap_apartment_roommates);
+            image=(ImageView)itemView.findViewById(R.id.inmap_apartment_image);
             linearLayout = (CardView) itemView.findViewById(R.id.inmap_apartment_card);
             context = itemView.getContext();
         }
