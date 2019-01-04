@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:clickable="true"
-        android:elevation="12dp"
+        android:elevation="100dp"
         card_view:cardBackgroundColor="@color/colorPrimary"
         card_view:cardCornerRadius="3dp"
         card_view:contentPaddingLeft="20dp"

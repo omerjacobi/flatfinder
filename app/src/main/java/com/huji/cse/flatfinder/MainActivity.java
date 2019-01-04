@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
         float y = lockImage.getY();
         Toast toast = Toast.makeText(getApplicationContext(),
                 R.string.privacy_message,
-                (5 * (Toast.LENGTH_LONG)));
+                (8 * (Toast.LENGTH_LONG)));
         toast.setGravity(Gravity.TOP, 0, (int) (3 * y));
 
         toast.show();

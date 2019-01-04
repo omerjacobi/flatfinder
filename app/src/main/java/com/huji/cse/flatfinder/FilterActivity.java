@@ -62,7 +62,7 @@ public class FilterActivity extends AppCompatActivity {
             public void onPlaceSelected(Place place) {
                 selectedPlace = place;
                 selectedPlaceName = place.getName();
-
+                showOrHideDistanceBar(View.VISIBLE);
             }
 
             @Override
@@ -80,10 +80,24 @@ public class FilterActivity extends AppCompatActivity {
                     }
                 });
         /* restore the last place the user search*/
-        if (selectedPlace != null)
+        if (selectedPlace != null) {
             autocompleteFragment.setText(selectedPlaceName);
+            showOrHideDistanceBar(View.INVISIBLE);
+        }
 
 
+    }
+
+    private void showOrHideDistanceBar(int setTo) {
+        TextView distanceSeekBarValue = (TextView)findViewById(R.id.DistanceTextViewValue);
+        TextView km=(TextView)findViewById(R.id.distance_km);
+        TextView distanceTag=(TextView)findViewById(R.id.DistnaceTextView);
+        SeekBar bar = (SeekBar)findViewById(R.id.seekBarDistance);
+        distanceTag.setText("Distance from "+selectedPlaceName);
+        distanceSeekBarValue.setVisibility(setTo);
+        km.setVisibility(setTo);
+        bar.setVisibility(setTo);
+        distanceTag.setVisibility(setTo);
     }
 
     /**
@@ -192,12 +206,12 @@ public class FilterActivity extends AppCompatActivity {
         CalculateFilterSearchAreaBoundary(b);
 
         int priceValue = priceSeekBar.getProgress();
-        int rooommateValue = roommateSeekBar.getProgress();
+        int roommateValue = roommateSeekBar.getProgress();
         Switch favoriteSwitch = findViewById(R.id.OnlyFavorites);
         selectedOnlyFavorites = favoriteSwitch.isChecked();
         b.putBoolean(Constants.FAVORITES_ONLY_KEY,favoriteSwitch.isChecked());
         b.putInt(Constants.PRICE_VALUE_KEY, priceValue);
-        b.putInt(Constants.ROOMMATES_VALUE_KEY, rooommateValue);
+        b.putInt(Constants.ROOMMATES_VALUE_KEY, roommateValue);
         i.putExtra(Constants.FILTER_VALUES_KEY,b);
         startActivity(i);
         /* and animation for the transition between map and filter activity*/
