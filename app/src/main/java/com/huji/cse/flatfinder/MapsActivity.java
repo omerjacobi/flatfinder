@@ -93,8 +93,8 @@ public class MapsActivity
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onStart() {
+        super.onStart();
         Bundle extrasBundle = getIntent().getBundleExtra(Constants.FILTER_VALUES_KEY);
         // check if resived values from filter activity and used them to filter the results
         if (extrasBundle!= null && !extrasBundle.isEmpty()){
@@ -122,9 +122,8 @@ public class MapsActivity
 
                 }
             });
-
         }
-        else {
+        else if (extrasBundle != null) {
             mPostViewModel.getAllPosts().observe(this, new Observer<List<FacebookPost>>() {
                 @Override
                 public void onChanged(@Nullable List<FacebookPost> facebookPosts) {
@@ -135,6 +134,11 @@ public class MapsActivity
                 }
             });
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         activityVisible = true;
     }
     public void openProblemDialog(){
@@ -161,7 +165,6 @@ public class MapsActivity
         activityVisible = false;
     }
 
-
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -186,7 +189,7 @@ public class MapsActivity
                     int itemPosition = getCurrentItemPosition();
                     Marker focusMarker = (mMarkers != null && mMarkers.size() > 0 && itemPosition >= 0) ? mMarkers.get(itemPosition) : null;
                     if (focusMarker != null) {
-                        focusOnMarker(focusMarker);
+                        focusMarkerOnMap(focusMarker);
                     }
                 }
             }
@@ -217,7 +220,8 @@ public class MapsActivity
             // Make sure that we have at least one marker, and if so, focus on the first item in the list
             Marker focusMarker = (mMarkers != null && mMarkers.size() > 0) ? mMarkers.get(0) : null;
             if (focusMarker != null) {
-                focusOnMarker(focusMarker);
+                focusMarkerOnMap(focusMarker);
+                focusMarkerOnRecyclerView(focusMarker);
             }
         }
     }
@@ -239,6 +243,7 @@ public class MapsActivity
                                 .position(currentCoordinate)
                                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
                                 .alpha(BACKGROUND_MARKER_OPACITY)
+                                .title(String.valueOf(apartment.getPrice()) + getString(R.string.new_shekel_sign))
                 );
                 markers.add(currentMarker);
             }
@@ -250,7 +255,7 @@ public class MapsActivity
      * Changes focus on the map to a given marker
      * @param marker A marker on the map
      */
-    private void focusOnMarker(Marker marker) {
+    private void focusMarkerOnMap(Marker marker) {
         if (mCurrentlyViewedMarker != null) {
             mCurrentlyViewedMarker.setAlpha(BACKGROUND_MARKER_OPACITY);
             mCurrentlyViewedMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
@@ -264,7 +269,18 @@ public class MapsActivity
         marker.setAlpha(MAIN_MARKER_OPACITY);
         marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), zoomLevel));
+        marker.showInfoWindow();
         mCurrentlyViewedMarker = marker;
+    }
+
+    /**
+     * Changes focus on the recyclerView of apartments details to a given marker
+     * @param marker A marker on the map
+     */
+    private void focusMarkerOnRecyclerView(Marker marker) {
+        int markerIndex = mMarkers.indexOf(marker);
+        mAdapter.notifyItemChanged(markerIndex);
+        mApartmentsRecyclerView.getLayoutManager().scrollToPosition(markerIndex);
     }
 
     /**
@@ -279,10 +295,8 @@ public class MapsActivity
 
     @Override
     public boolean onMarkerClick(final Marker marker) {
-        int markerIndex = mMarkers.indexOf(marker);
-        mAdapter.notifyItemChanged(markerIndex);
-        mApartmentsRecyclerView.getLayoutManager().scrollToPosition(markerIndex);
-        focusOnMarker(marker);
+        focusMarkerOnRecyclerView(marker);
+        focusMarkerOnMap(marker);
         return true;
     }
 
