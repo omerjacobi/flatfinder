@@ -3,6 +3,7 @@ package com.huji.cse.flatfinder;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -77,7 +78,7 @@ public class InMapApartmentsAdapter extends RecyclerView.Adapter<InMapApartments
         public TextView addressTextView,
                         priceTextView,
                         roommatesTextView;
-        LinearLayout linearLayout;
+        CardView linearLayout;
         Context context;
 
         public ViewHolder(View itemView) {
@@ -85,7 +86,7 @@ public class InMapApartmentsAdapter extends RecyclerView.Adapter<InMapApartments
             addressTextView = (TextView) itemView.findViewById(R.id.inmap_apartment_address);
             priceTextView = (TextView) itemView.findViewById(R.id.inmap_apartment_price);
             roommatesTextView = (TextView) itemView.findViewById(R.id.inmap_apartment_roommates);
-            linearLayout = (LinearLayout) itemView.findViewById(R.id.inmap_apartment_container);
+            linearLayout = (CardView) itemView.findViewById(R.id.inmap_apartment_card);
             context = itemView.getContext();
         }
     }

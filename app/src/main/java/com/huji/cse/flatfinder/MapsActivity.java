@@ -2,11 +2,13 @@ package com.huji.cse.flatfinder;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
@@ -114,6 +116,9 @@ public class MapsActivity
                     if (facebookPosts!= null && facebookPosts.size() > 0) {
                         refreshView(facebookPosts);
                     }
+                    else {
+                        openProblemDialog();
+                    }
 
                 }
             });
@@ -132,6 +137,23 @@ public class MapsActivity
         }
         activityVisible = true;
     }
+    public void openProblemDialog(){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage("The search didnt return results, please select diffracted parameters");
+        alertDialogBuilder.setTitle("We hit a problem");
+                alertDialogBuilder.setPositiveButton("OK",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                            }
+                        });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+
 
     @Override
     protected void onPause() {
@@ -250,7 +272,9 @@ public class MapsActivity
      * @return an integer that indicates the currently viewed's item position
      */
     private int getCurrentItemPosition() {
-        return ((LinearLayoutManager)mApartmentsRecyclerView.getLayoutManager()).findFirstVisibleItemPosition();
+        LinearLayoutManager layoutManager = (LinearLayoutManager)mApartmentsRecyclerView.getLayoutManager();
+        int firstIndex = layoutManager.findFirstCompletelyVisibleItemPosition();
+        return firstIndex;
     }
 
     @Override

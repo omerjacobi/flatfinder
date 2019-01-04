@@ -26,8 +26,14 @@ public class FilterActivity extends AppCompatActivity {
     private SeekBar priceSeekBar;
     private SeekBar roommateSeekBar;
     private SeekBar distanceSeekBar;
-    private Place selectedPlace;
+    private Switch favoriteSwitch;
 
+    private static Place selectedPlace = null;
+    private static CharSequence selectedPlaceName;
+    private static int selectedRoommateValue = MAX_ROOMMATE;
+    private static int selectedPriceValue = MAX_PRICE;
+    private static int selectedDistanceValue = MAX_DISTANCE;
+    private static boolean selectedOnlyFavorites = false;
 
 
     @Override
@@ -49,12 +55,14 @@ public class FilterActivity extends AppCompatActivity {
             }
         });
         /* autocomplete fragment to get the area the user want to search from*/
-        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
+        final PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
                 selectedPlace = place;
+                selectedPlaceName = place.getName();
+
             }
 
             @Override
@@ -62,6 +70,18 @@ public class FilterActivity extends AppCompatActivity {
                 Log.i("Place", "An error occurred: " + status);
             }
         });
+        /* Clear the search for the autocomplete place fragment */
+        autocompleteFragment.getView().findViewById(R.id.place_autocomplete_clear_button)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        selectedPlace = null;
+                        autocompleteFragment.setText("");
+                    }
+                });
+        /* restore the last place the user search*/
+        if (selectedPlace != null)
+            autocompleteFragment.setText(selectedPlaceName);
 
 
     }
@@ -71,19 +91,20 @@ public class FilterActivity extends AppCompatActivity {
      */
     private void initialSeekbarValues(TextView distanceSeekBarValue, TextView priceSeekBarValue,
                                       TextView roommatesSeekBarValue) {
+        favoriteSwitch = findViewById(R.id.OnlyFavorites);
+        favoriteSwitch.setChecked(selectedOnlyFavorites);
         priceSeekBar = findViewById(R.id.seekBarPrice);
         priceSeekBar.setMax(MAX_PRICE);
-        priceSeekBar.setProgress(MAX_PRICE);
+        priceSeekBar.setProgress(selectedPriceValue);
         roommateSeekBar = findViewById(R.id.seekBarRoommates);
         roommateSeekBar.setMax(MAX_ROOMMATE);
-        roommateSeekBar.setProgress(MAX_ROOMMATE);
+        roommateSeekBar.setProgress(selectedRoommateValue);
         distanceSeekBar = findViewById(R.id.seekBarDistance);
         distanceSeekBar.setMax(MAX_DISTANCE);
-        distanceSeekBar.setProgress(MAX_DISTANCE);
-
-        priceSeekBarValue.setText(String.valueOf(MAX_PRICE));
-        roommatesSeekBarValue.setText(String.valueOf(MAX_ROOMMATE));
-        distanceSeekBarValue.setText(String.valueOf((double)MAX_DISTANCE/1000));
+        distanceSeekBar.setProgress(selectedDistanceValue);
+        priceSeekBarValue.setText(String.valueOf(selectedPriceValue));
+        roommatesSeekBarValue.setText(String.valueOf(selectedRoommateValue));
+        distanceSeekBarValue.setText(String.valueOf((double)selectedDistanceValue/1000));
     }
 
     /**
@@ -101,6 +122,7 @@ public class FilterActivity extends AppCompatActivity {
                 progress = progress / PRICE_STEP_SIZE;
                 progress = progress * PRICE_STEP_SIZE;
                 distanceSeekBarValue.setText(String.valueOf((double)progress/1000));
+                selectedDistanceValue = progress;
 
             }
 
@@ -123,6 +145,7 @@ public class FilterActivity extends AppCompatActivity {
                 progress = progress / PRICE_STEP_SIZE;
                 progress = progress * PRICE_STEP_SIZE;
                 priceSeekBarValue.setText(String.valueOf(progress));
+                selectedPriceValue = progress;
             }
 
             @Override
@@ -140,6 +163,7 @@ public class FilterActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
                 roommatesSeekBarValue.setText(String.valueOf(progress));
+                selectedRoommateValue = progress;
             }
 
             @Override
@@ -170,6 +194,7 @@ public class FilterActivity extends AppCompatActivity {
         int priceValue = priceSeekBar.getProgress();
         int rooommateValue = roommateSeekBar.getProgress();
         Switch favoriteSwitch = findViewById(R.id.OnlyFavorites);
+        selectedOnlyFavorites = favoriteSwitch.isChecked();
         b.putBoolean(Constants.FAVORITES_ONLY_KEY,favoriteSwitch.isChecked());
         b.putInt(Constants.PRICE_VALUE_KEY, priceValue);
         b.putInt(Constants.ROOMMATES_VALUE_KEY, rooommateValue);
