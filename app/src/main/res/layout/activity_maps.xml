@@ -33,7 +33,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/filter_button" />
 
-        <Button
+        <TextView
             android:id="@+id/filter_button"
             android:layout_width="0dp"
             android:layout_height="33dp"
@@ -48,6 +48,8 @@
             android:paddingRight="10dp"
             android:paddingBottom="10dp"
             android:text="FILTER SETTINGS"
+            android:textAlignment="center"
+            android:gravity="center"
             android:textColor="@android:color/black"
             android:textSize="12sp"
             app:layout_constraintBottom_toTopOf="@+id/guideline2"

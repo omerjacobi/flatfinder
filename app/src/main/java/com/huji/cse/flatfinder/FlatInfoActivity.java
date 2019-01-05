@@ -8,10 +8,12 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.huji.cse.flatfinder.db.entity.FacebookPost;
 import com.huji.cse.flatfinder.viewmodel.PostViewModel;
@@ -84,6 +86,23 @@ public class FlatInfoActivity extends FragmentActivity {
         mFacebookPost.setFavorite(!mFacebookPost.isFavorite());
         viewFavoriteStatus();
         updatePostInDB();
+        String message;
+        if(mFacebookPost.isFavorite())
+            message="added to favorites";
+        else
+            message="removed from favorites";
+        showFavoriteMessage(message);
+
+    }
+
+    public void showFavoriteMessage(String message) {
+
+        Toast toast = Toast.makeText(getApplicationContext(),
+                message,
+                (8 * (Toast.LENGTH_LONG)));
+        toast.setGravity(Gravity.TOP, 0,  3);
+
+        toast.show();
     }
 
     /**
@@ -121,5 +140,19 @@ public class FlatInfoActivity extends FragmentActivity {
 
     private void updatePostInDB() {
         mPostViewModel.insert(mFacebookPost);
+    }
+
+    public void makePlantGreen(View view) {
+        ImageView greyPlant=(ImageView)findViewById(R.id.plant);
+        ImageView greenPlant=(ImageView)findViewById(R.id.plant_green);
+        greenPlant.setVisibility(View.VISIBLE);
+        greyPlant.setVisibility(View.INVISIBLE);
+    }
+
+    public void makePlantGrey(View view) {
+        ImageView greyPlant=(ImageView)findViewById(R.id.plant);
+        ImageView greenPlant=(ImageView)findViewById(R.id.plant_green);
+        greenPlant.setVisibility(View.INVISIBLE);
+        greyPlant.setVisibility(View.VISIBLE);
     }
 }

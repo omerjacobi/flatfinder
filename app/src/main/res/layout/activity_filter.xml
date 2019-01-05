@@ -33,7 +33,7 @@
         android:layout_marginEnd="1dp"
         android:text="filter to the maximum you desire"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textSize="24sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,7 +61,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="41dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintHorizontal_bias="0.0"
@@ -85,7 +85,6 @@
         android:id="@+id/textViewRoommates"
         android:layout_width="99dp"
         android:layout_height="29dp"
-        android:layout_marginStart="6dp"
         android:layout_marginTop="32dp"
         android:text="@string/TextViewRoommateSlider"
         android:textAlignment="center"
@@ -132,7 +131,7 @@
         android:id="@+id/DistnaceTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="6dp"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="16dp"
         android:text="distance from jerusalem"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
@@ -146,7 +145,7 @@
         android:id="@+id/OnlyFavoritesTextView"
         android:layout_width="100dp"
         android:layout_height="43dp"
-        android:layout_marginStart="6dp"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="32dp"
         android:text="Show Only Favorites"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
@@ -159,7 +158,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="18dp"
         android:layout_marginEnd="8dp"
         android:visibility="invisible"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
@@ -191,13 +190,13 @@
         android:id="@+id/textViewSerchAreaExplantion"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginStart="6dp"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         android:text="@string/TextViewDistance"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textSize="18sp"
+        android:textSize="17sp"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -205,10 +204,9 @@
 
     <TextView
         android:id="@+id/DistanceTextViewValue"
-        android:layout_width="48dp"
+        android:layout_width="wrap_content"
         android:layout_height="19dp"
-        android:layout_marginTop="100dp"
-        android:text="TextView"
+        android:layout_marginTop="95dp"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/header" />
@@ -217,7 +215,8 @@
         android:id="@+id/distance_km"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="180dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="176dp"
         android:layout_marginEnd="4dp"
         android:text="km"
         android:visibility="invisible"
@@ -228,10 +227,9 @@
 
     <TextView
         android:id="@+id/priceValueTextView"
-        android:layout_width="51dp"
+        android:layout_width="wrap_content"
         android:layout_height="18dp"
-        android:layout_marginTop="44dp"
-        android:text="TextView"
+        android:layout_marginTop="43dp"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/DistanceTextViewValue" />
 
@@ -239,7 +237,8 @@
         android:id="@+id/price_nis"
         android:layout_width="wrap_content"
         android:layout_height="15dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="46dp"
         android:layout_marginEnd="8dp"
         android:text="nis"
         app:layout_constraintEnd_toEndOf="parent"
@@ -251,7 +250,7 @@
         android:id="@+id/roommateValueTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="43dp"
         android:text="TextView"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/priceValueTextView" />
@@ -261,7 +260,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="303dp" />
+        app:layout_constraintGuide_begin="261dp" />
 
     <!--</android.support.constraint.ConstraintLayout>-->
     <!--</ScrollView>-->
