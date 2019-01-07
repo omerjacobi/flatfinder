@@ -22,6 +22,8 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    implementation 'com.squareup.picasso:picasso:2.4.0'
+    //noinspection GradleCompatible
     implementation 'com.android.support:design:27.1.1'
     implementation 'com.google.android.gms:play-services-places:16.0.0'
     implementation 'com.google.maps.android:android-maps-utils:0.5'
