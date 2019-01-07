@@ -57,7 +57,6 @@ public class Parser extends AppCompatActivity {
 
             createFacebookPostObject(fullMessage, userName, images, address, price, numOfRoommates,
                     createdTime, postId, mViewModel,gpsCoord[0],gpsCoord[1]);
-            //todo OMER Im sending empty string instead of arraylist "images" to not change signature function - change picture from string to ArrayList<String>
         }
     }
 
