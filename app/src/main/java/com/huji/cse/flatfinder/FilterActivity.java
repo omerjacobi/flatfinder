@@ -83,6 +83,9 @@ public class FilterActivity extends AppCompatActivity {
         /* restore the last place the user search*/
         if (selectedPlace != null) {
             autocompleteFragment.setText(selectedPlaceName);
+            showOrHideDistanceBar(View.VISIBLE);
+        }
+        else {
             showOrHideDistanceBar(View.INVISIBLE);
         }
 
@@ -97,6 +100,7 @@ public class FilterActivity extends AppCompatActivity {
                 initialSeekbarValues(distanceSeekBarValue, priceSeekBarValue, roommatesSeekBarValue);
                 selectedPlace = null;
                 autocompleteFragment.setText("");
+                showOrHideDistanceBar(View.INVISIBLE);
 
             }
         });
