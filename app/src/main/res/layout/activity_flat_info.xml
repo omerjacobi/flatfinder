@@ -36,18 +36,17 @@
 
     <ImageButton
         android:id="@+id/favorite_button"
-        android:layout_width="44dp"
-        android:layout_height="75dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="119dp"
+        android:layout_height="114dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:onClick="changeFavoriteStatus"
         android:adjustViewBounds="true"
+        android:onClick="changeFavoriteStatus"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toTopOf="@+id/screen_split"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        />
+        app:layout_constraintVertical_bias="0.195" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/info_layout"
@@ -69,6 +68,7 @@
             android:layout_marginEnd="7dp"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Button"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -78,8 +78,9 @@
             android:layout_width="238dp"
             android:layout_height="27dp"
             android:textAlignment="textStart"
+            android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.026"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/text_split"
             app:layout_constraintTop_toBottomOf="@+id/apartment_address" />
 
@@ -87,18 +88,20 @@
             android:id="@+id/apartment_roommates"
             android:layout_width="238dp"
             android:layout_height="27dp"
+            android:layout_marginTop="8dp"
             android:textAlignment="textStart"
+            android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/text_split"
             app:layout_constraintTop_toBottomOf="@+id/apartment_price" />
 
 
-
         <ScrollView
             android:id="@+id/apartment_info"
             android:layout_width="0dp"
             android:layout_height="121dp"
+            android:layout_marginTop="4dp"
             android:layout_marginBottom="8dp"
             android:fillViewport="true"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -117,6 +120,7 @@
                 android:layout_marginTop="0dp"
                 android:layout_marginEnd="28dp"
                 android:layout_marginBottom="15dp"
+                android:textSize="15sp"
                 app:layout_constraintBottom_toTopOf="@+id/facebook_contact"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -130,34 +134,33 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="77dp" />
+            app:layout_constraintGuide_end="233dp" />
 
         <TextView
             android:id="@+id/price_tag"
-            android:layout_width="42dp"
-            android:layout_height="17dp"
-            android:layout_marginStart="6dp"
-            android:layout_marginTop="4dp"
+            android:layout_width="57dp"
+            android:layout_height="23dp"
+            android:layout_marginStart="4dp"
             android:layout_marginEnd="8dp"
             android:text="price"
             android:textAppearance="@style/TextAppearance.AppCompat.Button"
-            android:textSize="12sp"
+            android:textSize="18sp"
             app:layout_constraintEnd_toStartOf="@+id/text_split"
-            app:layout_constraintHorizontal_bias="0.055"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/apartment_price" />
 
         <TextView
             android:id="@+id/roommate_tag"
-            android:layout_width="65dp"
-            android:layout_height="20dp"
-            android:layout_marginStart="6dp"
-            android:layout_marginTop="8dp"
+            android:layout_width="89dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="12dp"
             android:text="roomates"
             android:textAlignment="textStart"
             android:textAllCaps="true"
             android:textAppearance="@style/TextAppearance.AppCompat.Button"
-            android:textSize="12sp"
+            android:textSize="16sp"
             app:layout_constraintEnd_toStartOf="@+id/text_split"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -165,14 +168,14 @@
 
         <TextView
             android:id="@+id/message_tag"
-            android:layout_width="56dp"
-            android:layout_height="21dp"
-            android:layout_marginStart="6dp"
+            android:layout_width="74dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="4dp"
             android:layout_marginTop="6dp"
             android:layout_marginEnd="8dp"
             android:text="message"
             android:textAppearance="@style/TextAppearance.AppCompat.Button"
-            android:textSize="12sp"
+            android:textSize="16sp"
             app:layout_constraintEnd_toStartOf="@+id/text_split"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -180,14 +183,15 @@
 
         <TextView
             android:id="@+id/facebook_contact"
-            android:layout_width="101dp"
-            android:layout_height="26dp"
+            android:layout_width="116dp"
+            android:layout_height="29dp"
             android:layout_marginStart="200dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:background="@color/colorAccent"
             android:gravity="center"
+            android:onClick="goToPostInFacebook"
             android:text="Contact"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
@@ -195,7 +199,6 @@
             android:textSize="15sp"
             android:textStyle="bold"
             android:visibility="visible"
-            android:onClick="ContactToFacebook"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
@@ -205,13 +208,32 @@
 
         <ImageView
             android:id="@+id/plant"
-            android:layout_width="39dp"
-            android:layout_height="95dp"
+            android:layout_width="33dp"
+            android:layout_height="77dp"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:alpha="0.6"
             android:src="@drawable/ic_plant2"
+            android:onClick="makePlantGreen"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/text_split"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/message_tag"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <ImageView
+            android:id="@+id/plant_green"
+            android:layout_width="33dp"
+            android:layout_height="77dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:alpha="0.6"
+            android:src="@drawable/ic_plant2green"
+            android:visibility="invisible"
+            android:onClick="makePlantGrey"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/text_split"
             app:layout_constraintHorizontal_bias="0.0"
