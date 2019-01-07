@@ -2,7 +2,6 @@ package com.huji.cse.flatfinder;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -10,9 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.huji.cse.flatfinder.db.entity.FacebookPost;
+import com.huji.cse.flatfinder.viewmodel.PostViewModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -21,11 +20,14 @@ public class InMapApartmentsAdapter extends RecyclerView.Adapter<InMapApartments
 
     // A list of the current apartments held
     private List<FacebookPost> mApartments;
+    private PostViewModel mPostViewModel;
+
 
     private final LayoutInflater mInflater;
 
-    InMapApartmentsAdapter(Context context) {
+    InMapApartmentsAdapter(Context context, PostViewModel postViewModel) {
         mInflater = LayoutInflater.from(context);
+        mPostViewModel = postViewModel;
     }
 
     @Override
@@ -46,6 +48,7 @@ public class InMapApartmentsAdapter extends RecyclerView.Adapter<InMapApartments
             viewHolder.priceTextView.setText(String.valueOf(apartment.getPrice()));
             viewHolder.roommatesTextView.setText(String.valueOf(apartment.getNumOfRoommates()));
             viewHolder.addressTextView.setText(apartment.getAddress());
+            viewFavoriteStatus(viewHolder.favoritesButton, apartment.isFavorite());
             Picasso.with(context).load(url).fit().centerCrop().into(viewHolder.image);
 
             // In case the user clicks on the container, he is transferred to the Apartment's info
@@ -58,6 +61,16 @@ public class InMapApartmentsAdapter extends RecyclerView.Adapter<InMapApartments
                     bundle.putParcelable(Constants.FACEBOOK_KEY, apartment);
                     intent.putExtra(Constants.BUNDLE_KEY, bundle);
                     context.startActivity(intent);
+                }
+            });
+
+            viewHolder.favoritesButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    boolean newFavStatus = !apartment.isFavorite();
+                    apartment.setFavorite(newFavStatus);
+                    viewFavoriteStatus(viewHolder.favoritesButton, newFavStatus);
+                    mPostViewModel.insert(apartment);
                 }
             });
         }
@@ -80,13 +93,33 @@ public class InMapApartmentsAdapter extends RecyclerView.Adapter<InMapApartments
         else return 0;
     }
 
+    /**
+     * a helper function to change the favorite icon on screen
+     */
+    private void viewFavoriteStatus(ImageView favoritesButton, boolean isFavorite) {
+        if (isFavorite) {
+            favoritesButton.setBackgroundResource(R.drawable.ic_favorite);
+            android.view.ViewGroup.LayoutParams params = favoritesButton.getLayoutParams();
+            params.height = 66;
+            params.width = 40;
+            favoritesButton.setLayoutParams(params);
+        } else {
+            favoritesButton.setBackgroundResource(R.drawable.ic_notfavorite);
+            android.view.ViewGroup.LayoutParams params = favoritesButton.getLayoutParams();
+            params.height = 66;
+            params.width = 40;
+            favoritesButton.setLayoutParams(params);
+        }
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView addressTextView,
                         priceTextView,
                         roommatesTextView;
-        CardView linearLayout;
-        Context context;
-        ImageView image;
+        public CardView linearLayout;
+        public Context context;
+        public ImageView image,
+                         favoritesButton;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -95,6 +128,7 @@ public class InMapApartmentsAdapter extends RecyclerView.Adapter<InMapApartments
             roommatesTextView = (TextView) itemView.findViewById(R.id.inmap_apartment_roommates);
             image=(ImageView)itemView.findViewById(R.id.inmap_apartment_image);
             linearLayout = (CardView) itemView.findViewById(R.id.inmap_apartment_card);
+            favoritesButton = (ImageView) itemView.findViewById(R.id.favorite_button);
             context = itemView.getContext();
         }
     }
