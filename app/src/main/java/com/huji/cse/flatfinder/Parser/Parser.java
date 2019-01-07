@@ -25,7 +25,7 @@ public class Parser extends AppCompatActivity {
     private static final String createdTimeKey="created_time";
     private static final String messageKey="message";
     private static final String nameKey="name";
-    private static final String pictureKey="full_picture";
+//    private static final String pictureKey="full_picture";
 
     /**
      * parsers through all of the groups' listing and creates a facebook post object for the database
@@ -46,12 +46,12 @@ public class Parser extends AppCompatActivity {
             String address = getAddress(fullMessage);
             double[] gpsCoord = getCoordinate(geocoder, address);
 
-            String userName="",picture="";
+            String userName="";
             if (post.has(nameKey)) {
                 userName = post.getString(nameKey);
             }
-            if (post.has(pictureKey))
-                picture = post.getString(pictureKey);
+//            if (post.has(pictureKey))
+//                picture = post.getString(pictureKey);
 
             long price, numOfRoommates;
             Matcher matcher = ParserPatterns.pricePattern.matcher(fullMessage);
