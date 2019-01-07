@@ -8,6 +8,10 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PagerSnapHelper;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SnapHelper;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageButton;
@@ -18,10 +22,17 @@ import android.widget.Toast;
 import com.huji.cse.flatfinder.db.entity.FacebookPost;
 import com.huji.cse.flatfinder.viewmodel.PostViewModel;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FlatInfoActivity extends FragmentActivity {
 
     private FacebookPost mFacebookPost;
     private PostViewModel mPostViewModel;
+    private RecyclerView mApartmentPicturesRecyclerView;
+    private imageAdapter mAdapter;
+    private LinearLayoutManager layoutManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +64,21 @@ public class FlatInfoActivity extends FragmentActivity {
      * set the content value of the apartment information fields
      */
     private void fillContent() {
-        loadImage(R.id.pic1,R.drawable.room);
+        // After we finish Parser we will do
+        //List<String> lst = apartment.getPic;
+        List<String> lst = new ArrayList<String>();
+        // Add a horizontal RecyclerView for apartments
+        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
 
-        //image
-        ImageView apartmentPic = findViewById(R.id.pic1);
+        // Initialize recycler view
+        mApartmentPicturesRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_photos);
+        mAdapter = new imageAdapter(this,lst);
+        mApartmentPicturesRecyclerView.setAdapter(mAdapter);
+        mApartmentPicturesRecyclerView.setLayoutManager(layoutManager);
+        mApartmentPicturesRecyclerView.setClipToPadding(false);
+
+        SnapHelper snapHelper = new PagerSnapHelper();
+        snapHelper.attachToRecyclerView(mApartmentPicturesRecyclerView);
 
         //address
         TextView apartment_address = findViewById(R.id.apartment_address);

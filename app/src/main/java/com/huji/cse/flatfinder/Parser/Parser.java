@@ -36,7 +36,7 @@ public class Parser extends AppCompatActivity {
             JSONObject post = (JSONObject) postsArray.get(i);
             String postId = post.getString(idKey);
             /*checks if the post exists in the database*/
-            if( mViewModel.isPostExists(postId) != 0)
+            if( !post.has(messageKey) ||mViewModel.isPostExists(postId) != 0)
                 continue;
             String fullMessage = post.getString(messageKey);
             String createdTime = post.getString(createdTimeKey);
