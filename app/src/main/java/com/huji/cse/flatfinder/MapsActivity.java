@@ -143,7 +143,7 @@ public class MapsActivity
     }
     public void openProblemDialog(){
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setMessage("The search didnt return results, please select diffracted parameters");
+        alertDialogBuilder.setMessage("The search didnt return results, please select different parameters");
         alertDialogBuilder.setTitle("We hit a problem");
                 alertDialogBuilder.setPositiveButton("OK",
                         new DialogInterface.OnClickListener() {
