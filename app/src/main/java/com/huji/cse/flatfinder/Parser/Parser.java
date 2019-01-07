@@ -14,6 +14,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -23,7 +25,7 @@ public class Parser extends AppCompatActivity {
     private static final String createdTimeKey="created_time";
     private static final String messageKey="message";
     private static final String nameKey="name";
-    private static final String pictureKey="full_picture";
+//    private static final String pictureKey="full_picture";
 
     /**
      * parsers through all of the groups' listing and creates a facebook post object for the database
@@ -36,19 +38,20 @@ public class Parser extends AppCompatActivity {
             JSONObject post = (JSONObject) postsArray.get(i);
             String postId = post.getString(idKey);
             /*checks if the post exists in the database*/
-            if( mViewModel.isPostExists(postId) != 0)
+            if( !post.has(messageKey) || mViewModel.isPostExists(postId) != 0)
                 continue;
+            ArrayList<String> images=getImages(post);
             String fullMessage = post.getString(messageKey);
             String createdTime = post.getString(createdTimeKey);
             String address = getAddress(fullMessage);
             double[] gpsCoord = getCoordinate(geocoder, address);
 
-            String userName="",picture="";
+            String userName="";
             if (post.has(nameKey)) {
                 userName = post.getString(nameKey);
             }
-            if (post.has(pictureKey))
-                picture = post.getString(pictureKey);
+//            if (post.has(pictureKey))
+//                picture = post.getString(pictureKey);
 
             long price, numOfRoommates;
             Matcher matcher = ParserPatterns.pricePattern.matcher(fullMessage);
@@ -57,10 +60,31 @@ public class Parser extends AppCompatActivity {
             matcher = ParserPatterns.noRoommatesPattern.matcher(fullMessage);
             numOfRoommates = getLongField(fullMessage, matcher);
 
-            createFacebookPostObject(fullMessage, userName, picture, address, price, numOfRoommates,
+            createFacebookPostObject(fullMessage, userName, "", address, price, numOfRoommates,
                     createdTime, postId, mViewModel,gpsCoord[0],gpsCoord[1]);
+            //todo OMER Im sending empty string instead of arraylist "images" to not change signature function - change picture from string to ArrayList<String>
         }
     }
+
+    private static ArrayList<String> getImages(JSONObject post) throws JSONException {
+        ArrayList<String> output=new ArrayList<String>();
+        if(!post.has("attachments"))
+            return output;
+
+        JSONObject attachments=post.getJSONObject("attachments");
+        JSONObject temp=attachments.getJSONArray("data").getJSONObject(0);
+//        JSONObject temp2=(JSONObject)temp.getJSONObject(0);
+//        JSONObject subattchments=temp.getJSONObject("subattachments");
+        JSONArray pictures=temp.getJSONObject("subattachments").getJSONArray("data");
+        for(int i=0;i<pictures.length();i++){
+            JSONObject temp2=(JSONObject)pictures.get(i);
+            JSONObject media=temp2.getJSONObject("media");
+            String src =media.getJSONObject("image").getString("src");
+            output.add(src);
+        }
+        return output;
+    }
+
 
     /**
      * create a gps coordinate from a string address using google geocoder
@@ -82,12 +106,12 @@ public class Parser extends AppCompatActivity {
      * create an post object that contain all the relivent information about the user post and sacve
      * it to the local database using a viewmodel
      */
-    private static void createFacebookPostObject(String fullMessage, String userName, String picture,
+    private static void createFacebookPostObject(String fullMessage, String userName, String pictures,
                                                  String address, long price, long numOfRommates,
                                                  String createdTime, String postId, PostViewModel viewModel,
                                                  double GPSlong, double GPSlat) {
         FacebookPost newPost = new FacebookPost(postId, createdTime, fullMessage, userName,
-                null, picture, GPSlat, GPSlong, price, numOfRommates, false, address);
+                null, pictures, GPSlat, GPSlong, price, numOfRommates, false, address);
         viewModel.insert(newPost);
     }
     /**
