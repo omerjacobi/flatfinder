@@ -111,13 +111,13 @@ public class FlatInfoActivity extends FragmentActivity {
     private void viewFavoriteStatus() {
         ImageButton imageButton = findViewById(R.id.favorite_button);
         if (mFacebookPost.isFavorite()) {
-            imageButton.setBackgroundResource(R.drawable.glowfillheart);
+            imageButton.setBackgroundResource(R.drawable.ic_favorite);
             android.view.ViewGroup.LayoutParams params = imageButton.getLayoutParams();
             params.height = 66;
             params.width = 40;
             imageButton.setLayoutParams(params);
         } else {
-            imageButton.setBackgroundResource(R.drawable.noglowheart);
+            imageButton.setBackgroundResource(R.drawable.ic_notfavorite);
             android.view.ViewGroup.LayoutParams params = imageButton.getLayoutParams();
             params.height = 75;
             params.width = 44;
