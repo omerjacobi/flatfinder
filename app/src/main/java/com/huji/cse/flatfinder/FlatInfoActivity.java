@@ -19,8 +19,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.Marker;
 import com.huji.cse.flatfinder.db.entity.FacebookPost;
 import com.huji.cse.flatfinder.viewmodel.PostViewModel;
 
@@ -31,7 +29,7 @@ public class FlatInfoActivity extends FragmentActivity {
 
     private FacebookPost mFacebookPost;
     private PostViewModel mPostViewModel;
-    private RecyclerView mApartmentsRecyclerView;
+    private RecyclerView mApartmentPicturesRecyclerView;
     private imageAdapter mAdapter;
     private LinearLayoutManager layoutManager;
 
@@ -73,14 +71,14 @@ public class FlatInfoActivity extends FragmentActivity {
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
 
         // Initialize recycler view
-        mApartmentsRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_photos);
+        mApartmentPicturesRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_photos);
         mAdapter = new imageAdapter(this,lst);
-        mApartmentsRecyclerView.setAdapter(mAdapter);
-        mApartmentsRecyclerView.setLayoutManager(layoutManager);
-        mApartmentsRecyclerView.setClipToPadding(false);
+        mApartmentPicturesRecyclerView.setAdapter(mAdapter);
+        mApartmentPicturesRecyclerView.setLayoutManager(layoutManager);
+        mApartmentPicturesRecyclerView.setClipToPadding(false);
 
         SnapHelper snapHelper = new PagerSnapHelper();
-        snapHelper.attachToRecyclerView(mApartmentsRecyclerView);
+        snapHelper.attachToRecyclerView(mApartmentPicturesRecyclerView);
 
         //address
         TextView apartment_address = findViewById(R.id.apartment_address);

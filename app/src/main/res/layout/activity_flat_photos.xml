@@ -10,7 +10,7 @@
     android:clickable="true"
     >
         <ImageView
-            android:id="@+id/pic2"
+            android:id="@+id/apartment_pictures"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/colorAccent"
