@@ -116,7 +116,6 @@
                     android:layout_height="17dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
-                    android:src="@drawable/ic_notfavorite"
                     card_view:layout_constraintEnd_toEndOf="parent"
                     card_view:layout_constraintHorizontal_bias="1.0"
                     card_view:layout_constraintStart_toStartOf="parent"
