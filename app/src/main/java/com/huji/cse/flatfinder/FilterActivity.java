@@ -54,6 +54,7 @@ public class FilterActivity extends AppCompatActivity {
                 DoneButtonClicked();
             }
         });
+
         /* autocomplete fragment to get the area the user want to search from*/
         final PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
@@ -82,6 +83,21 @@ public class FilterActivity extends AppCompatActivity {
         /* restore the last place the user search*/
         if (selectedPlace != null)
             autocompleteFragment.setText(selectedPlaceName);
+
+        final Button resetButton = findViewById(R.id.resetButton);
+        resetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectedRoommateValue = MAX_ROOMMATE;
+                selectedPriceValue = MAX_PRICE;
+                selectedDistanceValue = MAX_DISTANCE;
+                selectedOnlyFavorites = false;
+                initialSeekbarValues(distanceSeekBarValue, priceSeekBarValue, roommatesSeekBarValue);
+                selectedPlace = null;
+                autocompleteFragment.setText("");
+
+            }
+        });
 
 
     }
