@@ -7,6 +7,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
+import java.util.ArrayList;
+
 /***
  * an entity for holding a single post from facebook in post_database
  */
@@ -14,7 +16,7 @@ import android.support.annotation.NonNull;
 public class FacebookPost implements Parcelable {
 
     public FacebookPost(String id, String created_time, String message, String name,
-                        String nameID, String picture, double GPSlat, double GPSlong, long price,
+                        String nameID, ArrayList<String> picture, double GPSlat, double GPSlong, long price,
                         long numOfRoommates, boolean favorite, String address) {
         this.id = id;
         this.created_time = created_time;
@@ -51,7 +53,7 @@ public class FacebookPost implements Parcelable {
     private String nameID;
     /*a link to a picture in the post*/
     @ColumnInfo(name = "post_pictures")
-    private String picture;
+    private ArrayList<String> picture;
     /*the gps lat coordination of the post*/
     @ColumnInfo(name = "gps_lat")
     private double GPSlat;
@@ -92,7 +94,7 @@ public class FacebookPost implements Parcelable {
         return nameID;
     }
 
-    public String getPicture() {
+    public ArrayList<String> getPicture() {
         return picture;
     }
 
@@ -125,7 +127,6 @@ public class FacebookPost implements Parcelable {
         this.favorite = favorite;
     }
 
-
     @Override
     public int describeContents() {
         return 0;
@@ -138,7 +139,7 @@ public class FacebookPost implements Parcelable {
         dest.writeString(this.message);
         dest.writeString(this.name);
         dest.writeString(this.nameID);
-        dest.writeString(this.picture);
+        dest.writeStringList(this.picture);
         dest.writeDouble(this.GPSlat);
         dest.writeDouble(this.GPSlong);
         dest.writeLong(this.price);
@@ -153,7 +154,7 @@ public class FacebookPost implements Parcelable {
         this.message = in.readString();
         this.name = in.readString();
         this.nameID = in.readString();
-        this.picture = in.readString();
+        this.picture = in.createStringArrayList();
         this.GPSlat = in.readDouble();
         this.GPSlong = in.readDouble();
         this.price = in.readLong();

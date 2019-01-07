@@ -44,7 +44,6 @@ public class InMapApartmentsAdapter extends RecyclerView.Adapter<InMapApartments
             // After we finish Parser we will do
             //url = apartment.getPic[0];
             String url ="https://scontent.xx.fbcdn.net/v/t1.0-9/s720x720/20621807_10212684145634303_3752940830005144811_n.jpg?_nc_cat=102&_nc_ht=scontent.xx&oh=8f7fbdff150087360a3445053ee43025&oe=5CD45BE3";
-
             viewHolder.priceTextView.setText(String.valueOf(apartment.getPrice()));
             viewHolder.roommatesTextView.setText(String.valueOf(apartment.getNumOfRoommates()));
             viewHolder.addressTextView.setText(apartment.getAddress());
