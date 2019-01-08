@@ -19,14 +19,13 @@ import com.google.maps.android.SphericalUtil;
 
 public class FilterActivity extends AppCompatActivity {
 
-    public static final int MAX_ROOMMATE = 5;
+    private static final int MAX_ROOMMATE = 5;
     public static final int MAX_PRICE = 10000;
     public static final int MAX_DISTANCE = 10000;
     public static final int PRICE_STEP_SIZE = 100;
     private SeekBar priceSeekBar;
     private SeekBar roommateSeekBar;
     private SeekBar distanceSeekBar;
-    private Switch favoriteSwitch;
 
     private static Place selectedPlace = null;
     private static CharSequence selectedPlaceName;
@@ -83,6 +82,9 @@ public class FilterActivity extends AppCompatActivity {
         /* restore the last place the user search*/
         if (selectedPlace != null) {
             autocompleteFragment.setText(selectedPlaceName);
+            showOrHideDistanceBar(View.VISIBLE);
+        }
+        else {
             showOrHideDistanceBar(View.INVISIBLE);
         }
 
@@ -97,6 +99,7 @@ public class FilterActivity extends AppCompatActivity {
                 initialSeekbarValues(distanceSeekBarValue, priceSeekBarValue, roommatesSeekBarValue);
                 selectedPlace = null;
                 autocompleteFragment.setText("");
+                showOrHideDistanceBar(View.INVISIBLE);
 
             }
         });
@@ -121,7 +124,7 @@ public class FilterActivity extends AppCompatActivity {
      */
     private void initialSeekbarValues(TextView distanceSeekBarValue, TextView priceSeekBarValue,
                                       TextView roommatesSeekBarValue) {
-        favoriteSwitch = findViewById(R.id.OnlyFavorites);
+        Switch favoriteSwitch = findViewById(R.id.OnlyFavorites);
         favoriteSwitch.setChecked(selectedOnlyFavorites);
         priceSeekBar = findViewById(R.id.seekBarPrice);
         priceSeekBar.setMax(MAX_PRICE);

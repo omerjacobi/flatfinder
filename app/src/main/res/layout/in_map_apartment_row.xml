@@ -28,69 +28,104 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
-            <LinearLayout
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/linearLayout2"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
+                <ImageView
+                    android:id="@+id/favorite_button"
+                    android:layout_width="25dp"
+                    android:layout_height="19dp"
+                    android:paddingStart="0dp"
+                    android:src="@drawable/ic_favorite"
+                    card_view:layout_constraintStart_toStartOf="parent"
+                    card_view:layout_constraintTop_toTopOf="parent" />
+
                 <TextView
                     android:id="@+id/address_tag"
-                    android:layout_marginTop="12dp"
-                    android:layout_width="58dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
                     android:text="@string/address"
-                    android:textColor="@color/colorAccent"
                     android:textAppearance="@style/TextAppearance.AppCompat.Button"
-                    android:textSize="12sp" />
+                    android:textColor="@color/colorAccent"
+                    android:textSize="12sp"
+                    card_view:layout_constraintStart_toStartOf="parent"
+                    card_view:layout_constraintTop_toBottomOf="@+id/favorite_button" />
 
                 <TextView
                     android:id="@+id/inmap_apartment_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginTop="1dp"
                     android:fontFamily="@font/economica"
-                    android:textColor="@android:color/black"
-                    android:paddingStart="6dp"
                     android:textAlignment="textStart"
-                    android:textSize="12sp" />
+                    android:textColor="@android:color/black"
+                    android:textSize="12sp"
+                    card_view:layout_constraintEnd_toEndOf="parent"
+                    card_view:layout_constraintHorizontal_bias="0.0"
+                    card_view:layout_constraintStart_toStartOf="parent"
+                    card_view:layout_constraintTop_toBottomOf="@+id/address_tag" />
 
                 <TextView
                     android:id="@+id/price_tag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:text="@string/price"
-                    android:textColor="@color/colorAccent"
                     android:textAppearance="@style/TextAppearance.AppCompat.Button"
-                    android:textSize="12sp" />
+                    android:textColor="@color/colorAccent"
+                    android:textSize="12sp"
+                    card_view:layout_constraintStart_toStartOf="parent"
+                    card_view:layout_constraintTop_toBottomOf="@+id/inmap_apartment_address" />
 
                 <TextView
                     android:id="@+id/inmap_apartment_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginEnd="16dp"
                     android:fontFamily="@font/economica"
                     android:textColor="@android:color/black"
-                    android:paddingStart="6dp"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    card_view:layout_constraintEnd_toEndOf="parent"
+                    card_view:layout_constraintHorizontal_bias="0.0"
+                    card_view:layout_constraintStart_toEndOf="@+id/price_tag"
+                    card_view:layout_constraintTop_toBottomOf="@+id/inmap_apartment_address" />
 
                 <TextView
                     android:id="@+id/roommate_tag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
                     android:text="@string/roommates"
-                    android:textColor="@color/colorAccent"
                     android:textAppearance="@style/TextAppearance.AppCompat.Button"
-                    android:textSize="12sp" />
+                    android:textColor="@color/colorAccent"
+                    android:textSize="12sp"
+                    card_view:layout_constraintEnd_toEndOf="@+id/inmap_apartment_roommates"
+                    card_view:layout_constraintHorizontal_bias="0.0"
+                    card_view:layout_constraintStart_toStartOf="parent"
+                    card_view:layout_constraintTop_toBottomOf="@+id/price_tag" />
 
                 <TextView
                     android:id="@+id/inmap_apartment_roommates"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginTop="8dp"
                     android:fontFamily="@font/economica"
                     android:textColor="@android:color/black"
-                    android:paddingStart="6dp"
-                    android:textAlignment="textStart"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    card_view:layout_constraintEnd_toEndOf="parent"
+                    card_view:layout_constraintHorizontal_bias="0.0"
+                    card_view:layout_constraintStart_toEndOf="@+id/roommate_tag"
+                    card_view:layout_constraintTop_toBottomOf="@+id/inmap_apartment_price" />
 
-            </LinearLayout>
+            </android.support.constraint.ConstraintLayout>
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
@@ -98,28 +133,20 @@
 
                 <ImageView
                     android:id="@+id/inmap_apartment_image"
-                    android:layout_width="159dp"
-                    android:layout_height="92dp"
-                    android:layout_marginBottom="8dp"
+                    android:layout_width="0dp"
+                    android:layout_height="94dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
                     android:cropToPadding="false"
                     android:src="@drawable/room"
                     card_view:layout_constraintBottom_toBottomOf="parent"
                     card_view:layout_constraintEnd_toEndOf="parent"
-                    card_view:layout_constraintHorizontal_bias="1.0"
+                    card_view:layout_constraintHorizontal_bias="0.0"
                     card_view:layout_constraintStart_toStartOf="parent"
-                    card_view:layout_constraintTop_toBottomOf="@+id/favorite_button"
+                    card_view:layout_constraintTop_toTopOf="parent"
                     card_view:layout_constraintVertical_bias="0.0" />
 
-                <ImageView
-                    android:id="@+id/favorite_button"
-                    android:layout_width="26dp"
-                    android:layout_height="17dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    card_view:layout_constraintEnd_toEndOf="parent"
-                    card_view:layout_constraintHorizontal_bias="1.0"
-                    card_view:layout_constraintStart_toStartOf="parent"
-                    card_view:layout_constraintTop_toTopOf="parent" />
 
             </android.support.constraint.ConstraintLayout>
 

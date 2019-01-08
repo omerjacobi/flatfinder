@@ -43,8 +43,8 @@ public class MapsActivity
     private PostViewModel mPostViewModel;
     private List<FacebookPost> mFacebookPosts;
     private SupportMapFragment mMapFragment;
-    private LinearLayoutManager layoutManager;
-    View mapView;
+    private View mapView;
+    private static boolean filterON = false;
 
     private static boolean activityVisible;
 
@@ -67,19 +67,19 @@ public class MapsActivity
         mPostViewModel.getAllPosts().observe(this, new Observer<List<FacebookPost>>() {
             @Override
             public void onChanged(@Nullable List<FacebookPost> facebookPosts) {
-                if (facebookPosts!= null && facebookPosts.size() > 0 && !receivedSamePostsFromDB(facebookPosts)) {
+                if (facebookPosts!= null && facebookPosts.size() > 0 && !filterON  && !receivedSamePostsFromDB(facebookPosts)) {
                     mAdapter.setmApartments(facebookPosts);
                     mFacebookPosts = facebookPosts;
-                    mAdapter.notifyDataSetChanged();
                     if (activityVisible) {
                         refreshMap();
                     }
+                    mAdapter.notifyDataSetChanged();
                 }
             }
         });
 
         // Add a horizontal RecyclerView for apartments
-        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
 
         // Initialize recycler view
         mApartmentsRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_maps);
@@ -98,6 +98,7 @@ public class MapsActivity
         Bundle extrasBundle = getIntent().getBundleExtra(Constants.FILTER_VALUES_KEY);
         // check if resived values from filter activity and used them to filter the results
         if (extrasBundle!= null && !extrasBundle.isEmpty()){
+            filterON = true;
             int MaxPriceValue = extrasBundle.getInt(Constants.PRICE_VALUE_KEY);
             int MaxRoommateValue = extrasBundle.getInt(Constants.ROOMMATES_VALUE_KEY);
             boolean onlyFavorites = extrasBundle.getBoolean(Constants.FAVORITES_ONLY_KEY);
@@ -113,7 +114,7 @@ public class MapsActivity
                     MaxPriceValue,MaxRoommateValue,filterDistance,onlyFavorites).observe(this, new Observer<List<FacebookPost>>() {
                 @Override
                 public void onChanged(@Nullable List<FacebookPost> facebookPosts) {
-                    if (facebookPosts!= null && facebookPosts.size() > 0) {
+                    if (facebookPosts!= null && facebookPosts.size() > 0 && filterON) {
                         refreshView(facebookPosts);
                     }
                     else {
@@ -124,10 +125,11 @@ public class MapsActivity
             });
         }
         else if (extrasBundle != null) {
+            filterON = false;
             mPostViewModel.getAllPosts().observe(this, new Observer<List<FacebookPost>>() {
                 @Override
                 public void onChanged(@Nullable List<FacebookPost> facebookPosts) {
-                    if (facebookPosts != null && facebookPosts.size() > 0) {
+                    if (facebookPosts != null && facebookPosts.size() > 0 && filterON) {
                         refreshView(facebookPosts);
                     }
 
@@ -228,8 +230,9 @@ public class MapsActivity
     private void refreshView(@NonNull List<FacebookPost> facebookPosts) {
         mAdapter.setmApartments(facebookPosts);
         mFacebookPosts = facebookPosts;
-        mAdapter.notifyDataSetChanged();
         refreshMap();
+        mAdapter.notifyDataSetChanged();
+
     }
 
     /**
@@ -313,8 +316,7 @@ public class MapsActivity
      */
     private int getCurrentItemPosition() {
         LinearLayoutManager layoutManager = (LinearLayoutManager)mApartmentsRecyclerView.getLayoutManager();
-        int firstIndex = layoutManager.findFirstCompletelyVisibleItemPosition();
-        return firstIndex;
+        return layoutManager.findFirstCompletelyVisibleItemPosition();
     }
 
     @Override

@@ -19,8 +19,7 @@ import com.squareup.picasso.Picasso;
 
 public class imageAdapter extends RecyclerView.Adapter<imageAdapter.ViewHolder> {
 
-    private Context context;
-    private List<String> urlList = new ArrayList<String>();
+    private List<String> urlList = new ArrayList<>();
     private LayoutInflater mInflater;
 
 
@@ -40,7 +39,7 @@ public class imageAdapter extends RecyclerView.Adapter<imageAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         if(!urlList.isEmpty()){
-            context = holder.context;
+            Context context = holder.context;
             Picasso.with(context).load(urlList.get(position)).fit().centerCrop().into(holder.addressPic);
         }
     }
@@ -53,7 +52,7 @@ public class imageAdapter extends RecyclerView.Adapter<imageAdapter.ViewHolder> 
     }
 
      class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView addressPic;
+        ImageView addressPic;
         public TextView php;
         LinearLayout linearLayout;
         Context context;

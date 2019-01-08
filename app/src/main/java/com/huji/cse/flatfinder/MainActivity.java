@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * In case of login error, Updates the user at the current status by Toast message
-     * @param message
+     * @param message the message we display
      */
     private void showToastWithInputMessage(String message) {
         Context context = getApplicationContext();
