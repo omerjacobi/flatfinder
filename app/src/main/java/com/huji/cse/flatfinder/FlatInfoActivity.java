@@ -29,9 +29,6 @@ public class FlatInfoActivity extends FragmentActivity {
 
     private FacebookPost mFacebookPost;
     private PostViewModel mPostViewModel;
-    private RecyclerView mApartmentPicturesRecyclerView;
-    private imageAdapter mAdapter;
-    private LinearLayoutManager layoutManager;
 
 
     @Override
@@ -66,13 +63,13 @@ public class FlatInfoActivity extends FragmentActivity {
     private void fillContent() {
         // After we finish Parser we will do
         //List<String> lst = apartment.getPic;
-        List<String> lst = new ArrayList<String>();
+        List<String> lst = new ArrayList<>();
         // Add a horizontal RecyclerView for apartments
-        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
 
         // Initialize recycler view
-        mApartmentPicturesRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_photos);
-        mAdapter = new imageAdapter(this,lst);
+        RecyclerView mApartmentPicturesRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_photos);
+        imageAdapter mAdapter = new imageAdapter(this, lst);
         mApartmentPicturesRecyclerView.setAdapter(mAdapter);
         mApartmentPicturesRecyclerView.setLayoutManager(layoutManager);
         mApartmentPicturesRecyclerView.setClipToPadding(false);
@@ -117,7 +114,7 @@ public class FlatInfoActivity extends FragmentActivity {
 
     }
 
-    public void showFavoriteMessage(String message) {
+    private void showFavoriteMessage(String message) {
 
         Toast toast = Toast.makeText(getApplicationContext(),
                 message,

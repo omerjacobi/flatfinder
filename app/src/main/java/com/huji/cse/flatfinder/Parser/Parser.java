@@ -27,7 +27,7 @@ public class Parser extends AppCompatActivity {
     /**
      * parsers through all of the groups' listing and creates a facebook post object for the database
      * @param allPosts - all of the posts in the group
-     * @throws JSONException
+     * @throws JSONException the exception we throw
      */
     public static void parse(JSONObject allPosts, PostViewModel mViewModel, Geocoder geocoder) throws JSONException {
         JSONArray postsArray = allPosts.getJSONArray("data");
@@ -61,7 +61,7 @@ public class Parser extends AppCompatActivity {
     }
 
     private static ArrayList<String> getImages(JSONObject post) throws JSONException {
-        ArrayList<String> output=new ArrayList<String>();
+        ArrayList<String> output= new ArrayList<>();
         if(!post.has("attachments"))
             return output;
 

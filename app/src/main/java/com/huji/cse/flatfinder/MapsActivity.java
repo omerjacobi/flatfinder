@@ -43,8 +43,7 @@ public class MapsActivity
     private PostViewModel mPostViewModel;
     private List<FacebookPost> mFacebookPosts;
     private SupportMapFragment mMapFragment;
-    private LinearLayoutManager layoutManager;
-    View mapView;
+    private View mapView;
     private static boolean filterON = false;
 
     private static boolean activityVisible;
@@ -80,7 +79,7 @@ public class MapsActivity
         });
 
         // Add a horizontal RecyclerView for apartments
-        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
 
         // Initialize recycler view
         mApartmentsRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_maps);
@@ -317,8 +316,7 @@ public class MapsActivity
      */
     private int getCurrentItemPosition() {
         LinearLayoutManager layoutManager = (LinearLayoutManager)mApartmentsRecyclerView.getLayoutManager();
-        int firstIndex = layoutManager.findFirstCompletelyVisibleItemPosition();
-        return firstIndex;
+        return layoutManager.findFirstCompletelyVisibleItemPosition();
     }
 
     @Override

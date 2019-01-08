@@ -37,9 +37,7 @@ public interface PostDao {
     /*return post marked as favorites*/
     @Query("SELECT * FROM post_database WHERE favorite_post")
     LiveData<List<FacebookPost>> getAllFavoritesPosts();
-    /*return post with price lower than maxPrice*/
-    @Query("SELECT * FROM post_database WHERE flat_price < :maxPrice")
-    LiveData<List<FacebookPost>>  getAllCheaperPosts(long maxPrice);
+
     /*return post that is in an box of an given location by the gps coordinate*/
     @Query("SELECT * FROM post_database WHERE gps_lat BETWEEN :minLat AND :maxLat AND  gps_long BETWEEN :minLong AND :maxLong")
     LiveData<List<FacebookPost>>  getAllPostInLocation(float minLat, float maxLat, float minLong, float maxLong);

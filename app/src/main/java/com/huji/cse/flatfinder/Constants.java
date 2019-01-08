@@ -1,6 +1,6 @@
 package com.huji.cse.flatfinder;
 
-public class Constants {
+class Constants {
 
     protected static final String FACEBOOK_KEY = "FACEBOOK_POST";
 

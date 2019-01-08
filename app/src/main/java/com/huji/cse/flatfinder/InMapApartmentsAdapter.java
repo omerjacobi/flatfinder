@@ -112,9 +112,9 @@ public class InMapApartmentsAdapter extends RecyclerView.Adapter<InMapApartments
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView addressTextView,
-                        priceTextView,
-                        roommatesTextView;
+        TextView addressTextView;
+        public TextView priceTextView;
+        public TextView roommatesTextView;
         public CardView linearLayout;
         public Context context;
         public ImageView image,
