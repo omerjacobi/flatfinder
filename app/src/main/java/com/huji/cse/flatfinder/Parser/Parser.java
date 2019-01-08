@@ -5,7 +5,6 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.support.v7.app.AppCompatActivity;
 
-import com.huji.cse.flatfinder.MapsActivity;
 import com.huji.cse.flatfinder.db.entity.FacebookPost;
 import com.huji.cse.flatfinder.viewmodel.PostViewModel;
 
@@ -15,9 +14,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 
 public class Parser extends AppCompatActivity {
@@ -50,8 +47,6 @@ public class Parser extends AppCompatActivity {
             if (post.has(nameKey)) {
                 userName = post.getString(nameKey);
             }
-//            if (post.has(pictureKey))
-//                picture = post.getString(pictureKey);
 
             long price, numOfRoommates;
             Matcher matcher = ParserPatterns.pricePattern.matcher(fullMessage);
@@ -60,9 +55,8 @@ public class Parser extends AppCompatActivity {
             matcher = ParserPatterns.noRoommatesPattern.matcher(fullMessage);
             numOfRoommates = getLongField(fullMessage, matcher);
 
-            createFacebookPostObject(fullMessage, userName, "", address, price, numOfRoommates,
+            createFacebookPostObject(fullMessage, userName, images, address, price, numOfRoommates,
                     createdTime, postId, mViewModel,gpsCoord[0],gpsCoord[1]);
-            //todo OMER Im sending empty string instead of arraylist "images" to not change signature function - change picture from string to ArrayList<String>
         }
     }
 
@@ -73,8 +67,6 @@ public class Parser extends AppCompatActivity {
 
         JSONObject attachments=post.getJSONObject("attachments");
         JSONObject temp=attachments.getJSONArray("data").getJSONObject(0);
-//        JSONObject temp2=(JSONObject)temp.getJSONObject(0);
-//        JSONObject subattchments=temp.getJSONObject("subattachments");
         JSONArray pictures=temp.getJSONObject("subattachments").getJSONArray("data");
         for(int i=0;i<pictures.length();i++){
             JSONObject temp2=(JSONObject)pictures.get(i);
@@ -106,7 +98,7 @@ public class Parser extends AppCompatActivity {
      * create an post object that contain all the relivent information about the user post and sacve
      * it to the local database using a viewmodel
      */
-    private static void createFacebookPostObject(String fullMessage, String userName, String pictures,
+    private static void createFacebookPostObject(String fullMessage, String userName, ArrayList<String> pictures,
                                                  String address, long price, long numOfRommates,
                                                  String createdTime, String postId, PostViewModel viewModel,
                                                  double GPSlong, double GPSlat) {

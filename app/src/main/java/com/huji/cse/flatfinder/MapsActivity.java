@@ -29,6 +29,7 @@ import com.huji.cse.flatfinder.viewmodel.PostViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class MapsActivity
         extends FragmentActivity
@@ -44,6 +45,7 @@ public class MapsActivity
     private SupportMapFragment mMapFragment;
     private LinearLayoutManager layoutManager;
     View mapView;
+    private static boolean filterON = false;
 
     private static boolean activityVisible;
 
@@ -66,15 +68,14 @@ public class MapsActivity
         mPostViewModel.getAllPosts().observe(this, new Observer<List<FacebookPost>>() {
             @Override
             public void onChanged(@Nullable List<FacebookPost> facebookPosts) {
-                if (facebookPosts!= null && facebookPosts.size() > 0) {
+                if (facebookPosts!= null && facebookPosts.size() > 0 && !filterON  && !receivedSamePostsFromDB(facebookPosts)) {
                     mAdapter.setmApartments(facebookPosts);
-                    mAdapter.notifyDataSetChanged();
                     mFacebookPosts = facebookPosts;
                     if (activityVisible) {
                         refreshMap();
                     }
+                    mAdapter.notifyDataSetChanged();
                 }
-
             }
         });
 
@@ -83,7 +84,7 @@ public class MapsActivity
 
         // Initialize recycler view
         mApartmentsRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_maps);
-        mAdapter = new InMapApartmentsAdapter(this);
+        mAdapter = new InMapApartmentsAdapter(this, mPostViewModel);
         mApartmentsRecyclerView.setAdapter(mAdapter);
         mApartmentsRecyclerView.setLayoutManager(layoutManager);
         mApartmentsRecyclerView.setClipToPadding(false);
@@ -98,6 +99,7 @@ public class MapsActivity
         Bundle extrasBundle = getIntent().getBundleExtra(Constants.FILTER_VALUES_KEY);
         // check if resived values from filter activity and used them to filter the results
         if (extrasBundle!= null && !extrasBundle.isEmpty()){
+            filterON = true;
             int MaxPriceValue = extrasBundle.getInt(Constants.PRICE_VALUE_KEY);
             int MaxRoommateValue = extrasBundle.getInt(Constants.ROOMMATES_VALUE_KEY);
             boolean onlyFavorites = extrasBundle.getBoolean(Constants.FAVORITES_ONLY_KEY);
@@ -113,7 +115,7 @@ public class MapsActivity
                     MaxPriceValue,MaxRoommateValue,filterDistance,onlyFavorites).observe(this, new Observer<List<FacebookPost>>() {
                 @Override
                 public void onChanged(@Nullable List<FacebookPost> facebookPosts) {
-                    if (facebookPosts!= null && facebookPosts.size() > 0) {
+                    if (facebookPosts!= null && facebookPosts.size() > 0 && filterON) {
                         refreshView(facebookPosts);
                     }
                     else {
@@ -124,10 +126,11 @@ public class MapsActivity
             });
         }
         else if (extrasBundle != null) {
+            filterON = false;
             mPostViewModel.getAllPosts().observe(this, new Observer<List<FacebookPost>>() {
                 @Override
                 public void onChanged(@Nullable List<FacebookPost> facebookPosts) {
-                    if (facebookPosts != null && facebookPosts.size() > 0) {
+                    if (facebookPosts != null && facebookPosts.size() > 0 && filterON) {
                         refreshView(facebookPosts);
                     }
 
@@ -139,30 +142,54 @@ public class MapsActivity
     @Override
     protected void onResume() {
         super.onResume();
+        mAdapter.notifyDataSetChanged();
         activityVisible = true;
     }
-    public void openProblemDialog(){
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setMessage("The search didnt return results, please select different parameters");
-        alertDialogBuilder.setTitle("We hit a problem");
-                alertDialogBuilder.setPositiveButton("OK",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                finish();
-                            }
-                        });
-
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
-    }
-
-
 
     @Override
     protected void onPause() {
         super.onPause();
         activityVisible = false;
+    }
+
+    public void openProblemDialog(){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage("The search didnt return results, please select different parameters");
+        alertDialogBuilder.setTitle("We hit a problem");
+        alertDialogBuilder.setPositiveButton("OK",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+    private boolean receivedSamePostsFromDB(List<FacebookPost> facebookPosts) {
+        boolean result = mFacebookPosts != null && mFacebookPosts.size() > 0 && facebookPosts.size() == mFacebookPosts.size();
+        if (result) {
+            Predicate<FacebookPost> currentPredicate;
+            for (final FacebookPost post : mFacebookPosts) {
+                currentPredicate = new Predicate<FacebookPost>() {
+                    @Override
+                    public boolean test(FacebookPost otherPost) {
+                        if (post.getId().equals(otherPost.getId())) {
+                            // Before returning, we make sure the current post favorite status matches any changes made
+                            post.setFavorite(otherPost.isFavorite());
+                            return true;
+                        }
+                        return false;
+                    }
+                };
+                if (!facebookPosts.stream().anyMatch(currentPredicate)) {
+                    return false;
+                }
+            }
+        }
+        return result;
     }
 
     /**
@@ -203,9 +230,10 @@ public class MapsActivity
      */
     private void refreshView(@NonNull List<FacebookPost> facebookPosts) {
         mAdapter.setmApartments(facebookPosts);
-        mAdapter.notifyDataSetChanged();
         mFacebookPosts = facebookPosts;
         refreshMap();
+        mAdapter.notifyDataSetChanged();
+
     }
 
     /**

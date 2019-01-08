@@ -3,6 +3,7 @@ package com.huji.cse.flatfinder.db;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
+import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 
 import com.huji.cse.flatfinder.db.dao.PostDao;
@@ -13,6 +14,7 @@ import com.huji.cse.flatfinder.db.entity.FacebookPost;
  */
 
 @Database(entities = {FacebookPost.class}, version = 1, exportSchema = false)
+@TypeConverters({Converters.class})
 public abstract class PostDatabase extends RoomDatabase {
 
     public abstract PostDao postDao();
