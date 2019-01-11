@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 //import android.support.design.widget.FloatingActionButton;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -69,13 +70,16 @@ public class FlatInfoActivity extends FragmentActivity {
 
         // Initialize recycler view
         RecyclerView mApartmentPicturesRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_photos);
-        imageAdapter mAdapter = new imageAdapter(this, lst);
+        imageAdapter mAdapter = new imageAdapter(this,mFacebookPost.getPicture());
         mApartmentPicturesRecyclerView.setAdapter(mAdapter);
         mApartmentPicturesRecyclerView.setLayoutManager(layoutManager);
         mApartmentPicturesRecyclerView.setClipToPadding(false);
 
         SnapHelper snapHelper = new PagerSnapHelper();
         snapHelper.attachToRecyclerView(mApartmentPicturesRecyclerView);
+
+
+        mApartmentPicturesRecyclerView.addItemDecoration(new LinePagerIndicatorDecoration());
 
         //address
         TextView apartment_address = findViewById(R.id.apartment_address);
@@ -129,17 +133,18 @@ public class FlatInfoActivity extends FragmentActivity {
      */
     private void viewFavoriteStatus() {
         ImageButton imageButton = findViewById(R.id.favorite_button);
+        imageButton.bringToFront();
         if (mFacebookPost.isFavorite()) {
             imageButton.setBackgroundResource(R.drawable.ic_favorite);
             android.view.ViewGroup.LayoutParams params = imageButton.getLayoutParams();
-            params.height = 66;
-            params.width = 40;
+            params.height = 130;
+            params.width = 100;
             imageButton.setLayoutParams(params);
         } else {
             imageButton.setBackgroundResource(R.drawable.ic_notfavorite);
             android.view.ViewGroup.LayoutParams params = imageButton.getLayoutParams();
-            params.height = 75;
-            params.width = 44;
+            params.height = 130;
+            params.width = 100;
             imageButton.setLayoutParams(params);
         }
     }
