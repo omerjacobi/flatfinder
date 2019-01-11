@@ -4,11 +4,13 @@
     android:id="@+id/photos_apartment_container"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
+    android:layout_height="300dp"
     android:paddingTop="@dimen/padding"
     android:paddingBottom="@dimen/padding"
+    android:paddingHorizontal="@dimen/padding"
     android:clickable="true"
     >
+
         <ImageView
             android:id="@+id/apartment_pictures"
             android:layout_width="match_parent"
@@ -16,6 +18,8 @@
             android:background="@color/colorAccent"
 
             />
+
+
 
 
 
