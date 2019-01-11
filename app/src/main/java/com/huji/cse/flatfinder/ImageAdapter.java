@@ -18,21 +18,21 @@ import java.util.List;
 
 import com.squareup.picasso.Picasso;
 
-public class imageAdapter extends RecyclerView.Adapter<imageAdapter.ViewHolder> {
+public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> {
 
     private List<String> urlList = new ArrayList<>();
     private LayoutInflater mInflater;
 
 
-    imageAdapter(Context context,List<String> list ) {
+    ImageAdapter(Context context, List<String> list ) {
         mInflater = LayoutInflater.from(context);
         urlList = list;
     }
 
     @Override
-    public imageAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ImageAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View imageAdapter = mInflater.inflate(R.layout.activity_flat_photos, parent, false);
-        return new imageAdapter.ViewHolder(imageAdapter);
+        return new ImageAdapter.ViewHolder(imageAdapter);
     }
 
     @SuppressLint("ResourceAsColor")

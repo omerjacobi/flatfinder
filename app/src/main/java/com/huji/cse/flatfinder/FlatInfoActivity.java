@@ -70,7 +70,7 @@ public class FlatInfoActivity extends FragmentActivity {
 
         // Initialize recycler view
         RecyclerView mApartmentPicturesRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_photos);
-        imageAdapter mAdapter = new imageAdapter(this,mFacebookPost.getPicture());
+        ImageAdapter mAdapter = new ImageAdapter(this,mFacebookPost.getPicture());
         mApartmentPicturesRecyclerView.setAdapter(mAdapter);
         mApartmentPicturesRecyclerView.setLayoutManager(layoutManager);
         mApartmentPicturesRecyclerView.setClipToPadding(false);
