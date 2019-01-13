@@ -47,6 +47,10 @@ public interface PostDao {
     @Query("SELECT * FROM post_database WHERE (((NOT :filterDistance) OR ((gps_lat BETWEEN :minLat AND :maxLat) AND  (gps_long" +
             " BETWEEN :minLong AND :maxLong))) AND (number_of_roommates <= :maxRoommates AND flat_price <= :maxPrice) AND ((NOT :onlyFavorites) OR favorite_post))")
     LiveData<List<FacebookPost>>  getPostAfterFilter(double minLat, double maxLat, double minLong,
-                                                     double maxLong, long maxPrice, long maxRoommates, boolean filterDistance, boolean onlyFavorites);
+                                                     double maxLong, long maxPrice, long maxRoommates,
+                                                     boolean filterDistance, boolean onlyFavorites);
+
+    @Query("DELETE FROM post_database")
+    void deleteAll();
 
 }

@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
      * @param token Access token
      */
     private void getPostsInGraph(AccessToken token) {
+        mViewModel.deletePosts();
         GraphRequest request = GraphRequest.newMeRequest(
                 token,
                 new GraphRequest.GraphJSONObjectCallback() {

@@ -26,6 +26,14 @@ public class PostViewModel extends AndroidViewModel {
     }
 
     /**
+     * delete all the object in the database
+     */
+    public void deletePosts()
+    {
+        mPostDao.deleteAll();
+    }
+
+    /**
      * get all the object in the database
      * @return a livedata that it a list of all the facebook post
      */
