@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.huji.cse.flatfinder.db.entity.FacebookPost;
 import com.huji.cse.flatfinder.viewmodel.PostViewModel;
 import com.squareup.picasso.Picasso;
@@ -45,7 +46,7 @@ public class InMapApartmentsAdapter extends RecyclerView.Adapter<InMapApartments
             viewHolder.roommatesTextView.setText(String.valueOf(apartment.getNumOfRoommates()));
             viewHolder.addressTextView.setText(apartment.getAddress());
             viewFavoriteStatus(viewHolder.favoritesButton, apartment.isFavorite());
-            if(apartment.getPicture()!=null)
+            if (apartment.getPicture() != null)
                 Picasso.with(context).load(apartment.getPicture().get(0)).fit().centerCrop().into(viewHolder.image);
 
             // In case the user clicks on the container, he is transferred to the Apartment's info
@@ -76,7 +77,7 @@ public class InMapApartmentsAdapter extends RecyclerView.Adapter<InMapApartments
     /**
      * Sets the currently held apartments list by given value
      */
-    void setmApartments(List<FacebookPost> apartments){
+    void setmApartments(List<FacebookPost> apartments) {
         mApartments = apartments;
         notifyDataSetChanged();
     }
@@ -86,8 +87,7 @@ public class InMapApartmentsAdapter extends RecyclerView.Adapter<InMapApartments
         // In case the mApartments data member isn't defined, returns 0
         if (mApartments != null) {
             return mApartments.size();
-        }
-        else return 0;
+        } else return 0;
     }
 
     /**
@@ -97,14 +97,14 @@ public class InMapApartmentsAdapter extends RecyclerView.Adapter<InMapApartments
         if (isFavorite) {
             favoritesButton.setBackgroundResource(R.drawable.ic_favorite);
             android.view.ViewGroup.LayoutParams params = favoritesButton.getLayoutParams();
-            params.height = 66;
-            params.width = 40;
+            params.height = 80;
+            params.width = 80;
             favoritesButton.setLayoutParams(params);
         } else {
             favoritesButton.setBackgroundResource(R.drawable.ic_notfavorite);
             android.view.ViewGroup.LayoutParams params = favoritesButton.getLayoutParams();
-            params.height = 66;
-            params.width = 40;
+            params.height = 80;
+            params.width = 80;
             favoritesButton.setLayoutParams(params);
         }
     }
@@ -116,14 +116,14 @@ public class InMapApartmentsAdapter extends RecyclerView.Adapter<InMapApartments
         public CardView linearLayout;
         public Context context;
         public ImageView image,
-                         favoritesButton;
+                favoritesButton;
 
         public ViewHolder(View itemView) {
             super(itemView);
             addressTextView = (TextView) itemView.findViewById(R.id.inmap_apartment_address);
             priceTextView = (TextView) itemView.findViewById(R.id.inmap_apartment_price);
             roommatesTextView = (TextView) itemView.findViewById(R.id.inmap_apartment_roommates);
-            image=(ImageView)itemView.findViewById(R.id.inmap_apartment_image);
+            image = (ImageView) itemView.findViewById(R.id.inmap_apartment_image);
             linearLayout = (CardView) itemView.findViewById(R.id.inmap_apartment_card);
             favoritesButton = (ImageView) itemView.findViewById(R.id.favorite_button);
             context = itemView.getContext();
