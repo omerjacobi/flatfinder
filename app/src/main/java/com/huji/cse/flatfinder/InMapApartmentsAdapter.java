@@ -45,7 +45,8 @@ public class InMapApartmentsAdapter extends RecyclerView.Adapter<InMapApartments
             viewHolder.roommatesTextView.setText(String.valueOf(apartment.getNumOfRoommates()));
             viewHolder.addressTextView.setText(apartment.getAddress());
             viewFavoriteStatus(viewHolder.favoritesButton, apartment.isFavorite());
-            Picasso.with(context).load(apartment.getPicture().get(0)).fit().centerCrop().into(viewHolder.image);
+            if(apartment.getPicture()!=null)
+                Picasso.with(context).load(apartment.getPicture().get(0)).fit().centerCrop().into(viewHolder.image);
 
             // In case the user clicks on the container, he is transferred to the Apartment's info
             // Activity, which contains further details about the currently viewed apartment
