@@ -138,7 +138,7 @@
                     android:layout_marginEnd="10dp"
                     android:layout_marginBottom="10dp"
                     android:cropToPadding="false"
-                    android:src="@drawable/room"
+                    android:src="@drawable/ic_no_apart_pic"
                     card_view:layout_constraintBottom_toBottomOf="parent"
                     card_view:layout_constraintEnd_toEndOf="parent"
                     card_view:layout_constraintHorizontal_bias="0.0"

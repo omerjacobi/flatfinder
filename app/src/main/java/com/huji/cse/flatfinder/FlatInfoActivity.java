@@ -138,13 +138,13 @@ public class FlatInfoActivity extends FragmentActivity {
             imageButton.setBackgroundResource(R.drawable.ic_favorite);
             android.view.ViewGroup.LayoutParams params = imageButton.getLayoutParams();
             params.height = 130;
-            params.width = 100;
+            params.width = 130;
             imageButton.setLayoutParams(params);
         } else {
             imageButton.setBackgroundResource(R.drawable.ic_notfavorite);
             android.view.ViewGroup.LayoutParams params = imageButton.getLayoutParams();
             params.height = 130;
-            params.width = 100;
+            params.width = 130;
             imageButton.setLayoutParams(params);
         }
     }
