@@ -5,9 +5,9 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="300dp"
-    android:paddingTop="@dimen/padding"
-    android:paddingBottom="@dimen/padding"
-    android:paddingHorizontal="@dimen/padding"
+    android:paddingTop="0dp"
+    android:paddingBottom="0dp"
+    android:paddingHorizontal="0dp"
     android:clickable="true"
     >
 
@@ -16,7 +16,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/colorAccent"
-
             />
 
 
