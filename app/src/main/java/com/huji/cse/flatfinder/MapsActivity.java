@@ -64,19 +64,6 @@ public class MapsActivity
         mMapFragment.getMapAsync(this);
         mPostViewModel = ViewModelProviders.of(this).get(PostViewModel.class);
 
-        mPostViewModel.getAllPosts().observe(this, new Observer<List<FacebookPost>>() {
-            @Override
-            public void onChanged(@Nullable List<FacebookPost> facebookPosts) {
-                if (facebookPosts!= null && facebookPosts.size() > 0 && !filterON  && !receivedSamePostsFromDB(facebookPosts)) {
-                    mAdapter.setmApartments(facebookPosts);
-                    mFacebookPosts = facebookPosts;
-                    if (activityVisible) {
-                        refreshMap();
-                    }
-                    mAdapter.notifyDataSetChanged();
-                }
-            }
-        });
 
         // Add a horizontal RecyclerView for apartments
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -114,22 +101,22 @@ public class MapsActivity
                     MaxPriceValue,MaxRoommateValue,filterDistance,onlyFavorites).observe(this, new Observer<List<FacebookPost>>() {
                 @Override
                 public void onChanged(@Nullable List<FacebookPost> facebookPosts) {
-                    if (facebookPosts!= null && facebookPosts.size() > 0 && filterON) {
+                    if (facebookPosts!= null && facebookPosts.size() > 0 && filterON && !receivedSamePostsFromDB(facebookPosts)) {
                         refreshView(facebookPosts);
                     }
-                    else {
+                    else if (facebookPosts== null ||  facebookPosts.size() == 0){
                         openProblemDialog();
                     }
 
                 }
             });
         }
-        else if (extrasBundle != null) {
+        else {
             filterON = false;
             mPostViewModel.getAllPosts().observe(this, new Observer<List<FacebookPost>>() {
                 @Override
                 public void onChanged(@Nullable List<FacebookPost> facebookPosts) {
-                    if (facebookPosts != null && facebookPosts.size() > 0 && filterON) {
+                    if (facebookPosts != null && facebookPosts.size() > 0 && !filterON && !receivedSamePostsFromDB(facebookPosts)) {
                         refreshView(facebookPosts);
                     }
 
@@ -230,7 +217,9 @@ public class MapsActivity
     private void refreshView(@NonNull List<FacebookPost> facebookPosts) {
         mAdapter.setmApartments(facebookPosts);
         mFacebookPosts = facebookPosts;
-        refreshMap();
+        if (activityVisible) {
+            refreshMap();
+        }
         mAdapter.notifyDataSetChanged();
 
     }

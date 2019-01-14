@@ -103,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showPrivacyMessage(View view) {
+        mViewModel.deletePosts();
         ImageView lockImage = findViewById(R.id.privacyButton);
         float y = lockImage.getY();
         Toast toast = Toast.makeText(getApplicationContext(),

@@ -116,6 +116,14 @@ public class PostViewModel extends AndroidViewModel {
 
     }
 
+    /**
+     * delete all the object in the database
+     */
+    public void deletePosts()
+    {
+        mPostDao.deleteAll();
+    }
+
 
 
 }
