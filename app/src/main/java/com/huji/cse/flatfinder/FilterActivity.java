@@ -232,8 +232,9 @@ public class FilterActivity extends AppCompatActivity {
         b.putInt(Constants.PRICE_VALUE_KEY, priceValue);
         b.putInt(Constants.ROOMMATES_VALUE_KEY, roommateValue);
         i.putExtra(Constants.FILTER_VALUES_KEY,b);
+        finish();
         startActivity(i);
-        /* and animation for the transition between map and filter activity*/
+        /* and animation for the transition between map and filter activity */
         overridePendingTransition(R.anim.slide_in,R.anim.slide_static);
 
     }
