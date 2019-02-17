@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
@@ -19,15 +20,18 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.ui.IconGenerator;
 import com.huji.cse.flatfinder.db.entity.FacebookPost;
 import com.huji.cse.flatfinder.viewmodel.PostViewModel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -43,7 +47,7 @@ public class MapsActivity
     private PostViewModel mPostViewModel;
     private List<FacebookPost> mFacebookPosts;
     private SupportMapFragment mMapFragment;
-    private View mapView;
+    private HashMap<Marker, FacebookPost> mMarkerToPost;
     private static boolean filterON = false;
 
     private static boolean activityVisible;
@@ -83,7 +87,7 @@ public class MapsActivity
     protected void onStart() {
         super.onStart();
         Bundle extrasBundle = getIntent().getBundleExtra(Constants.FILTER_VALUES_KEY);
-        // check if resived values from filter activity and used them to filter the results
+        // check if received values from filter activity and used them to filter the results
         if (extrasBundle!= null && !extrasBundle.isEmpty()){
             filterON = true;
             int MaxPriceValue = extrasBundle.getInt(Constants.PRICE_VALUE_KEY);
@@ -191,7 +195,6 @@ public class MapsActivity
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         refreshMap();
-        mapView = mMapFragment.getView();
 
         // Set map to update each time the user scrolls to the next item
         mApartmentsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -230,6 +233,7 @@ public class MapsActivity
     private void refreshMap() {
         if (mMap != null) {
             mMap.clear();
+            mMarkerToPost = new HashMap<>();
             mCurrentlyViewedMarker = null;
             mMarkers = null;
             mMarkers = generateMarkersFromPosts();
@@ -251,16 +255,18 @@ public class MapsActivity
         if (mFacebookPosts != null) {
             LatLng currentCoordinate;
             Marker currentMarker;
+            String currentMarkerText;
 
             for (FacebookPost apartment : mFacebookPosts) {
                 currentCoordinate = new LatLng(apartment.getGPSlat(), apartment.getGPSlong());
+                currentMarkerText =  String.valueOf((apartment.getPrice())) + getString(R.string.new_shekel_sign);
                 currentMarker = mMap.addMarker(
                         new MarkerOptions()
                                 .position(currentCoordinate)
-                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                                .icon(generateBitmapDescriptor(false, currentMarkerText))
                                 .alpha(BACKGROUND_MARKER_OPACITY)
-                                .title(String.valueOf(apartment.getPrice()) + getString(R.string.new_shekel_sign))
                 );
+                mMarkerToPost.put(currentMarker, apartment);
                 markers.add(currentMarker);
             }
         }
@@ -273,8 +279,10 @@ public class MapsActivity
      */
     private void focusMarkerOnMap(Marker marker) {
         if (mCurrentlyViewedMarker != null) {
+            String currentMarkerText = String.valueOf(mMarkerToPost.get(mCurrentlyViewedMarker).getPrice() + getString(R.string.new_shekel_sign));
             mCurrentlyViewedMarker.setAlpha(BACKGROUND_MARKER_OPACITY);
-            mCurrentlyViewedMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+            mCurrentlyViewedMarker.setIcon(generateBitmapDescriptor(false, currentMarkerText));
+            mCurrentlyViewedMarker.setZIndex(0);
         }
 
         // In case the user zoomed in more than our default zoom value, don't re-scale the map
@@ -282,8 +290,10 @@ public class MapsActivity
         float zoomLevel = (cameraPosition != null) ? cameraPosition.zoom : -1;
         zoomLevel = (zoomLevel > ZOOM_LEVEL) ? zoomLevel : ZOOM_LEVEL;
 
+        String markerText = String.valueOf(mMarkerToPost.get(marker).getPrice()) + getString(R.string.new_shekel_sign);
         marker.setAlpha(MAIN_MARKER_OPACITY);
-        marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
+        marker.setIcon(generateBitmapDescriptor(true, markerText));
+        marker.setZIndex(1.0f);
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), zoomLevel));
         marker.showInfoWindow();
         mCurrentlyViewedMarker = marker;
@@ -320,9 +330,29 @@ public class MapsActivity
      */
     public void filterClick(View view) {
         Intent intent = new Intent(this, FilterActivity.class);
+        finish();
         startActivity(intent);
         // Transition animation
         overridePendingTransition(R.anim.slide_out,R.anim.slide_static);
+    }
+
+    /**
+     * Generates a BitmapDescriptor object that matches a marker specifications
+     * @param isCurrentMarker Indicates whether the given marker is the currently viewed one
+     * @param text Text to be written on the marker
+     */
+    private BitmapDescriptor generateBitmapDescriptor(boolean isCurrentMarker, String text) {
+        IconGenerator iconFactory = new IconGenerator(this);
+
+        if (isCurrentMarker) {
+            iconFactory.setStyle(IconGenerator.STYLE_ORANGE);
+        } else {
+            iconFactory.setStyle(IconGenerator.STYLE_BLUE);
+        }
+
+        Bitmap iconBitmap = iconFactory.makeIcon(text);
+
+        return BitmapDescriptorFactory.fromBitmap(iconBitmap);
     }
 
 
