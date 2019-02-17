@@ -25,21 +25,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/header"
-        android:layout_width="369dp"
-        android:layout_height="36dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="1dp"
-        android:text="Filter to the maximun you desire"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Settings" />
-
     <!--<ScrollView-->
         <!--android:layout_width="0dp"-->
         <!--android:layout_height="486dp"-->
@@ -59,13 +44,12 @@
 
     <SeekBar
         android:id="@+id/seekBarPrice"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="170dp"
+        android:layout_height="20dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="41dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="24dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/textViewPrice"
         app:layout_constraintTop_toBottomOf="@+id/seekBarDistance" />
 
@@ -74,7 +58,7 @@
         android:layout_width="42dp"
         android:layout_height="29dp"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:text="@string/TextViewPriceSlider"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
@@ -84,10 +68,10 @@
 
     <TextView
         android:id="@+id/textViewRoommates"
-        android:layout_width="99dp"
-        android:layout_height="29dp"
+        android:layout_width="87dp"
+        android:layout_height="26dp"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:text="@string/TextViewRoommateSlider"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
@@ -97,13 +81,13 @@
 
     <SeekBar
         android:id="@+id/seekBarRoommates"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="170dp"
+        android:layout_height="20dp"
         android:layout_marginStart="2dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.47"
         app:layout_constraintStart_toEndOf="@+id/textViewRoommates"
         app:layout_constraintTop_toBottomOf="@+id/seekBarPrice" />
 
@@ -114,7 +98,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="60dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="24dp"
         android:background="@color/colorAccent"
         android:gravity="center"
         android:text="@string/DoneButtonText"
@@ -127,7 +111,7 @@
         app:layout_constraintHorizontal_bias="0.315"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/OnlyFavoritesTextView"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/resetButton"
@@ -136,7 +120,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="60dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="24dp"
         android:background="@color/colorAccent"
         android:gravity="center"
         android:text="@string/ResetButtonText"
@@ -149,7 +133,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/doneButton"
         app:layout_constraintTop_toBottomOf="@+id/OnlyFavoritesTextView"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/DistnaceTextView"
@@ -160,18 +144,18 @@
         android:text="distance from jerusalem"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textColor="@color/cardview_dark_background"
-        android:textSize="14sp"
+        android:textSize="16sp"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/place_autocomplete_fragment" />
 
     <TextView
         android:id="@+id/OnlyFavoritesTextView"
-        android:layout_width="170dp"
+        android:layout_width="144dp"
         android:layout_height="43dp"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="28dp"
-        android:text="Show Only Favorites"
+        android:layout_marginTop="24dp"
+        android:text="Show only favorites"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -183,7 +167,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="18dp"
-        android:layout_marginEnd="8dp"
         android:visibility="invisible"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintHorizontal_bias="1.0"
@@ -194,7 +177,7 @@
         android:id="@+id/OnlyFavorites"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="26dp"
         app:layout_constraintStart_toEndOf="@+id/OnlyFavoritesTextView"
         app:layout_constraintTop_toBottomOf="@+id/seekBarRoommates" />
 
@@ -205,7 +188,7 @@
         android:layout_height="21dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="6dp"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.024"
@@ -217,45 +200,45 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
         android:text="@string/TextViewDistance"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textSize="17sp"
+        android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/header" />
+        app:layout_constraintTop_toBottomOf="@+id/Settings" />
 
     <TextView
         android:id="@+id/DistanceTextViewValue"
         android:layout_width="wrap_content"
         android:layout_height="19dp"
-        android:layout_marginTop="95dp"
+        android:layout_marginTop="18dp"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/header" />
+        app:layout_constraintTop_toBottomOf="@+id/place_autocomplete_fragment" />
 
     <TextView
         android:id="@+id/distance_km"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="3dp"
-        android:layout_marginTop="169dp"
+        android:layout_marginTop="18dp"
         android:layout_marginEnd="4dp"
         android:text="km"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/DistanceTextViewValue"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/place_autocomplete_fragment" />
 
     <TextView
         android:id="@+id/priceValueTextView"
         android:layout_width="wrap_content"
         android:layout_height="18dp"
-        android:layout_marginTop="43dp"
+        android:layout_marginTop="24dp"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/DistanceTextViewValue" />
 
@@ -264,7 +247,7 @@
         android:layout_width="wrap_content"
         android:layout_height="15dp"
         android:layout_marginStart="3dp"
-        android:layout_marginTop="46dp"
+        android:layout_marginTop="26dp"
         android:layout_marginEnd="16dp"
         android:text="nis"
         app:layout_constraintEnd_toEndOf="parent"
@@ -276,7 +259,8 @@
         android:id="@+id/roommateValueTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="26dp"
         android:text="TextView"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/priceValueTextView" />
@@ -286,7 +270,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="261dp" />
+        app:layout_constraintGuide_begin="262dp" />
 
     <!--</android.support.constraint.ConstraintLayout>-->
     <!--</ScrollView>-->
