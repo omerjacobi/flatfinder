@@ -345,9 +345,9 @@ public class MapsActivity
         IconGenerator iconFactory = new IconGenerator(this);
 
         if (isCurrentMarker) {
-            iconFactory.setStyle(IconGenerator.STYLE_ORANGE);
+            iconFactory.setStyle(IconGenerator.STYLE_GREEN);
         } else {
-            iconFactory.setStyle(IconGenerator.STYLE_BLUE);
+            iconFactory.setStyle(IconGenerator.STYLE_ORANGE);
         }
 
         Bitmap iconBitmap = iconFactory.makeIcon(text);
