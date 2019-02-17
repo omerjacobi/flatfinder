@@ -31,11 +31,12 @@
         android:layout_height="36dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="1dp"
-        android:text="filter to the maximum you desire"
+        android:text="Filter to the maximun you desire"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Settings" />
 
@@ -72,12 +73,12 @@
         android:id="@+id/textViewPrice"
         android:layout_width="42dp"
         android:layout_height="29dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="32dp"
         android:text="@string/TextViewPriceSlider"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textSize="18sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/DistnaceTextView" />
 
@@ -85,11 +86,12 @@
         android:id="@+id/textViewRoommates"
         android:layout_width="99dp"
         android:layout_height="29dp"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="32dp"
         android:text="@string/TextViewRoommateSlider"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textSize="18sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewPrice" />
 
@@ -97,7 +99,7 @@
         android:id="@+id/seekBarRoommates"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="2dp"
         android:layout_marginTop="44dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
@@ -122,7 +124,7 @@
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintHorizontal_bias="0.315"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/OnlyFavoritesTextView"
         app:layout_constraintVertical_bias="0.0" />
@@ -133,7 +135,7 @@
         android:layout_height="28dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="60dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="32dp"
         android:layout_marginBottom="16dp"
         android:background="@color/colorAccent"
         android:gravity="center"
@@ -165,13 +167,13 @@
 
     <TextView
         android:id="@+id/OnlyFavoritesTextView"
-        android:layout_width="100dp"
+        android:layout_width="170dp"
         android:layout_height="43dp"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="28dp"
         android:text="Show Only Favorites"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textSize="18sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewRoommates" />
 
@@ -192,19 +194,21 @@
         android:id="@+id/OnlyFavorites"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="32dp"
         app:layout_constraintStart_toEndOf="@+id/OnlyFavoritesTextView"
         app:layout_constraintTop_toBottomOf="@+id/seekBarRoommates" />
 
     <fragment
         android:id="@+id/place_autocomplete_fragment"
         android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
-        android:layout_width="204dp"
-        android:layout_height="20dp"
+        android:layout_width="347dp"
+        android:layout_height="21dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.024"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewSerchAreaExplantion" />
 
@@ -238,7 +242,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="3dp"
-        android:layout_marginTop="176dp"
+        android:layout_marginTop="169dp"
         android:layout_marginEnd="4dp"
         android:text="km"
         android:visibility="invisible"
@@ -272,7 +276,7 @@
         android:id="@+id/roommateValueTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="43dp"
+        android:layout_marginTop="40dp"
         android:text="TextView"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/priceValueTextView" />
